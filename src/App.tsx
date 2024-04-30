@@ -1,24 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import SignInPage from "./pages/LoginPage";
+import Header from "./components/Header";
+import RegisterPage from "./pages/RegisterPage";
+import DashboardPage from "./pages/DashboardPage";
+import { useAuthContext } from "./hooks/useAuthContext";
+import NotLoggedIn from "./components/NotLoggedIn";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+  const hideHeaderOnPages = ["/login", "/register"];
+  const shouldRenderHeader = !hideHeaderOnPages.includes(location.pathname);
+  const { user } = useAuthContext();
+
+  return (
+    <div>
+      {shouldRenderHeader && <Header />}
+      <Routes>
+        <Route path={"/"} element={<LandingPage />} />
+        <Route
+          path={"/login"}
+          element={!user ? <SignInPage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path={"/register"}
+          element={!user ? <RegisterPage /> : <Navigate to="/dashboard" />}
+        />
+        <Route
+          path={"/dashboard"}
+          element={user ? <DashboardPage /> : <NotLoggedIn />}
+        />
+      </Routes>
     </div>
   );
 }
