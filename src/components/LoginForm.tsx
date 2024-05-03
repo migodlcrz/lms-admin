@@ -47,7 +47,7 @@ const LoginForm = () => {
   return (
     <div className="Login">
       <div className="grid place-items-center h-screen bg-cream">
-        <div className="bg-white shadow-lg p-5 min-w-[60%] border-t-4 border-harvest_gold">
+        <div className="bg-white shadow-lg p-5 min-w-[60%] border-t-4 border-cerulean">
           <div className="flex flex-row ">
             <h1 className="text-xl font-bold my-4 text-center text-black">
               Login
@@ -88,7 +88,7 @@ const LoginForm = () => {
               onClick={() => {
                 setLoading(true);
               }}
-              className="btn bg-harvest_gold text-white font-bold cursor-pointer py-2 hover:bg-harvest_gold-300 hover:text-slate-200 w-full rounded-none"
+              className="btn bg-cerulean text-white font-bold cursor-pointer py-2 hover:bg-cerulean-300 hover:text-slate-200 w-full rounded-none"
               data-testid=""
             >
               {loading ? (
@@ -97,12 +97,6 @@ const LoginForm = () => {
                 <span className="text-black font-bold">Login</span>
               )}
             </button>
-            <a className="text-sm mt-3 text-center" href={"/register"}>
-              {"Don't have an account?"}{" "}
-              <span className="text-cerulean hover:text-emerald-500">
-                Register
-              </span>
-            </a>
           </form>
         </div>
       </div>

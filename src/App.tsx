@@ -15,6 +15,7 @@ import DashboardPage from "./pages/DashboardPage";
 import { useAuthContext } from "./hooks/useAuthContext";
 import NotLoggedIn from "./components/NotLoggedIn";
 import Sidebar from "./components/Sidebar";
+import StudentPage from "./pages/StudentPage";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
 
 function AppContent() {
   const location = useLocation();
-  const hideHeaderOnPages = ["/dashboard"];
+  const hideHeaderOnPages = ["/dashboard", "/students", "/courses"];
   const hideSidebarOnPages = ["/"];
 
   const shouldRenderHeader = !hideHeaderOnPages.includes(location.pathname);
@@ -43,6 +44,22 @@ function AppContent() {
         <Route
           path={"/dashboard"}
           element={user ? <DashboardPage /> : <NotLoggedIn />}
+        />
+        <Route
+          path={"/courses"}
+          element={
+            user ? (
+              <>
+                COURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSES
+              </>
+            ) : (
+              <NotLoggedIn />
+            )
+          }
+        />
+        <Route
+          path={"/students"}
+          element={user ? <StudentPage /> : <NotLoggedIn />}
         />
       </Routes>
     </div>
