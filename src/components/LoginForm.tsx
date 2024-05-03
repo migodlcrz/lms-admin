@@ -39,7 +39,6 @@ const LoginForm = () => {
       await login(loginForm);
       clearForm();
       setLoading(false);
-      navigate("/dashboard");
     } catch (error) {
       console.log(error);
     }
@@ -50,15 +49,6 @@ const LoginForm = () => {
       <div className="grid place-items-center h-screen bg-cream">
         <div className="bg-white shadow-lg p-5 min-w-[60%] border-t-4 border-harvest_gold">
           <div className="flex flex-row ">
-            <button
-              onClick={() => {
-                navigate("/");
-              }}
-              className="text-4xl text-harvest_gold hover:text-cerulean-300
-          "
-            >
-              <MdKeyboardArrowLeft />
-            </button>
             <h1 className="text-xl font-bold my-4 text-center text-black">
               Login
             </h1>

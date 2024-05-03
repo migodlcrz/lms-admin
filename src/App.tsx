@@ -35,14 +35,6 @@ function AppContent() {
       <Routes>
         <Route path={"/"} element={<LandingPage />} />
         <Route
-          path={"/login"}
-          element={!user ? <SignInPage /> : <Navigate to="/dashboard" />}
-        />
-        <Route
-          path={"/register"}
-          element={!user ? <RegisterPage /> : <Navigate to="/dashboard" />}
-        />
-        <Route
           path={"/dashboard"}
           element={user ? <DashboardPage /> : <NotLoggedIn />}
         />

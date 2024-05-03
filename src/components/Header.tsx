@@ -22,7 +22,7 @@ const Header = () => {
               <li>
                 <button
                   onClick={() => {
-                    navigate("/login");
+                    navigate("/");
                     logout();
                   }}
                   className="font-bold rounded-none"
@@ -33,28 +33,7 @@ const Header = () => {
             </>
           ) : (
             <>
-              <li>
-                <button
-                  onClick={() => {
-                    //   router.push("/login");
-                    navigate("/login");
-                  }}
-                  className="font-bold rounded-none"
-                >
-                  <h3 className="text-black font-bold">Sign In</h3>
-                </button>
-              </li>
-              <li className="bg-harvest_gold">
-                <button
-                  onClick={() => {
-                    // router.push("/register");
-                    navigate("/register");
-                  }}
-                  className="font-bold"
-                >
-                  <h3 className="font-bold text-black ">Register</h3>
-                </button>
-              </li>
+              <li>Admin Database Management</li>
             </>
           )}
         </ul>
