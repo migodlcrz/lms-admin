@@ -14,6 +14,7 @@ import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
 import { useAuthContext } from "./hooks/useAuthContext";
 import NotLoggedIn from "./components/NotLoggedIn";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   return (
@@ -25,13 +26,18 @@ function App() {
 
 function AppContent() {
   const location = useLocation();
-  const hideHeaderOnPages = ["/login", "/register"];
+  const hideHeaderOnPages = ["/dashboard"];
+  const hideSidebarOnPages = ["/"];
+
   const shouldRenderHeader = !hideHeaderOnPages.includes(location.pathname);
+  const shouldRenderSidebar = !hideSidebarOnPages.includes(location.pathname);
+
   const { user } = useAuthContext();
 
   return (
     <div>
       {shouldRenderHeader && <Header />}
+      {shouldRenderSidebar && <Sidebar />}
       <Routes>
         <Route path={"/"} element={<LandingPage />} />
         <Route

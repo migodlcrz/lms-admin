@@ -8,6 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { logout } = useLogout();
   const { user } = useAuthContext();
+
   return (
     <div className="navbar w-full p-10 h-20 bg-cream fixed top-0 z-50">
       <h1 className="flex-1 font-bold text-black text-3xl">
