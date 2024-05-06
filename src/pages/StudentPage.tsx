@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Modal } from "react-responsive-modal";
+import { toast } from "react-toastify";
 
 interface User {
   _id: string;
@@ -21,7 +23,6 @@ const StudentPage = () => {
     const users = await response.json();
 
     if (response.ok) {
-      console.log("RESPONSE OK");
       setUsers(users);
     } else {
       console.log("RESPONSE NOT OK");
@@ -42,10 +43,11 @@ const StudentPage = () => {
     const json = await response.json();
 
     if (response.ok) {
-      console.log(id, " has been deleted.");
+      toast.success(json.message);
+      setProfile(null);
       fetchUser();
     } else {
-      console.log("ERROR POTCHA");
+      toast.error(json.error);
     }
   };
 
@@ -55,76 +57,63 @@ const StudentPage = () => {
   return (
     <div className="flex flex-col space-y-2 lg:space-y-0 pl-[90px] p-2 bg-white h-screen">
       <div className="flex flex-col lg:flex-row justify-between py-2">
-        {/* <div className="flex flex-row space-x-3">
-          <input
-            className="input rounded-none border-slate-200 border-2"
-            placeholder="Search a user"
-            type="text"
-            name=""
-            id=""
-          />
-          <button className="btn rounded-none bg-cerulean text-white">
-            Search
-          </button>
-        </div> */}
         <h2 className="font-bold text-cerulean">User Management</h2>
       </div>
       <div className="flex flex-col lg:flex-row h-full space-y-4 lg:space-y-0 lg:space-x-4">
-        {users ? (
-          <div className="flex flex-col items-start shadow-xl border-2 border-black w-full lg:w-1/2 h-full">
-            <div className="flex bg-cerulean w-full p-2">
-              <div className="flex flex-row space-x-3">
-                <input
-                  className="input rounded-none border-slate-200 border-2"
-                  placeholder="Search a user"
-                  type="text"
-                  name=""
-                  id=""
-                />
-                <button className="btn rounded-none bg-white text-cerulean">
-                  Search
-                </button>{" "}
-                <button className="btn rounded-none bg-white text-cerulean">
-                  Add
-                </button>
+        <div className="flex flex-col items-start shadow-xl border-2 border-black w-full lg:w-1/2 max-h-full">
+          {users ? (
+            <>
+              <div className="flex bg-cerulean w-full p-2">
+                <div className="flex flex-row space-x-3">
+                  <input
+                    className="input rounded-none border-slate-200 border-2"
+                    placeholder="Search a user"
+                    type="text"
+                    name=""
+                    id=""
+                  />
+                  <button className="btn rounded-none bg-white text-cerulean">
+                    Search
+                  </button>
+                </div>
               </div>
+              <div className="flex flex-row w-full m-0 bg-white overflow-x-auto">
+                <table className="table">
+                  <thead className="sticky top-0 bg-cerulean shadow-md">
+                    <tr className="text-white">
+                      <th className="font-bold text-lg">User</th>
+                      <th className="font-bold text-lg">Name</th>
+                      <th className="font-bold text-lg">Email</th>
+                    </tr>
+                  </thead>
+                  <tbody className="">
+                    {users &&
+                      users.map((user, index) => (
+                        <tr
+                          key={index}
+                          onClick={() => {
+                            setProfile(user);
+                          }}
+                          className={`cursor-pointer hover:bg-gray-500 ${
+                            index % 2 === 0 ? "bg-white" : "bg-slate-300"
+                          } ${profile === user ? "bg-gray-500" : ""}`}
+                        >
+                          <th>{index + 1}</th>
+                          <td className="font-bold">{user.name}</td>
+                          <td>{user.email}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ) : (
+            <div className="grid place-items-center h-full w-full">
+              <span className="loading loading-spinner loading-lg"></span>
             </div>
-            <div className="flex flex-row w-full m-0 bg-white max-h-full overflow-x-auto">
-              <table className="table">
-                <thead className="sticky top-0 bg-cerulean shadow-md">
-                  <tr className="text-white">
-                    <th className="font-bold text-lg">User</th>
-                    <th className="font-bold text-lg">Name</th>
-                    <th className="font-bold text-lg">Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users &&
-                    users.map((user, index) => (
-                      <tr
-                        key={index}
-                        onClick={() => {
-                          setProfile(user);
-                        }}
-                        className={`cursor-pointer hover:bg-gray-500 ${
-                          index % 2 === 0 ? "bg-white" : "bg-slate-300"
-                        } ${profile === user ? "bg-gray-500" : ""}`}
-                      >
-                        <th>{index + 1}</th>
-                        <td className="font-bold">{user.name}</td>
-                        <td>{user.email}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ) : (
-          <div className="grid place-items-center h-full w-full">
-            <span className="loading loading-spinner loading-lg"></span>
-          </div>
-        )}
-        <div className="flex h-full w-full lg:w-1/2 bg-white border-2 border-slate-400 shadow-md p-3">
+          )}
+        </div>
+        <div className="flex max-h-full w-full lg:w-1/2 bg-white border-2 border-slate-400 shadow-md p-3">
           {profile ? (
             <div className="flex flex-col w-full h-full ">
               <div className="flex flex-row h-2/6 w-full bg-slate-200">
@@ -134,8 +123,8 @@ const StudentPage = () => {
                   </div>
                 </div>
                 <div className="flex flex-col h-full w-2/3 p-2">
-                  <label className="font-bold text-2xl">
-                    Name: {profile?.name}
+                  <label className="flex flex-row font-bold text-2xl">
+                    Name:
                   </label>
                   <div>{profile?.name}</div>
                   <label className="font-bold text-2xl">Email: </label>

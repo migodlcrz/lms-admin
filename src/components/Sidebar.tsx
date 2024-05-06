@@ -74,7 +74,12 @@ const Sidebar = () => {
               Dashboard
             </p>
           </div>
-          <div className=" flex flex-row items-center space-x-4 p-5 hover:bg-cerulean-300 w-screen shadow-black shadow-md">
+          <div
+            onClick={() => {
+              navigate("/settings");
+            }}
+            className=" flex flex-row items-center space-x-4 p-5 hover:bg-cerulean-300 w-screen shadow-black shadow-md"
+          >
             <li className="grid place-items-center py-2 text-white h-12 text-4xl relative">
               <CgProfile />
             </li>
@@ -83,15 +88,15 @@ const Sidebar = () => {
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
             >
-              {user && user.user_}
-              <button
+              Profile
+              {/* <button
                 onClick={() => {
                   logout();
                 }}
                 className="bg-white text-black hover:bg-gray-200"
               >
                 Logout
-              </button>
+              </button> */}
             </p>
           </div>
         </ul>

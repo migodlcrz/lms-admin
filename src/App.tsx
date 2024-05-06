@@ -17,6 +17,9 @@ import NotLoggedIn from "./components/NotLoggedIn";
 import Sidebar from "./components/Sidebar";
 import StudentPage from "./pages/StudentPage";
 import CoursePage from "./pages/CoursePage";
+import SettingsPage from "./pages/SettingsPage";
+import "react-responsive-modal/styles.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -28,7 +31,12 @@ function App() {
 
 function AppContent() {
   const location = useLocation();
-  const hideHeaderOnPages = ["/dashboard", "/students", "/courses"];
+  const hideHeaderOnPages = [
+    "/dashboard",
+    "/students",
+    "/courses",
+    "/settings",
+  ];
   const hideSidebarOnPages = ["/"];
 
   const shouldRenderHeader = !hideHeaderOnPages.includes(location.pathname);
@@ -38,6 +46,7 @@ function AppContent() {
 
   return (
     <div>
+      <ToastContainer />
       {shouldRenderHeader && <Header />}
       {shouldRenderSidebar && <Sidebar />}
       <Routes>
@@ -53,6 +62,10 @@ function AppContent() {
         <Route
           path={"/students"}
           element={user ? <StudentPage /> : <NotLoggedIn />}
+        />
+        <Route
+          path="/settings"
+          element={user ? <SettingsPage /> : <NotLoggedIn />}
         />
       </Routes>
     </div>

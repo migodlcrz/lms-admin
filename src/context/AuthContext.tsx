@@ -5,7 +5,6 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { jwtDecode } from "jwt-decode";
 
 interface AuthState {
   user: any;
