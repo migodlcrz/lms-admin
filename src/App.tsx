@@ -16,6 +16,7 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import NotLoggedIn from "./components/NotLoggedIn";
 import Sidebar from "./components/Sidebar";
 import StudentPage from "./pages/StudentPage";
+import CoursePage from "./pages/CoursePage";
 
 function App() {
   return (
@@ -47,15 +48,7 @@ function AppContent() {
         />
         <Route
           path={"/courses"}
-          element={
-            user ? (
-              <>
-                COURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSESCOURSES
-              </>
-            ) : (
-              <NotLoggedIn />
-            )
-          }
+          element={user ? <CoursePage /> : <NotLoggedIn />}
         />
         <Route
           path={"/students"}
