@@ -48,6 +48,7 @@ const CoursePage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     console.log("COURSE ID: ", courseForm.courseID);
     console.log("COURSE NAME: ", courseForm.courseName);
     const response = await fetch("http://localhost:4000/api/course/create", {
@@ -178,9 +179,6 @@ const CoursePage = () => {
                           disabled={loading}
                         />
                         <button
-                          onClick={() => {
-                            setLoading(true);
-                          }}
                           className="btn rounded-none bg-cerulean text-white"
                           type="submit"
                           disabled={loading}
@@ -238,8 +236,8 @@ const CoursePage = () => {
             <div className="flex flex-col w-full h-full ">
               <div className="flex flex-col h-full w-full bg-slate-200 p-2 space-y-2">
                 <div className="flex flex-row w-full justify-between">
-                  <label className="font-bold text-2xl">
-                    Course ID:{" "}
+                  <label className=" font-bold text-2xl w-1/2">
+                    {"Course ID: "}
                     <span className="font-normal">{profile.courseID}</span>
                   </label>
                   <label className="font-bold text-2xl">
@@ -247,6 +245,10 @@ const CoursePage = () => {
                     <span className="font-normal">{profile.courseName}</span>
                   </label>
                 </div>
+                <p className="text-black">Modules</p>
+                <div className="bg-white shadow-inner w-full h-full p-2"></div>
+                <p className="text-black">Students</p>
+                <div className="bg-white shadow-inner w-full h-full p-2"></div>
                 <div className="flex flex-row items-end justify-center space-x-[10%]">
                   <button className="btn w-20 rounded-none text-cerulean">
                     Edit

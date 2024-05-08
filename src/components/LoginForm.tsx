@@ -46,22 +46,6 @@ const LoginForm = () => {
     }
   };
 
-  const handleGoogleLogin = async (
-    e: React.FormEvent<HTMLFormElement>,
-    name: string,
-    email: string,
-    token: string
-  ) => {
-    e.preventDefault();
-    try {
-      // await googleLogin();
-      clearForm();
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div className="Login">
       <div className="grid place-items-center h-screen bg-white">
