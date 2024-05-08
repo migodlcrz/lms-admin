@@ -1,10 +1,8 @@
 import React from "react";
 import Lottie from "lottie-react";
 import landing from "../images/landing.json";
-import { useNavigate } from "react-router-dom";
 
 const NotLoggedIn = () => {
-  const navigate = useNavigate();
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-cream">
       <div className="flex flex-col h-full place-items-center justify-center">

@@ -1,16 +1,12 @@
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
-import { useAuthContext } from "../hooks/useAuthContext";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
-import { useLogout } from "../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 
 const Sidebar = () => {
-  const { user } = useAuthContext();
   const [isHovered, setIsHovered] = useState(false);
-  const { logout } = useLogout();
   const navigate = useNavigate();
 
   return (

@@ -1,9 +1,7 @@
 "use client";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useLogin } from "../hooks/useLogin";
 
 interface LogForm {
@@ -19,8 +17,6 @@ const LoginForm = () => {
   const [seePassword, setSeePassword] = useState<Boolean>(false);
   const [loading, setLoading] = useState<Boolean>(false);
   const { login } = useLogin();
-
-  const navigate = useNavigate();
 
   const clearForm = () => {
     setLoginForm({
