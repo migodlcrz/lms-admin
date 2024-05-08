@@ -2,10 +2,17 @@
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { useLogin } from "../hooks/useLogin";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 interface LogForm {
   email: string;
   password: string;
+}
+
+interface GoogleCred {
+  name: string;
+  email: string;
 }
 
 const LoginForm = () => {
@@ -15,7 +22,7 @@ const LoginForm = () => {
   });
   const [seePassword, setSeePassword] = useState<Boolean>(false);
   const [loading, setLoading] = useState<Boolean>(false);
-  const { login } = useLogin();
+  const { login, googleLogin } = useLogin();
 
   const clearForm = () => {
     setLoginForm({
@@ -32,6 +39,22 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       await login(loginForm);
+      clearForm();
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleGoogleLogin = async (
+    e: React.FormEvent<HTMLFormElement>,
+    name: string,
+    email: string,
+    token: string
+  ) => {
+    e.preventDefault();
+    try {
+      // await googleLogin();
       clearForm();
       setLoading(false);
     } catch (error) {
@@ -95,6 +118,34 @@ const LoginForm = () => {
                 <span className="text-black font-bold">Login</span>
               )}
             </button>
+            <div className="flex justify-center items-center w-full gap-3">
+              <div className="border-b-2 border-cerulean py-2 w-full px-6"></div>
+              <div className="mt-3 text-cerulean">or</div>
+              <div className="border-b-2 border-cerulean py-2 w-full px-6"></div>
+            </div>
+            <div className="flex w-full justify-center">
+              <GoogleLogin
+                shape="square"
+                width={400}
+                size="large"
+                theme="outline"
+                onSuccess={(credentialResponse) => {
+                  if (credentialResponse && credentialResponse.credential) {
+                    const user: GoogleCred = jwtDecode(
+                      credentialResponse.credential
+                    );
+                    googleLogin(
+                      user.name,
+                      user.email,
+                      credentialResponse.credential
+                    );
+                  }
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+            </div>
           </form>
         </div>
       </div>

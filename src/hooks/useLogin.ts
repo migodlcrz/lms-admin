@@ -7,16 +7,39 @@ interface LoginForm {
 }
 
 export const useLogin = () => {
-  //   const [error, setError] = useState(null);
-  //   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
+
+  const googleLogin = async (name: string, email: string, token: string) => {
+    const bodyData = {
+      name: name,
+      email: email,
+      token: token,
+    };
+
+    const response = await fetch(
+      "http://localhost:4000/api/admin/login/google",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bodyData),
+      }
+    );
+
+    const json = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem("user", JSON.stringify(json));
+      dispatch({ type: "LOGIN", payload: json });
+      navigate("/dashboard");
+    }
+
+    if (!response.ok) {
+      console.log(json);
+    }
+  };
+
   const login = async (logForm: LoginForm) => {
-    // setIsLoading(true);
-    // setError(null);
-
-    console.log(JSON.stringify(logForm));
-
     const response = await fetch("http://localhost:4000/api/admin/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -42,5 +65,5 @@ export const useLogin = () => {
     }
   };
 
-  return { login };
+  return { googleLogin, login };
 };
