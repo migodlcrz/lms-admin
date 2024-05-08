@@ -1,14 +1,12 @@
 "use client";
-import { useNavigate } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import LoginForm from "../components/LoginForm";
 
 const LandingPage = () => {
-  const navigate = useNavigate();
   return (
     <>
       <div className="flex flex-col h-screen overflow-hidden">
-        <div className="flex flex-col lg:flex-row justify-center w-full h-screen shadow-xl bg-cream text-center space-y-4 px-10">
+        <div className="flex flex-col lg:flex-row justify-center w-full h-screen shadow-xl bg-white text-center space-y-4 px-10">
           <div className="flex flex-col w-full lg:w-3/5 space-y-6 justify-center items-start">
             <h1 className="text-start text-black">
               Make your dreams to reality
@@ -26,11 +24,14 @@ const LandingPage = () => {
               Lorem Ipsum.
             </h3>
             <div>
-              <button className="btn bg-cerulean rounded-none hover:bg-cerulean-300 shadow-md shadow-black border-cerulean">
+              <a
+                href="http://localhost:3000"
+                className="btn bg-cerulean rounded-none hover:bg-cerulean-300 shadow-md shadow-black border-cerulean"
+              >
                 <h3 className="text-white font-bold text-xl">
                   Visit Learnify Student
                 </h3>
-              </button>
+              </a>
             </div>
           </div>
           <div className="w-2/5">

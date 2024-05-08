@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/useLogin";
 
 interface LogForm {
@@ -42,18 +41,21 @@ const LoginForm = () => {
 
   return (
     <div className="Login">
-      <div className="grid place-items-center h-screen bg-cream">
-        <div className="bg-white shadow-lg p-5 min-w-[60%] border-t-4 border-cerulean">
+      <div className="grid place-items-center h-screen bg-white">
+        <div className="bg-white shadow-xl p-5 min-w-[60%] border-t-4 border-cerulean">
           <div className="flex flex-row ">
             <h1 className="text-xl font-bold my-4 text-center text-black">
               Login
             </h1>
           </div>
-          <form onSubmit={handleFormSubmit} className="flex flex-col gap-3">
+          <form
+            onSubmit={handleFormSubmit}
+            className="flex flex-col gap-3 items-start"
+          >
             <input
               type="text"
               placeholder="Email"
-              className="input-md"
+              className="input-md w-full border-cerulean border-[0.5px]"
               data-testid=""
               value={loginForm.email}
               onChange={(e) => {
@@ -63,7 +65,7 @@ const LoginForm = () => {
             <input
               type={seePassword ? "text" : "password"}
               placeholder="Password"
-              className="input-md"
+              className="input-md w-full border-cerulean border-[0.5px]"
               data-testid=""
               value={loginForm.password}
               onChange={(e) => {

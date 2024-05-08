@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-responsive-modal";
 import { toast } from "react-toastify";
 
 interface User {
@@ -119,7 +118,10 @@ const StudentPage = () => {
               <div className="flex flex-row h-2/6 w-full bg-slate-200">
                 <div className="avatar h-full w-1/3  p-2">
                   <div className="w-full ">
-                    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                    <img
+                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                      alt="Student"
+                    />
                   </div>
                 </div>
                 <div className="flex flex-col h-full w-2/3 p-2">

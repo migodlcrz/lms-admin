@@ -1,5 +1,4 @@
 import React from "react";
-import LoginPage from "./LoginPage";
 import RegisterForm from "../components/RegisterForm";
 import registerPic from "../images/noriel.png";
 
