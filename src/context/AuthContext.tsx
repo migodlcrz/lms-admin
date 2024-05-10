@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import React, {
   FC,
   useReducer,
@@ -8,6 +9,7 @@ import React, {
 
 interface AuthState {
   user: any;
+  isLoading: boolean;
 }
 
 interface AuthAction {
@@ -17,6 +19,7 @@ interface AuthAction {
 
 interface AuthContextProps {
   user: any;
+  isLoading: boolean;
   dispatch: React.Dispatch<AuthAction>;
 }
 
@@ -30,12 +33,14 @@ const authReducer = (state: AuthState, action: AuthAction) => {
       return {
         ...state,
         user: action.payload,
+        isLoading: false,
       };
 
     case "LOGOUT":
       return {
         ...state,
         user: null,
+        isLoading: false,
       };
 
     default:
@@ -52,15 +57,38 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
 }) => {
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
+    isLoading: true,
   });
 
   useEffect(() => {
     const user: string | null = JSON.parse(
-      localStorage.getItem("user") || "null"
+      localStorage.getItem("admin") || "null"
     );
 
-    if (user) {
-      dispatch({ type: "LOGIN", payload: user });
+    const token: string | null = JSON.parse(
+      localStorage.getItem("admin-token") || "null"
+    );
+
+    if (!user || !token) {
+      dispatch({ type: "LOGOUT" });
+    }
+
+    try {
+      const decodedToken: any = jwtDecode(token!);
+
+      // checkToken();
+      if (decodedToken.exp * 1000 < Date.now()) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        dispatch({ type: "LOGOUT" });
+      } else {
+        console.log("PAYLOAD: ", user);
+        dispatch({ type: "LOGIN", payload: user });
+      }
+    } catch (error) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      dispatch({ type: "LOGOUT" });
     }
   }, []);
 
@@ -68,7 +96,13 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>
-      {children}
+      {state.isLoading ? (
+        <div className="grid w-full h-screen place-items-center">
+          <p className="text-black font-bold text-2xl">Loading...</p>
+        </div> //
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

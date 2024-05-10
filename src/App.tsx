@@ -1,6 +1,12 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Header from "./components/Header";
 import DashboardPage from "./pages/DashboardPage";
@@ -28,8 +34,9 @@ function AppContent() {
     "/students",
     "/courses",
     "/settings",
+    "/no-access",
   ];
-  const hideSidebarOnPages = ["/"];
+  const hideSidebarOnPages = ["/", "/no-access"];
 
   const shouldRenderHeader = !hideHeaderOnPages.includes(location.pathname);
   const shouldRenderSidebar = !hideSidebarOnPages.includes(location.pathname);
@@ -42,23 +49,27 @@ function AppContent() {
       {shouldRenderHeader && <Header />}
       {shouldRenderSidebar && <Sidebar />}
       <Routes>
-        <Route path={"/"} element={<LandingPage />} />
+        <Route
+          path={"/"}
+          element={!user ? <LandingPage /> : <Navigate to="/dashboard" />}
+        />
         <Route
           path={"/dashboard"}
-          element={user ? <DashboardPage /> : <NotLoggedIn />}
+          element={user ? <DashboardPage /> : <Navigate to="/no-access" />}
         />
         <Route
           path={"/courses"}
-          element={user ? <CoursePage /> : <NotLoggedIn />}
+          element={user ? <CoursePage /> : <Navigate to="/no-access" />}
         />
         <Route
           path={"/students"}
-          element={user ? <StudentPage /> : <NotLoggedIn />}
+          element={user ? <StudentPage /> : <Navigate to="/no-access" />}
         />
         <Route
           path="/settings"
-          element={user ? <SettingsPage /> : <NotLoggedIn />}
+          element={user ? <SettingsPage /> : <Navigate to="/no-access" />}
         />
+        <Route path="/no-access" element={<NotLoggedIn />} />
       </Routes>
     </div>
   );

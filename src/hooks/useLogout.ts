@@ -5,7 +5,9 @@ export const useLogout = () => {
   const navigate = useNavigate();
   const { dispatch } = useAuthContext();
   const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("admin");
+    localStorage.removeItem("admin-token");
+
     navigate("/");
     dispatch({ type: "LOGOUT" });
   };
