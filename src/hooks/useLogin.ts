@@ -55,7 +55,7 @@ export const useLogin = () => {
     // setIsLoading(false);
 
     if (!response.ok) {
-      console.log("RESPONSE NOT OK: ", json.message);
+      toast.error(json.error);
     }
 
     if (response.ok) {

@@ -30,7 +30,7 @@ const AdminHeader = () => {
       <h1 className="flex-1 font-bold text-black text-3xl">{title}</h1>
       <div className="flex-none space-x-2">
         <ul className="flex justify-center items-center menu menu-horizontal px-1 space-x-1">
-          <li className="text-black">{user.name}</li>
+          <li className="text-black">{user.name || user.name_}</li>
         </ul>
         <details className="dropdown dropdown-end">
           <summary className="m-1 btn rounded-full p-0 bg-white shadow-none border-white hover:bg-white hover:border-white">

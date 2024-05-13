@@ -2,35 +2,13 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-responsive-modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Header from "../components/Header";
 import AdminHeader from "../components/AdminHeader";
+import { useAuthContext } from "../hooks/useAuthContext";
 import pic from "../images/dmitri.png";
 import { Course } from "../interfaces/CourseInterface";
-import { useAuthContext } from "../hooks/useAuthContext";
-
-// interface Topic {
-//   name: string;
-//   isComplete: boolean;
-// }
-
-// interface Quiz {
-//   name: string;
-//   isComplete: boolean;
-// }
-
-// interface Module {
-//   topics: Topic[];
-//   quiz: Quiz[];
-// }
-
-// interface Course {
-//   _id?: string;
-//   courseID: string;
-//   courseName: string;
-//   createdAt?: string;
-//   modules?: Module[];
-//   students?: { id: string }[];
-// }
+import AddCourseForm from "../components/AddCourseForm";
+import { FaSearch } from "react-icons/fa";
+import { IoCloseOutline } from "react-icons/io5";
 
 const CoursePage = () => {
   const { user } = useAuthContext();
@@ -69,7 +47,7 @@ const CoursePage = () => {
     setCourseForm((prevState) => ({
       ...prevState,
       [name]: value,
-      publisher: user.name,
+      publisher: user.name || user.name_,
     }));
   };
 
@@ -150,22 +128,8 @@ const CoursePage = () => {
                       className="grow"
                       placeholder="Search Course"
                     />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 16 16"
-                      fill="currentColor"
-                      className="w-4 h-4 opacity-70"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
+                    <FaSearch />
                   </label>
-                  <button className="btn rounded-none bg-white text-cerulean">
-                    Search
-                  </button>{" "}
                   <button
                     onClick={() => {
                       setOpenModal(true);
@@ -181,44 +145,12 @@ const CoursePage = () => {
                     }}
                     center
                   >
-                    <div className="flex flex-col mt-10 space-y-2">
-                      <form
-                        className="flex flex-col form space-y-2"
-                        onSubmit={AddCourse}
-                      >
-                        <p className="text-black">Course ID:</p>
-                        <input
-                          onChange={handleFormChange}
-                          className="input input-bordered input-primary rounded-none"
-                          type="text"
-                          name="courseID"
-                          value={courseForm.courseID}
-                          disabled={loading}
-                        />
-                        <p className="text-black">Course Name:</p>
-                        <input
-                          onChange={handleFormChange}
-                          className="input input-bordered input-primary rounded-none"
-                          type="text"
-                          name="courseName"
-                          value={courseForm.courseName}
-                          disabled={loading}
-                        />
-                        <button
-                          className="btn rounded-none bg-cerulean text-white"
-                          type="submit"
-                          disabled={loading}
-                        >
-                          {loading ? (
-                            <div className="grid place-items-center h-full w-full">
-                              <span className="loading loading-spinner loading-lg"></span>
-                            </div>
-                          ) : (
-                            <>Add course</>
-                          )}
-                        </button>
-                      </form>
-                    </div>
+                    <AddCourseForm
+                      courseForm={courseForm}
+                      loading={loading}
+                      handleFormChange={handleFormChange}
+                      AddCourse={AddCourse}
+                    />
                   </Modal>
                 </div>
               </div>
@@ -269,10 +201,20 @@ const CoursePage = () => {
             <div className="flex flex-col w-full h-full ">
               <div className="flex flex-col h-full w-full bg-slate-200 p-2 space-y-2">
                 <div className="h-full">
-                  <div>
-                    <h1 className="text-3xl h-1/6">Course Information</h1>
+                  <div className="flex flex-row justify-between items-center pr-2">
+                    <h1 className="text-3xl h-1/6 text-black">
+                      Course Information
+                    </h1>
+                    <button
+                      onClick={() => {
+                        setProfile(null);
+                      }}
+                      className=" text-cerulean text-2xl"
+                    >
+                      <IoCloseOutline />
+                    </button>
                   </div>
-                  <div className="bg-red-400 h-3/6 w-full">
+                  <div className="h-3/6 w-full border-4 border-cerulean">
                     <img
                       src={pic}
                       alt=""
@@ -325,26 +267,23 @@ const CoursePage = () => {
                         </span>
                       </h2>
                     </div>
-                    <div className="flex flex-row items-end justify-center space-x-[10%]">
-                      <button className="btn w-20 rounded-none text-cerulean">
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => {
-                          DeleteCourse(String(profile._id));
-                        }}
-                        className="btn w-20 rounded-none text-cerulean"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={() => {
-                          setProfile(null);
-                        }}
-                        className="btn w-20 rounded-none text-cerulean"
-                      >
-                        Close
-                      </button>
+                    <div className="flex flex-row items-end">
+                      <div className="w-1/2">
+                        <button className="btn w-20 rounded-none bg-cerulean text-white">
+                          Edit
+                        </button>
+                      </div>
+                      <div className="w-1/2">
+                        {" "}
+                        <button
+                          onClick={() => {
+                            DeleteCourse(String(profile._id));
+                          }}
+                          className="btn w-20 rounded-none bg-cerulean text-white"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
