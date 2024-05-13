@@ -2,14 +2,38 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-responsive-modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Header from "../components/Header";
+import AdminHeader from "../components/AdminHeader";
+import pic from "../images/dmitri.png";
+import { Course } from "../interfaces/CourseInterface";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-interface Course {
-  _id?: string;
-  courseID: string;
-  courseName: string;
-}
+// interface Topic {
+//   name: string;
+//   isComplete: boolean;
+// }
+
+// interface Quiz {
+//   name: string;
+//   isComplete: boolean;
+// }
+
+// interface Module {
+//   topics: Topic[];
+//   quiz: Quiz[];
+// }
+
+// interface Course {
+//   _id?: string;
+//   courseID: string;
+//   courseName: string;
+//   createdAt?: string;
+//   modules?: Module[];
+//   students?: { id: string }[];
+// }
 
 const CoursePage = () => {
+  const { user } = useAuthContext();
   const [courses, setCourses] = useState<Course[] | null>(null);
   const [profile, setProfile] = useState<Course | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -21,6 +45,7 @@ const CoursePage = () => {
     courseName: "",
   });
 
+  //fetches the courses when page is rendered
   const fetchCourse = async () => {
     const response = await fetch("http://localhost:4000/api/course", {
       method: "GET",
@@ -38,19 +63,20 @@ const CoursePage = () => {
     }
   };
 
+  //handle form change when adding course
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCourseForm((prevState) => ({
       ...prevState,
       [name]: value,
+      publisher: user.name,
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //handles adding of course
+  const AddCourse = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    console.log("COURSE ID: ", courseForm.courseID);
-    console.log("COURSE NAME: ", courseForm.courseName);
     const response = await fetch("http://localhost:4000/api/course/create", {
       method: "POST",
       headers: {
@@ -73,7 +99,8 @@ const CoursePage = () => {
     }
   };
 
-  const handleDelete = async (_id: string) => {
+  //handle delete course
+  const DeleteCourse = async (_id: string) => {
     const response = await fetch(
       `http://localhost:4000/api/course/delete/${_id}`,
       {
@@ -96,6 +123,7 @@ const CoursePage = () => {
     }
   };
 
+  //closes the form when done adding
   const clearForm = () => {
     setCourseForm({
       courseID: "",
@@ -108,11 +136,9 @@ const CoursePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col space-y-2 lg:space-y-0 pl-[90px] p-2 bg-white h-screen">
-      <div className="flex flex-col lg:flex-row justify-start py-2">
-        <h2 className="font-bold text-cerulean">Course Management</h2>
-      </div>
-      <div className="flex flex-col lg:flex-row h-full space-y-4 lg:space-y-0 lg:space-x-4">
+    <div className="flex flex-col space-y-2 lg:space-y-0 ml-[250px] bg-white h-screen">
+      <AdminHeader />
+      <div className="flex flex-col lg:flex-row h-full space-y-4 lg:space-y-0 lg:space-x-4 p-4 pt-24 bg-gray-100">
         <div className="flex flex-col items-start shadow-xl border-2 border-black w-full lg:w-1/2 h-full">
           {courses ? (
             <>
@@ -158,7 +184,7 @@ const CoursePage = () => {
                     <div className="flex flex-col mt-10 space-y-2">
                       <form
                         className="flex flex-col form space-y-2"
-                        onSubmit={handleSubmit}
+                        onSubmit={AddCourse}
                       >
                         <p className="text-black">Course ID:</p>
                         <input
@@ -196,7 +222,13 @@ const CoursePage = () => {
                   </Modal>
                 </div>
               </div>
-              <div className="flex flex-row w-full m-0 bg-cerulean max-h-full overflow-x-auto">
+              <div
+                className="flex flex-row w-full m-0 bg-cerulean max-h-full overflow-x-auto"
+                style={{
+                  scrollbarColor: "#006992 #FFFFFF ",
+                  scrollbarWidth: "thin",
+                }}
+              >
                 <table className="table">
                   <thead className="sticky top-0 bg-cerulean shadow-md">
                     <tr className="text-white">
@@ -214,7 +246,8 @@ const CoursePage = () => {
                           }}
                           className={`hover:bg-gray-500 cursor-pointer ${
                             index % 2 === 0 ? "bg-white" : "bg-slate-300"
-                          } ${profile === course ? "bg-gray-500" : ""}`}
+                          } `}
+                          key={index}
                         >
                           <th>{index + 1}</th>
                           <td className="font-bold">{course.courseID}</td>
@@ -235,40 +268,85 @@ const CoursePage = () => {
           {profile ? (
             <div className="flex flex-col w-full h-full ">
               <div className="flex flex-col h-full w-full bg-slate-200 p-2 space-y-2">
-                <div className="flex flex-row w-full justify-between">
-                  <label className=" font-bold text-2xl w-1/2">
-                    {"Course ID: "}
-                    <span className="font-normal">{profile.courseID}</span>
-                  </label>
-                  <label className="font-bold text-2xl">
-                    Course Name:{" "}
-                    <span className="font-normal">{profile.courseName}</span>
-                  </label>
-                </div>
-                <p className="text-black">Modules</p>
-                <div className="bg-white shadow-inner w-full h-full p-2"></div>
-                <p className="text-black">Students</p>
-                <div className="bg-white shadow-inner w-full h-full p-2"></div>
-                <div className="flex flex-row items-end justify-center space-x-[10%]">
-                  <button className="btn w-20 rounded-none text-cerulean">
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleDelete(String(profile._id));
-                    }}
-                    className="btn w-20 rounded-none text-cerulean"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => {
-                      setProfile(null);
-                    }}
-                    className="btn w-20 rounded-none text-cerulean"
-                  >
-                    Close
-                  </button>
+                <div className="h-full">
+                  <div>
+                    <h1 className="text-3xl h-1/6">Course Information</h1>
+                  </div>
+                  <div className="bg-red-400 h-3/6 w-full">
+                    <img
+                      src={pic}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <div className="flex flex-col p-2 h-2/6 justify-start space-y-2">
+                    <div className="flex flex-row w-full justify-between">
+                      <h2 className="flex flex-col font-bold text-xl w-1/2">
+                        {"Course ID: "}
+                        <span className="font-normal text-lg">
+                          {profile.courseID}
+                        </span>
+                      </h2>
+                      <h2 className="flex flex-col font-bold text-xl w-1/2">
+                        {"Course Name: "}
+                        <span className="font-normal text-lg">
+                          {profile.courseName}
+                        </span>
+                      </h2>
+                    </div>
+                    <div className="flex flex-row w-full justify-between">
+                      <h2 className="flex flex-col font-bold text-xl w-1/2">
+                        {"Published by: "}
+                        <span className="font-normal text-lg">
+                          {profile.publisher}
+                        </span>
+                      </h2>
+                      <h2 className="flex flex-col font-bold text-xl w-1/2">
+                        {"Date published: "}
+                        <span className="font-normal text-lg">
+                          {profile.createdAt
+                            ? new Date(profile.createdAt).toLocaleString()
+                            : "Unknown"}
+                        </span>
+                      </h2>
+                    </div>
+                    <div className="flex flex-row w-full justify-between">
+                      <h2 className="flex flex-col font-bold text-xl w-1/2">
+                        {"Modules: "}
+                        <span className="font-normal text-lg">
+                          {profile.modules?.length}
+                        </span>
+                      </h2>
+                      <h2 className="flex flex-col font-bold text-xl w-1/2">
+                        {"Students Enrolled: "}
+                        <span className="font-normal text-lg">
+                          {profile.students?.length}
+                        </span>
+                      </h2>
+                    </div>
+                    <div className="flex flex-row items-end justify-center space-x-[10%]">
+                      <button className="btn w-20 rounded-none text-cerulean">
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          DeleteCourse(String(profile._id));
+                        }}
+                        className="btn w-20 rounded-none text-cerulean"
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() => {
+                          setProfile(null);
+                        }}
+                        className="btn w-20 rounded-none text-cerulean"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -33,11 +34,12 @@ export const useLogin = () => {
       localStorage.setItem("admin-token", JSON.stringify(json.token));
 
       dispatch({ type: "LOGIN", payload: json });
+      toast.success(json.message);
       navigate("/dashboard");
     }
 
     if (!response.ok) {
-      console.log(json);
+      toast.error(json.error);
     }
   };
 

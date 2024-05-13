@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import AdminHeader from "../components/AdminHeader";
 
 interface User {
   _id: string;
@@ -54,11 +55,9 @@ const StudentPage = () => {
     fetchUser();
   }, []);
   return (
-    <div className="flex flex-col space-y-2 lg:space-y-0 pl-[90px] p-2 bg-white h-screen">
-      <div className="flex flex-col lg:flex-row justify-between py-2">
-        <h2 className="font-bold text-cerulean">User Management</h2>
-      </div>
-      <div className="flex flex-col lg:flex-row h-full space-y-4 lg:space-y-0 lg:space-x-4">
+    <div className="flex flex-col space-y-2 ml-[250px] lg:space-y-0 bg-white h-screen">
+      <AdminHeader />
+      <div className="flex flex-col lg:flex-row h-full space-y-4 lg:space-y-0 lg:space-x-4 p-4 pt-24">
         <div className="flex flex-col items-start shadow-xl border-2 border-black w-full lg:w-1/2 max-h-full">
           {users ? (
             <>
@@ -76,7 +75,13 @@ const StudentPage = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex flex-row w-full m-0 bg-white overflow-x-auto">
+              <div
+                className="flex flex-row w-full m-0 bg-cerulean max-h-full overflow-x-auto"
+                style={{
+                  scrollbarColor: "#006992 #FFFFFF ",
+                  scrollbarWidth: "thin",
+                }}
+              >
                 <table className="table">
                   <thead className="sticky top-0 bg-cerulean shadow-md">
                     <tr className="text-white">

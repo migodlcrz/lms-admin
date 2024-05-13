@@ -1,4 +1,3 @@
-import React from "react";
 import logo from "../images/learnify.png";
 import { useNavigate } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
@@ -10,8 +9,8 @@ const Header = () => {
   const { user } = useAuthContext();
 
   return (
-    <div className="navbar w-full p-10 h-20 bg-cream fixed top-0 z-50">
-      <h1 className="flex-1 font-bold text-black text-3xl">
+    <div className="navbar w-full p-10 h-20 bg-cerulean shadow-lg fixed top-0 z-50">
+      <h1 className="flex-1 font-bold text-white text-3xl">
         <img src={logo} alt="Loading" width="50" height="50" />
         Learnify
       </h1>
@@ -34,7 +33,7 @@ const Header = () => {
             </>
           ) : (
             <>
-              <li>Admin Database Management</li>
+              <li className="text-white">Admin Database Management</li>
             </>
           )}
         </ul>
