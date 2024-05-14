@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 interface LoginForm {
   email: string;
@@ -34,7 +35,11 @@ export const useLogin = () => {
       localStorage.setItem("admin-token", JSON.stringify(json.token));
 
       dispatch({ type: "LOGIN", payload: json });
-      toast.success(json.message);
+      Swal.fire({
+        title: "Good job!",
+        text: "You clicked the button!",
+        icon: "success",
+      });
       navigate("/dashboard");
     }
 
@@ -63,7 +68,11 @@ export const useLogin = () => {
       localStorage.setItem("admin-token", JSON.stringify(json.token));
 
       // localStorage.setItem("token", JSON.stringify(json.token));
-      console.log("RESPONSE OK: ", json.message);
+      Swal.fire({
+        title: "Good job!",
+        text: "You clicked the button!",
+        icon: "success",
+      });
       dispatch({ type: "LOGIN", payload: json });
       navigate("/dashboard");
 
