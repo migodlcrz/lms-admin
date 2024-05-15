@@ -12,19 +12,13 @@ export const useLogin = () => {
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
 
-  const googleLogin = async (name: string, email: string, token: string) => {
-    const bodyData = {
-      name: name,
-      email: email,
-      token: token,
-    };
-
+  const googleLogin = async (name: string, email: string) => {
     const response = await fetch(
       "http://localhost:4000/api/admin/login/google",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bodyData),
+        body: JSON.stringify({ name, email }),
       }
     );
 

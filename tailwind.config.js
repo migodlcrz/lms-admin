@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const textShadow = require("tailwindcss/plugin");
+
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -11,7 +14,26 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      textShadow: {
+        sm: "0 1px 2px var(--tw-shadow-color)",
+        DEFAULT: "0 2px 4px var(--tw-shadow-color)",
+        lg: "0 8px 16px var(--tw-shadow-color)",
+      },
       colors: {
+        caribbean: {
+          DEFAULT: "#0ddea9",
+          50: "#e9fff7",
+          100: "#c9ffeb",
+          200: "#98ffdc",
+          300: "#57fecf",
+          400: "#0ddea9",
+          500: "#00d9a4",
+          600: "#00b287",
+          700: "#008e71",
+          800: "#007059",
+          900: "#005c4b",
+          950: "#00342c",
+        },
         harvest_gold: {
           DEFAULT: "#eca400",
           100: "#2f2100",
@@ -63,5 +85,17 @@ module.exports = {
       },
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [
+    require("daisyui"),
+    textShadow(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          "text-shadow": (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme("textShadow") }
+      );
+    }),
+  ],
 };

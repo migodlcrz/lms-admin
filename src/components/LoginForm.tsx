@@ -2,17 +2,14 @@
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { useLogin } from "../hooks/useLogin";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import { motion } from "framer-motion";
+import { FcGoogle } from "react-icons/fc";
 
 interface LogForm {
   email: string;
   password: string;
-}
-
-interface GoogleCred {
-  name: string;
-  email: string;
 }
 
 const LoginForm = () => {
@@ -46,93 +43,114 @@ const LoginForm = () => {
     }
   };
 
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (response) => {
+      try {
+        const res = await fetch(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${response.access_token}`,
+            },
+          }
+        );
+
+        const json = await res.json();
+
+        console.log(json);
+        googleLogin(json.name, json.email);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
   return (
-    <div className="Login">
-      <div className="grid place-items-center h-screen bg-white">
-        <div className="bg-white shadow-xl p-5 min-w-[60%] border-t-4 border-cerulean">
-          <div className="flex flex-row ">
-            <h1 className="text-xl font-bold my-4 text-center text-black">
-              Login
-            </h1>
-          </div>
-          <form
-            onSubmit={handleFormSubmit}
-            className="flex flex-col gap-3 items-start"
-          >
-            <input
-              type="text"
-              placeholder="Email"
-              className="input-md w-full border-cerulean border-[0.5px]"
-              data-testid=""
-              value={loginForm.email}
-              onChange={(e) => {
-                changeHandler("email", e.target.value);
-              }}
-            />
-            <input
-              type={seePassword ? "text" : "password"}
-              placeholder="Password"
-              className="input-md w-full border-cerulean border-[0.5px]"
-              data-testid=""
-              value={loginForm.password}
-              onChange={(e) => {
-                changeHandler("password", e.target.value);
-              }}
-            />
-            <div className="text-sm">
-              <input
-                type="checkbox"
-                className="checkbox checkbox-xs mr-2"
-                onClick={() => {
-                  setSeePassword(!seePassword);
-                }}
-              />{" "}
-              Show Password
-            </div>
-            <button
-              onClick={() => {
-                setLoading(true);
-              }}
-              className="btn bg-cerulean text-white font-bold cursor-pointer py-2 hover:bg-cerulean-300 hover:text-slate-200 w-full rounded-none"
-              data-testid=""
-            >
-              {loading ? (
-                <span className="loading loading-spinner loading-sm" />
-              ) : (
-                <span className="text-black font-bold">Login</span>
-              )}
-            </button>
-            <div className="flex justify-center items-center w-full gap-3">
-              <div className="border-b-2 border-cerulean py-2 w-full px-6"></div>
-              <div className="mt-3 text-cerulean">or</div>
-              <div className="border-b-2 border-cerulean py-2 w-full px-6"></div>
-            </div>
-            <div className="flex w-full justify-center">
-              <GoogleLogin
-                shape="square"
-                width={400}
-                size="large"
-                theme="outline"
-                onSuccess={(credentialResponse) => {
-                  if (credentialResponse && credentialResponse.credential) {
-                    const user: GoogleCred = jwtDecode(
-                      credentialResponse.credential
-                    );
-                    googleLogin(
-                      user.name,
-                      user.email,
-                      credentialResponse.credential
-                    );
-                  }
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-              />
-            </div>
-          </form>
-        </div>
+    <div className="flex flex-col items-center justify-center h-full w-full p-24">
+      {/* <div className="grid place-items-center h-screen bg-caribbean-50"> */}
+      {/* <div className="bg-white shadow-xl p-5 min-w-[60%] border-t-4 border-caribbean"> */}
+      <div className="flex flex-row ">
+        <h1 className="text-xl font-bold my-4 text-center text-black">
+          Administrator Login
+        </h1>
       </div>
+      <form
+        onSubmit={handleFormSubmit}
+        className="flex flex-col gap-3 items-start w-full"
+      >
+        <input
+          type="text"
+          placeholder="Email"
+          className="input-md w-full border-caribbean border-[0.5px]"
+          data-testid=""
+          value={loginForm.email}
+          onChange={(e) => {
+            changeHandler("email", e.target.value);
+          }}
+        />
+        <input
+          type={seePassword ? "text" : "password"}
+          placeholder="Password"
+          className="input-md w-full border-caribbean border-[0.5px]"
+          data-testid=""
+          value={loginForm.password}
+          onChange={(e) => {
+            changeHandler("password", e.target.value);
+          }}
+        />
+        <div className="text-sm">
+          <input
+            type="checkbox"
+            className="checkbox checkbox-xs mr-2"
+            onClick={() => {
+              setSeePassword(!seePassword);
+            }}
+          />{" "}
+          Show Password
+        </div>
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 1.1 }}
+          className="w-full"
+        >
+          <button
+            onClick={() => {
+              setLoading(true);
+            }}
+            className="btn bg-gradient-to-r from-caribbean-500 to-caribbean-600 rounded-none text-white font-bold cursor-pointer py-2 hover:bg-caribbean-300 hover:text-slate-200 w-full shadow-md"
+            data-testid=""
+          >
+            {loading ? (
+              <span className="loading loading-spinner loading-sm" />
+            ) : (
+              <span className="text-black font-bold ">Login</span>
+            )}
+          </button>
+        </motion.div>
+      </form>
+      <div className="flex justify-center items-center w-full gap-3">
+        <div className="border-b-2 border-caribbean py-2 w-full px-6"></div>
+        <div className="mt-3 text-caribbean">or</div>
+        <div className="border-b-2 border-caribbean py-2 w-full px-6"></div>
+      </div>
+      <div className="w-full">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 1.1 }}
+          className="w-full"
+        >
+          <button
+            onClick={() => handleGoogleLogin()}
+            className="flex flex-row items-center justify-center space-x-4 border-[0.5px] border-black w-full p-2 hover:bg-gray-500 transition duration-300"
+          >
+            <FcGoogle className="text-4xl" />
+            <span className="font-bold text-black">Sign in with Google</span>
+          </button>
+        </motion.div>
+      </div>
+      {/* </div> */}
+      {/* </div> */}
     </div>
   );
 };

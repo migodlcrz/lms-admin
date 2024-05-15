@@ -1,37 +1,37 @@
-"use client";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import LoginForm from "../components/LoginForm";
+import { motion } from "framer-motion";
+import heroimage from "../images/hero-image.jpg";
 
 const LandingPage = () => {
   return (
     <>
       <div className="flex flex-col h-screen overflow-hidden">
-        <div className="flex flex-col lg:flex-row justify-center w-full h-screen shadow-xl bg-white text-center space-y-4 px-10">
-          <div className="flex flex-col w-full lg:w-3/5 space-y-6 justify-center items-start">
-            <h1 className="text-start text-black">
-              Make your dreams to reality
+        <div className="flex flex-col lg:flex-row justify-center w-full h-screen shadow-xl bg-white text-center space-y-4">
+          <div
+            className="flex flex-col w-full lg:w-3/5 space-y-6 justify-center items-start p-5"
+            style={{
+              backgroundImage: `url(${heroimage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <h1 className="text-start text-white text-2xl lg:text-6xl">
+              <span className="text-caribbean-50 font-semibold">
+                Fly Toward Your Goals with
+              </span>{" "}
+              <span className="text-caribbean-300 text-shadow shadow-black">
+                Learnify
+              </span>
             </h1>
-            <h3 className="text-black text-justify">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the {"industry's"} standard dummy
-              text ever since the 1500s, when an unknown printer took a galley
-              of type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </h3>
             <div>
-              <a
-                href="http://localhost:3000"
-                className="btn bg-cerulean rounded-none hover:bg-cerulean-300 shadow-md shadow-black border-cerulean"
-              >
-                <h3 className="text-white font-bold text-xl">
-                  Visit Learnify Student
-                </h3>
-              </a>
+              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.1 }}>
+                <button className="btn bg-gradient-to-b from-caribbean-500 to-caribbean-600 hover:bg-caribbean-300 shadow-md shadow-black border-cerulean">
+                  <p className="text-black font-bold text-md lg:text-xl">
+                    Visit User Website
+                  </p>
+                </button>
+              </motion.div>
             </div>
           </div>
           <div className="w-2/5">

@@ -1,4 +1,4 @@
-import logo from "../images/learnify.png";
+import logo from "../images/learnify-white.png";
 import { useNavigate } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -9,7 +9,7 @@ const Header = () => {
   const { user } = useAuthContext();
 
   return (
-    <div className="navbar w-full p-10 h-20 bg-cerulean shadow-lg fixed top-0 z-50">
+    <div className="navbar w- h-20 bg-gradient-to-b from-caribbean-500 to-caribbean-700 shadow-lg fixed top-0 z-50">
       <h1 className="flex-1 font-bold text-white text-3xl">
         <img src={logo} alt="Loading" width="50" height="50" />
         Learnify
