@@ -4,7 +4,9 @@ import AdminHeader from "../components/AdminHeader";
 
 interface User {
   _id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+
   email: string;
 }
 
@@ -103,7 +105,9 @@ const StudentPage = () => {
                           } ${profile === user ? "bg-gray-500" : ""}`}
                         >
                           <th>{index + 1}</th>
-                          <td className="font-bold">{user.name}</td>
+                          <td className="font-bold">
+                            {user.firstName} {user.lastName}
+                          </td>
                           <td>{user.email}</td>
                         </tr>
                       ))}
@@ -133,7 +137,9 @@ const StudentPage = () => {
                   <label className="flex flex-row font-bold text-2xl">
                     Name:
                   </label>
-                  <div>{profile?.name}</div>
+                  <div>
+                    {profile?.firstName} {profile?.lastName}
+                  </div>
                   <label className="font-bold text-2xl">Email: </label>
                   <div>{profile?.email}</div>
                   <div className="flex flex-row h-full items-end justify-center space-x-[10%]">

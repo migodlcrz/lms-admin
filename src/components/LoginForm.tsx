@@ -67,7 +67,7 @@ const LoginForm = () => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full p-24">
+    <div className="flex flex-col items-center justify-center h-full w-full p-24 bg-slate-50">
       {/* <div className="grid place-items-center h-screen bg-caribbean-50"> */}
       {/* <div className="bg-white shadow-xl p-5 min-w-[60%] border-t-4 border-caribbean"> */}
       <div className="flex flex-row ">
@@ -82,7 +82,7 @@ const LoginForm = () => {
         <input
           type="text"
           placeholder="Email"
-          className="input-md w-full border-caribbean border-[0.5px]"
+          className="input-md w-full border-caribbean border-2 rounded-xl shadow-xl"
           data-testid=""
           value={loginForm.email}
           onChange={(e) => {
@@ -92,7 +92,7 @@ const LoginForm = () => {
         <input
           type={seePassword ? "text" : "password"}
           placeholder="Password"
-          className="input-md w-full border-caribbean border-[0.5px]"
+          className="input-md w-full border-caribbean border-2 rounded-xl shadow-xl"
           data-testid=""
           value={loginForm.password}
           onChange={(e) => {
@@ -102,7 +102,7 @@ const LoginForm = () => {
         <div className="text-sm">
           <input
             type="checkbox"
-            className="checkbox checkbox-xs mr-2"
+            className="checkbox checkbox-xs mr-2 border-[0.5px] border-caribbean"
             onClick={() => {
               setSeePassword(!seePassword);
             }}
@@ -118,7 +118,7 @@ const LoginForm = () => {
             onClick={() => {
               setLoading(true);
             }}
-            className="btn bg-gradient-to-r from-caribbean-500 to-caribbean-600 rounded-none text-white font-bold cursor-pointer py-2 hover:bg-caribbean-300 hover:text-slate-200 w-full shadow-md"
+            className="btn bg-gradient-to-r from-caribbean-500 to-caribbean-600 rounded-xl text-white font-bold cursor-pointer py-2 hover:bg-caribbean-300 hover:text-slate-200 w-full shadow-md"
             data-testid=""
           >
             {loading ? (
@@ -130,11 +130,11 @@ const LoginForm = () => {
         </motion.div>
       </form>
       <div className="flex justify-center items-center w-full gap-3">
-        <div className="border-b-2 border-caribbean py-2 w-full px-6"></div>
-        <div className="mt-3 text-caribbean">or</div>
-        <div className="border-b-2 border-caribbean py-2 w-full px-6"></div>
+        <div className="border-b-2 border-caribbean-800 py-2 w-full px-6"></div>
+        <div className="mt-3 text-caribbean-800">or</div>
+        <div className="border-b-2 border-caribbean-800 py-2 w-full px-6"></div>
       </div>
-      <div className="w-full">
+      <div className="w-full mt-2">
         <motion.div
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 1.1 }}
@@ -142,7 +142,7 @@ const LoginForm = () => {
         >
           <button
             onClick={() => handleGoogleLogin()}
-            className="flex flex-row items-center justify-center space-x-4 border-[0.5px] border-black w-full p-2 hover:bg-gray-500 transition duration-300"
+            className="flex flex-row items-center justify-center space-x-4 border-[0.5px] border-black w-full p-2 hover:bg-gray-500 transition duration-300 rounded-xl"
           >
             <FcGoogle className="text-4xl" />
             <span className="font-bold text-black">Sign in with Google</span>

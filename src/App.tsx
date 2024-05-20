@@ -28,6 +28,7 @@ function App() {
 }
 
 function AppContent() {
+  //MAY 21 - 1:49AM
   const location = useLocation();
   const hideHeaderOnPages = [
     "/dashboard",
