@@ -12,6 +12,7 @@ import { IoCloseOutline } from "react-icons/io5";
 
 const CoursePage = () => {
   const { user } = useAuthContext();
+  const port = process.env.REACT_APP_URL;
   const [courses, setCourses] = useState<Course[] | null>(null);
   const [profile, setProfile] = useState<Course | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -25,7 +26,7 @@ const CoursePage = () => {
 
   //fetches the courses when page is rendered
   const fetchCourse = async () => {
-    const response = await fetch("http://localhost:4000/api/course", {
+    const response = await fetch(`${port}/api/course`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +56,7 @@ const CoursePage = () => {
   const AddCourse = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const response = await fetch("http://localhost:4000/api/course/create", {
+    const response = await fetch(`${port}/api/course/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,15 +80,12 @@ const CoursePage = () => {
 
   //handle delete course
   const DeleteCourse = async (_id: string) => {
-    const response = await fetch(
-      `http://localhost:4000/api/course/delete/${_id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${port}/api/course/delete/${_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     const json = await response.json();
 

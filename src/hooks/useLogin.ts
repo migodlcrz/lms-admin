@@ -9,18 +9,16 @@ interface LoginForm {
 }
 
 export const useLogin = () => {
+  const port = process.env.REACT_APP_URL;
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
 
   const googleLogin = async (name: string, email: string) => {
-    const response = await fetch(
-      "http://localhost:4000/api/admin/login/google",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email }),
-      }
-    );
+    const response = await fetch(`${port}/api/admin/login/google`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email }),
+    });
 
     const json = await response.json();
 
@@ -43,13 +41,15 @@ export const useLogin = () => {
   };
 
   const login = async (logForm: LoginForm) => {
-    const response = await fetch("http://localhost:4000/api/admin/login", {
+    console.log("PUMASOK here: ", logForm);
+    const response = await fetch(`${port}/api/admin/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(logForm),
     });
 
     const json = await response.json();
+    console.log("JSON: ", json);
 
     // setIsLoading(false);
 

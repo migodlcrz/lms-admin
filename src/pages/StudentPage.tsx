@@ -11,11 +11,12 @@ interface User {
 }
 
 const StudentPage = () => {
+  const port = process.env.REACT_APP_URL;
   const [users, setUsers] = useState<User[] | null>(null);
   const [profile, setProfile] = useState<User | null>(null);
 
   const fetchUser = async () => {
-    const response = await fetch("http://localhost:4000/api/user", {
+    const response = await fetch(`${port}/api/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -32,15 +33,12 @@ const StudentPage = () => {
   };
 
   const handleDelete = async (id: string) => {
-    const response = await fetch(
-      `http://localhost:4000/api/user/delete/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${port}/api/user/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     const json = await response.json();
 

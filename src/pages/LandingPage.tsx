@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import heroimage from "../images/hero-image.jpg";
 
 const LandingPage = () => {
+  const port = process.env.REACT_APP_URL;
+  console.log("PORT: ", port);
   return (
     <>
       <div className="flex flex-col h-screen overflow-hidden">

@@ -10,13 +10,14 @@ interface RegForm {
 export const useSignUp = () => {
   //   const [error, setError] = useState(null);
   //   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const port = process.env.REACT_APP_URL;
   const { dispatch } = useAuthContext();
 
   const signup = async (regForm: RegForm) => {
     // setIsLoading(true);
     // setError(null);
 
-    const response = await fetch("http://localhost:4000/api/user/signup", {
+    const response = await fetch(`${port}/api/user/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(regForm),
