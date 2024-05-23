@@ -60,7 +60,7 @@ const DashboardPage = () => {
     <div className="flex flex-col space-y-2 lg:space-y-0 h-screen w-full">
       {/* <div className="h-14 shadow-lg z-10">hello</div> */}
       <div className="flex flex-row h-full bg-poly-bg z-0 p-6">
-        <div className="w-2/3">
+        <div className="w-3/4">
           {/* Good day */}
           <div className="flex flex-col w-full h-[10%]">
             <h1 className="text-white text-4xl">
@@ -89,79 +89,6 @@ const DashboardPage = () => {
                   Course Progress
                 </h2>
               </div>
-              {/* <div className="flex flex-row w-full h-full">
-                <div className="flex flex-col space-y-5 w-1/5">
-                  <div className="flex flex-col items-start justify-start w-full h-1/3 shadow-md p-3">
-                    <p className="font-semibold text-gray-400">Courses</p>
-                    <h3 className="text-black font-bold text-5xl">10</h3>
-                  </div>
-                  <div className="flex flex-col items-start justify-start w-full h-1/3 shadow-md p-3">
-                    <p className="font-semibold text-gray-400">Modules</p>{" "}
-                    <h3 className="text-black font-bold text-5xl">12</h3>
-                  </div>
-                  <div className="flex flex-col items-start justify-start w-full h-1/3 shadow-md p-3">
-                    <p className="font-semibold text-gray-400">Quizzes</p>{" "}
-                    <h3 className="text-black font-bold text-5xl">15</h3>
-                  </div>
-                </div>
-                <div className="w-4/5 h-full p-2">
-                  <div className="h-[50%] w-[50%]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart
-                        width={500}
-                        height={300}
-                        data={data}
-                        margin={{
-                          top: 5,
-                          right: 30,
-                          left: 20,
-                          bottom: 5,
-                        }}
-                        barSize={20}
-                      >
-                        <XAxis
-                          dataKey="name"
-                          scale="point"
-                          padding={{ left: 10, right: 10 }}
-                        />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <Bar
-                          dataKey="pv"
-                          fill="#00c496"
-                          background={{ fill: "#eee" }}
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                  <div className="h-[50%] w-[50%]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart width={400} height={400}>
-                        <Pie
-                          data={data01}
-                          dataKey="value"
-                          cx="50%"
-                          cy="50%"
-                          outerRadius={60}
-                          fill="#8884d8"
-                        />
-                        <Pie
-                          data={data02}
-                          dataKey="value"
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={70}
-                          outerRadius={90}
-                          fill="#82ca9d"
-                          label
-                        />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              </div> */}
               <div className="flex flex-col w-full h-full">
                 <div className="flex flex-col w-full h-1/3 pb-3">
                   <div className="w-full h-1/6 font-bold text-black">
@@ -215,7 +142,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <div className="flex flex-row h-full w-1/3">
+        <div className="flex flex-row h-full w-1/4">
           <div className="h-full w-full">
             {/* Profile */}
             <div className="flex flex-col space-y-3 bg-oslo_gray-50 shadow-md h-full w-full rounded-xl p-6 items-center">

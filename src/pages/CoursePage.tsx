@@ -16,6 +16,8 @@ import { motion } from "framer-motion";
 import { LuPencilLine } from "react-icons/lu";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { IoMdSave } from "react-icons/io";
+import ProfileActions from "../components/ProfileActions";
+import ProfileEditActions from "../components/ProfileEditActions";
 
 const CoursePage = () => {
   const { user } = useAuthContext();
@@ -24,7 +26,7 @@ const CoursePage = () => {
   const [profile, setProfile] = useState<Course | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-
+  const [editMode, setEditMode] = useState<Boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [courseForm, setCourseForm] = useState<Course>({
@@ -129,7 +131,7 @@ const CoursePage = () => {
 
   return (
     <div className="flex flex-row w-full h-screen space-y-0 space-x-4 p-6 bg-poly-bg bg-cover bg-center">
-      <div className="flex flex-col items-start shadow-xl space-y-3 border-2 bg-slate-50 rounded-xl w-2/3 h-full p-3">
+      <div className="flex flex-col items-start shadow-xl space-y-3 border-2 bg-slate-50 rounded-xl w-3/4 h-full p-3">
         <div className="flex flex-row w-full h-1/4">
           <div className="flex flex-row w-full space-x-3">
             <div className="flex flex-col items-start justify-start w-1/3 h-full shadow-md bg-poly-bg-fuchsia rounded-xl p-3">
@@ -193,66 +195,21 @@ const CoursePage = () => {
                 <h2 className="flex flex-row items-center text-black font-bold">
                   <p>Course Information</p>
                 </h2>
-                <div className="flex flex-row py-2 space-x-2">
-                  <button
-                    onClick={() => {
-                      // DeleteCourse(String(profile._id));
-                      setOpenDeleteModal(true);
-                    }}
-                    className="flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-red-600 rounded-full p-2"
-                  >
-                    <FaRegTrashCan />
-                  </button>
-                  <button
-                    onClick={() => {}}
-                    className="flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-yellow-400 rounded-full p-2"
-                  >
-                    <LuPencilLine />
-                  </button>
-                  <button
-                    onClick={() => {
-                      setProfile(null);
-                    }}
-                    className="flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-green-600 rounded-full p-2"
-                  >
-                    {/* <IoMdSave /> */}
-                    <IoClose />
-                  </button>
-                  <Modal
-                    open={openDeleteModal}
-                    onClose={() => setOpenDeleteModal(false)}
-                    center
-                    closeOnEsc
-                    classNames={{
-                      modal: "customModalClass",
-                    }}
-                  >
-                    <div className="flex flex-col mt-10 space-y-2 w-[48rem] items-center justify-center">
-                      <h2 className="text-black font-bold">
-                        Are you sure you want to delete {profile.courseName}?
-                      </h2>
-                      <div className="flex flex-row justify-evenly w-full">
-                        <button
-                          onClick={() => {
-                            setOpenDeleteModal(false);
-                          }}
-                          className="btn text-black text-2xl font-semibold "
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          onClick={() => {
-                            setOpenDeleteModal(false);
-                            DeleteCourse(String(profile._id));
-                          }}
-                          className="btn text-white text-2xl font-semibold bg-fuchsia border-fuchsia hover:bg-red-600 hover:border-red-600 shadow-md"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </Modal>
-                </div>
+                {editMode ? (
+                  <ProfileEditActions
+                    profile={profile}
+                    setEditMode={setEditMode}
+                    setProfile={setProfile}
+                    DeleteCourse={DeleteCourse}
+                  />
+                ) : (
+                  <ProfileActions
+                    profile={profile}
+                    setEditMode={setEditMode}
+                    setProfile={setProfile}
+                    DeleteCourse={DeleteCourse}
+                  />
+                )}
               </div>
               <div className="flex flex-col w-full h-full space-y-3">
                 <div className="flex flex-row w-full h-1/2 space-x-3">
@@ -263,39 +220,76 @@ const CoursePage = () => {
                       className="h-full w-full bg-cover bg-center rounded-xl"
                     />
                   </div>
-                  <div className="flex flex-col w-1/2 h-full">
-                    <h2 className="flex w-full justify-center font-bold text-fuchsia-700">
-                      {profile.courseName}
-                    </h2>
-                    <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
-                      Code:{" "}
-                      <span className="text-black">{profile.courseID}</span>
-                    </h3>
-                    <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
-                      Publisher:{" "}
-                      <span className="text-black">{profile.publisher}</span>
-                    </h3>
-                    <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
-                      Modules:{" "}
-                      <span className="text-black">
-                        {profile.modules?.length}
-                      </span>
-                    </h3>
-                    <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
-                      Enrollees:{" "}
-                      <span className="text-black">
-                        {profile.students?.length}
-                      </span>
-                    </h3>
-                    <div className="flex flex-col w-full h-full">
-                      <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
-                        Description:
-                      </h3>
-                      <div className="h-full w-full text-black bg-slate-200 rounded-xl p-2 shadow-inner">
-                        {profile.description}
+                  {editMode ? (
+                    <div className="flex flex-col w-1/2 h-full space-y-2">
+                      <div className="flex flex-row w-full items-center justify-between">
+                        Edit{" "}
+                      </div>
+                      <div className="flex flex-row w-full items-center justify-between">
+                        <label className="text-black font-bold text-xl w-1/2">
+                          Course Name:
+                        </label>
+                        <input
+                          type="text"
+                          className="input border-fuchsia border-2 w-1/2"
+                          placeholder={profile.courseName}
+                        />
+                      </div>
+                      <div className="flex flex-row w-full items-center justify-between">
+                        <label className="text-black font-bold text-xl w-1/2">
+                          Course ID:
+                        </label>
+                        <input
+                          type="text"
+                          className="input border-fuchsia border-2 w-1/2"
+                          placeholder={profile.courseID}
+                        />
+                      </div>
+                      <div className="flex flex-row w-full items-center justify-between">
+                        <label className="text-black font-bold text-xl w-1/2">
+                          Description:
+                        </label>
+                        <textarea
+                          className="textarea textarea-bordered border-2 resize-none border-fuchsia w-1/2"
+                          placeholder={profile.description}
+                        />
                       </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="flex flex-col w-1/2 h-full">
+                      <h2 className="flex w-full justify-center font-bold text-fuchsia-700">
+                        {profile.courseName}
+                      </h2>
+                      <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                        Code:{" "}
+                        <span className="text-black">{profile.courseID}</span>
+                      </h3>
+                      <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                        Publisher:{" "}
+                        <span className="text-black">{profile.publisher}</span>
+                      </h3>
+                      <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                        Modules:{" "}
+                        <span className="text-black">
+                          {profile.modules?.length}
+                        </span>
+                      </h3>
+                      <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                        Enrollees:{" "}
+                        <span className="text-black">
+                          {profile.students?.length}
+                        </span>
+                      </h3>
+                      <div className="flex flex-col w-full h-full">
+                        <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                          Description:
+                        </h3>
+                        <div className="h-full w-full text-black bg-slate-200 rounded-xl p-2 shadow-inner">
+                          {profile.description}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-roww-full h-1/2 space-x-3">
                   <div className="flex flex-col w-1/2 h-full bg-green-400 ">
@@ -363,7 +357,7 @@ const CoursePage = () => {
           )}
         </div>
       </div>
-      <div className="flex flex-row h-full w-1/3">
+      <div className="flex flex-row h-full w-1/4">
         <div className="h-full w-full">
           <div className="flex flex-col space-y-3 bg-oslo_gray-50 shadow-md h-full w-full rounded-xl p-6 items-center">
             <div className="flex flex-row space-x-3 w-full border-b-[1px] rounded-sm border-gray-300 pb-4 h-1/6">
