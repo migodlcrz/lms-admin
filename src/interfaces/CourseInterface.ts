@@ -20,6 +20,8 @@ interface Course {
   courseID: string;
   courseName: string;
   publisher?: string;
+  tier: string;
+  description: string;
   createdAt?: string;
   modules?: Module[];
   students?: { id: string }[];

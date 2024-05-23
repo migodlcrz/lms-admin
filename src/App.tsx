@@ -28,7 +28,6 @@ function App() {
 }
 
 function AppContent() {
-  //MAY 21 - 1:49AM
   const location = useLocation();
   const hideHeaderOnPages = [
     "/dashboard",
@@ -47,8 +46,8 @@ function AppContent() {
   return (
     <div>
       <ToastContainer />
-      {shouldRenderHeader && <Header />}
-      {shouldRenderSidebar && <Sidebar />}
+      {/* {shouldRenderHeader && <Header />} */}
+      {/* {shouldRenderSidebar && <Sidebar />} */}
       <Routes>
         <Route
           path={"/"}
@@ -56,15 +55,44 @@ function AppContent() {
         />
         <Route
           path={"/dashboard"}
-          element={user ? <DashboardPage /> : <Navigate to="/no-access" />}
+          element={
+            user ? (
+              <div className="flex flex-row">
+                <Sidebar />
+                <DashboardPage />
+              </div>
+            ) : (
+              <Navigate to="/no-access" />
+            )
+          }
         />
         <Route
           path={"/courses"}
-          element={user ? <CoursePage /> : <Navigate to="/no-access" />}
+          element={
+            user ? (
+              <div className="flex flex-row">
+                <Sidebar />
+                <div className="flex flex-col w-full">
+                  <CoursePage />
+                </div>
+              </div>
+            ) : (
+              <Navigate to="/no-access" />
+            )
+          }
         />
         <Route
           path={"/students"}
-          element={user ? <StudentPage /> : <Navigate to="/no-access" />}
+          element={
+            user ? (
+              <div className="flex flex-row">
+                <Sidebar />
+                <StudentPage />
+              </div>
+            ) : (
+              <Navigate to="/no-access" />
+            )
+          }
         />
         <Route
           path="/settings"

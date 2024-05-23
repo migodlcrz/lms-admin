@@ -69,8 +69,8 @@ const LoginForm = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full w-full p-24 bg-slate-50">
-      {/* <div className="grid place-items-center h-screen bg-caribbean-50"> */}
-      {/* <div className="bg-white shadow-xl p-5 min-w-[60%] border-t-4 border-caribbean"> */}
+      {/* <div className="grid place-items-center h-screen bg-fuchsia-50"> */}
+      {/* <div className="bg-white shadow-xl p-5 min-w-[60%] border-t-4 border-fuchsia"> */}
       <div className="flex flex-row ">
         <h1 className="text-xl font-bold my-4 text-center text-black">
           Administrator Login
@@ -83,7 +83,7 @@ const LoginForm = () => {
         <input
           type="text"
           placeholder="Email"
-          className="input-md w-full border-caribbean border-2 rounded-xl shadow-xl"
+          className="input-md w-full border-fuchsia border-2 rounded-xl shadow-xl"
           data-testid=""
           value={loginForm.email}
           onChange={(e) => {
@@ -93,7 +93,7 @@ const LoginForm = () => {
         <input
           type={seePassword ? "text" : "password"}
           placeholder="Password"
-          className="input-md w-full border-caribbean border-2 rounded-xl shadow-xl"
+          className="input-md w-full border-fuchsia border-2 rounded-xl shadow-xl"
           data-testid=""
           value={loginForm.password}
           onChange={(e) => {
@@ -103,7 +103,7 @@ const LoginForm = () => {
         <div className="text-sm">
           <input
             type="checkbox"
-            className="checkbox checkbox-xs mr-2 border-[0.5px] border-caribbean"
+            className="checkbox checkbox-xs mr-2 border-[0.5px] border-fuchsia"
             onClick={() => {
               setSeePassword(!seePassword);
             }}
@@ -119,7 +119,7 @@ const LoginForm = () => {
             onClick={() => {
               setLoading(true);
             }}
-            className="btn bg-gradient-to-r from-caribbean-500 to-caribbean-600 rounded-xl text-white font-bold cursor-pointer py-2 hover:bg-caribbean-300 hover:text-slate-200 w-full shadow-md"
+            className="btn bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 rounded-xl text-white font-bold cursor-pointer py-2 hover:bg-fuchsia-300 hover:text-slate-200 w-full shadow-md"
             data-testid=""
           >
             {loading ? (
@@ -131,9 +131,9 @@ const LoginForm = () => {
         </motion.div>
       </form>
       <div className="flex justify-center items-center w-full gap-3">
-        <div className="border-b-2 border-caribbean-800 py-2 w-full px-6"></div>
-        <div className="mt-3 text-caribbean-800">or</div>
-        <div className="border-b-2 border-caribbean-800 py-2 w-full px-6"></div>
+        <div className="border-b-2 border-fuchsia-800 py-2 w-full px-6"></div>
+        <div className="mt-3 text-fuchsia-800">or</div>
+        <div className="border-b-2 border-fuchsia-800 py-2 w-full px-6"></div>
       </div>
       <div className="w-full mt-2">
         <motion.div

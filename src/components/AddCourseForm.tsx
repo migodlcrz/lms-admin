@@ -15,28 +15,46 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
   AddCourse,
 }) => {
   return (
-    <div className="flex flex-col mt-10 space-y-2">
+    <div className="flex flex-col mt-10 space-y-2 w-[48rem]">
       <form className="flex flex-col form space-y-2" onSubmit={AddCourse}>
-        <p className="text-black">Course ID:</p>
+        <p className="text-black font-bold">Course ID:</p>
         <input
           onChange={handleFormChange}
-          className="input input-bordered input-primary rounded-none"
+          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia"
           type="text"
           name="courseID"
           value={courseForm.courseID}
           disabled={loading}
         />
-        <p className="text-black">Course Name:</p>
+        <p className="text-black font-bold">Course Name:</p>
         <input
           onChange={handleFormChange}
-          className="input input-bordered input-primary rounded-none"
+          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia"
           type="text"
           name="courseName"
           value={courseForm.courseName}
           disabled={loading}
         />
+        <p className="text-black font-bold">Tier:</p>
+        <input
+          onChange={handleFormChange}
+          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia"
+          type="text"
+          name="tier"
+          value={courseForm.tier}
+          disabled={loading}
+        />
+        <p className="text-black font-bold">Description:</p>
+        <input
+          onChange={handleFormChange}
+          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia"
+          type="text"
+          name="description"
+          value={courseForm.description}
+          disabled={loading}
+        />
         <button
-          className="btn rounded-none bg-cerulean text-white"
+          className="btn bg-fuchsia text-white rounded-xl"
           type="submit"
           disabled={loading}
         >

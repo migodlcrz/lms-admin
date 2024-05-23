@@ -2,72 +2,120 @@ import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineLibraryBooks } from "react-icons/md";
 import { PiStudentBold } from "react-icons/pi";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
-import logo from "../images/learnify.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import logo from "../images/learnify-white.png";
 
 const Sidebar = () => {
-  const [isHovered, setIsHovered] = useState(false);
-  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(true); // Track whether sidebar is open or closed
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
-  // Function to check if a path matches the current location
-  const isActive = (path: string) => {
-    return location.pathname === path;
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
-    <div className="flex h-screen items-start transition-all duration-300 w-[250px] bg-gradient-to-b from-caribbean-300 to-caribbean-900 shadow-xl overflow-hidden fixed">
-      <div className="">
-        <ul className="flex flex-col ">
-          <div className="flex flex-row items-center p-4">
-            <img src={logo} alt="Loading" width="50" height="50" />
-            <h2 className="font-bold text-white text-3xl">Learnify</h2>
+    <div className="sticky flex top-0 h-screen z-50">
+      <div
+        onClick={() => !isOpen && toggleSidebar()}
+        className={`flex items-start transition-all duration-300 bg-oslo_gray-950 z-50 ${
+          isOpen ? "w-80" : "w-20"
+        }`}
+      >
+        <div className="w-full">
+          <div className="flex flex-row items-center space-x-4 p-4 w-full shadow-md bg-poly-bg-fuchsia h-20">
+            <button
+              className="text-white hover:text-black text-2xl z-50 mx-3 transition-colors duration-300"
+              onClick={toggleSidebar}
+            >
+              <FontAwesomeIcon icon={isOpen ? faTimes : faBars} />
+            </button>
+            <div>
+              <p
+                className={
+                  "text-white font-bold text-3xl " + (isOpen ? "" : "hidden")
+                }
+              >
+                Learnify
+              </p>
+            </div>
           </div>
-          <div
-            onClick={() => {
-              navigate("/dashboard");
-            }}
-            className={`flex flex-row items-center space-x-4 p-4 w-screen m-2 ${
-              isActive("/dashboard")
-                ? "bg-caribbean-300"
-                : "hover:bg-caribbean-300"
-            }`}
-          >
-            <li className="grid place-items-center py-2 text-white h-12 text-4xl relative">
-              <MdOutlineSpaceDashboard />
-            </li>
-            <p className={`text-white font-bold text-sm w-full`}>Dashboard</p>
-          </div>
-          <div
-            onClick={() => {
-              navigate("/courses");
-            }}
-            className={`flex flex-row items-center space-x-4 p-4 w-screen m-2 ${
-              isActive("/courses") ? "bg-cerulean-300" : "hover:bg-cerulean-300"
-            }`}
-          >
-            <li className="grid place-items-center py-2 text-white h-12 text-4xl relative">
-              <MdOutlineLibraryBooks />
-            </li>
-            <p className={`text-white font-bold text-sm w-full`}>Courses</p>
-          </div>
-          <div
-            onClick={() => {
-              navigate("/students");
-            }}
-            className={`flex flex-row items-center space-x-4 p-4 w-screen m-2 ${
-              isActive("/students")
-                ? "bg-cerulean-300"
-                : "hover:bg-cerulean-300"
-            }`}
-          >
-            <li className="grid place-items-center py-2 text-white h-12 text-4xl relative">
-              <PiStudentBold />
-            </li>
-            <p className={`text-white font-bold text-sm w-full `}>Students</p>
-          </div>
-        </ul>
+
+          <ul className="flex flex-col p-3 space-y-6">
+            <button
+              // disabled={!isOpen}
+              onClick={() => {
+                if (isOpen) {
+                  navigate("/dashboard");
+                  setIsOpen(false);
+                } else {
+                  setIsOpen(true);
+                }
+              }}
+              className={`flex flex-row items-center space-x-4 px-2 w-full rounded-xl text-white transition-colors duration-300 ${
+                currentPath === "/dashboard"
+                  ? "text-white bg-gradient-to-r from-fuchsia-300 via-fuchsia-500 to-fuchsia-700 shadow-xl"
+                  : isOpen &&
+                    "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-100 hover:via-fuchsia-300 hover:to-fuchsia-500"
+              }`}
+            >
+              <li className="grid place-items-center py-2 h-12 text-4xl relative">
+                <MdOutlineSpaceDashboard />
+              </li>
+              {isOpen && <p className="font-bold text-sm w-full">Overview</p>}
+            </button>
+            <button
+              // disabled={!isOpen}
+              onClick={() => {
+                if (isOpen) {
+                  navigate("/courses");
+                  setIsOpen(false);
+                } else {
+                  setIsOpen(true);
+                }
+              }}
+              className={`flex flex-row items-center space-x-4 px-2 w-full rounded-xl text-white transition-colors duration-300 ${
+                currentPath === "/courses"
+                  ? "text-white bg-gradient-to-r from-fuchsia-300 via-fuchsia-500 to-fuchsia-700 shadow-xl"
+                  : isOpen &&
+                    "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-100 hover:via-fuchsia-300 hover:to-fuchsia-500"
+              }`}
+            >
+              <li className="grid place-items-center py-2 h-12 text-4xl relative">
+                <MdOutlineLibraryBooks />
+              </li>
+              {isOpen && <p className="font-bold text-sm w-full">My Courses</p>}
+            </button>
+            <button
+              // disabled={!isOpen}
+              onClick={() => {
+                if (isOpen) {
+                  navigate("/students");
+                  setIsOpen(false);
+                } else {
+                  setIsOpen(true);
+                }
+              }}
+              className={`flex flex-row items-center space-x-4 px-2 w-full rounded-xl text-white transition-colors duration-300 ${
+                currentPath === "/settings"
+                  ? "text-white bg-gradient-to-r from-fuchsia-300 via-fuchsia-500 to-fuchsia-700 shadow-xl"
+                  : isOpen &&
+                    "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-100 hover:via-fuchsia-300 hover:to-fuchsia-500"
+              }`}
+            >
+              <li className="grid place-items-center py-2 h-12 text-4xl relative">
+                <CgProfile />
+              </li>
+              {isOpen && (
+                <p className="font-bold text-sm w-full">My Students</p>
+              )}
+            </button>
+          </ul>
+        </div>
       </div>
     </div>
   );

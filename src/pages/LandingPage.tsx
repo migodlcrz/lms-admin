@@ -11,24 +11,24 @@ const LandingPage = () => {
       <div className="flex flex-col h-screen overflow-hidden">
         <div className="flex flex-col lg:flex-row justify-center w-full h-screen shadow-xl bg-white text-center space-y-4">
           <div
-            className="flex flex-col w-full lg:w-3/5 space-y-6 justify-center items-start p-5"
-            style={{
-              backgroundImage: `url(${heroimage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
+            className="flex flex-col w-full lg:w-3/5 space-y-6 justify-center items-start p-10 bg-poly-bg bg-cover bg-center"
+            // style={{
+            //   backgroundImage: `url(${heroimage})`,
+            //   backgroundSize: "cover",
+            //   backgroundPosition: "center",
+            // }}
           >
             <h1 className="text-start text-white text-2xl lg:text-6xl">
-              <span className="text-caribbean-50 font-semibold">
+              <span className="text-fuchsia-50 font-semibold">
                 Fly Toward Your Goals with
               </span>{" "}
-              <span className="text-caribbean-300 text-shadow shadow-black">
+              <span className="text-fuchsia-500 text-shadow shadow-black">
                 Learnify
               </span>
             </h1>
             <div>
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 1.1 }}>
-                <button className="btn bg-gradient-to-b from-caribbean-500 to-caribbean-600 hover:bg-caribbean-300 shadow-md shadow-black border-cerulean">
+                <button className="btn bg-gradient-to-r from-fuchsia-400 to-fuchsia-600 hover:bg-fuchsia-300 shadow-md shadow-black border-fuchsia hover:border-fuchsia">
                   <p className="text-black font-bold text-md lg:text-xl">
                     Visit User Website
                   </p>
