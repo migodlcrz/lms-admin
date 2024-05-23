@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import { Course } from "../interfaces/CourseInterface";
 
 interface AddCourseFormProps {
@@ -14,6 +14,14 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
   handleFormChange,
   AddCourse,
 }) => {
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSelectedOption(value);
+    handleFormChange(event);
+  };
+
   return (
     <div className="flex flex-col mt-10 space-y-2 w-[48rem]">
       <form className="flex flex-col form space-y-2" onSubmit={AddCourse}>
@@ -36,14 +44,43 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           disabled={loading}
         />
         <p className="text-black font-bold">Tier:</p>
-        <input
-          onChange={handleFormChange}
-          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia"
-          type="text"
-          name="tier"
-          value={courseForm.tier}
-          disabled={loading}
-        />
+        <div className="flex flex-col">
+          <div className="w-full flex flex-row justify-around">
+            <div className="flex flex-row items-center space-x-3">
+              <input
+                type="radio"
+                name="tier" // Add the name attribute
+                value="Free"
+                checked={selectedOption === "Free"}
+                onChange={handleOptionChange}
+                className="radio checked:bg-fuchsia"
+              />
+              <label className="text-black">Free</label>
+            </div>
+            <div className="flex flex-row items-center space-x-3">
+              <input
+                type="radio"
+                name="tier" // Add the name attribute
+                value="Basic"
+                checked={selectedOption === "Basic"}
+                onChange={handleOptionChange}
+                className="radio checked:bg-fuchsia"
+              />
+              <label>Basic</label>
+            </div>
+            <div className="flex flex-row items-center space-x-3">
+              <input
+                type="radio"
+                name="tier" // Add the name attribute
+                value="Premium"
+                checked={selectedOption === "Premium"}
+                onChange={handleOptionChange}
+                className="radio checked:bg-fuchsia-"
+              />
+              <label>Premium</label>
+            </div>
+          </div>
+        </div>
         <p className="text-black font-bold">Description:</p>
         <input
           onChange={handleFormChange}

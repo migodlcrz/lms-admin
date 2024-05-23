@@ -190,8 +190,8 @@ const CoursePage = () => {
               className="flex flex-col h-full w-full bg-slate-50 rounded-xl p-3"
             >
               <div className="flex flex-row justify-between h-16 w-full">
-                <h2 className="flex items-center text-black font-bold">
-                  {profile.courseName}
+                <h2 className="flex flex-row items-center text-black font-bold">
+                  <p>Course Information</p>
                 </h2>
                 <div className="flex flex-row py-2 space-x-2">
                   <button
@@ -254,13 +254,57 @@ const CoursePage = () => {
                   </Modal>
                 </div>
               </div>
-              <div className="w-full h-full">
-                <div></div>
-                {/* <div>{profile.courseName}</div>
-                <div>{profile.publisher}</div>
-                <div>{profile.tier}</div>
-                <div>{profile.description}</div>
-                <div>{profile.courseName}</div> */}
+              <div className="flex flex-col w-full h-full space-y-3">
+                <div className="flex flex-row w-full h-1/2 space-x-3">
+                  <div className="w-1/2 h-full bg-poly-bg-fuchsia rounded-2xl p-3">
+                    <img
+                      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+                      alt="Shoes"
+                      className="h-full w-full bg-cover bg-center rounded-xl"
+                    />
+                  </div>
+                  <div className="flex flex-col w-1/2 h-full">
+                    <h2 className="flex w-full justify-center font-bold text-fuchsia-700">
+                      {profile.courseName}
+                    </h2>
+                    <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                      Code:{" "}
+                      <span className="text-black">{profile.courseID}</span>
+                    </h3>
+                    <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                      Publisher:{" "}
+                      <span className="text-black">{profile.publisher}</span>
+                    </h3>
+                    <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                      Modules:{" "}
+                      <span className="text-black">
+                        {profile.modules?.length}
+                      </span>
+                    </h3>
+                    <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                      Enrollees:{" "}
+                      <span className="text-black">
+                        {profile.students?.length}
+                      </span>
+                    </h3>
+                    <div className="flex flex-col w-full h-full">
+                      <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
+                        Description:
+                      </h3>
+                      <div className="h-full w-full text-black bg-slate-200 rounded-xl p-2 shadow-inner">
+                        {profile.description}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-roww-full h-1/2 space-x-3">
+                  <div className="flex flex-col w-1/2 h-full bg-green-400 ">
+                    lagay mo module list
+                  </div>
+                  <div className="flex flex-col w-1/2 h-full bg-red-400 ">
+                    lagay mo student list
+                  </div>
+                </div>
               </div>
             </motion.div>
           ) : (
@@ -349,185 +393,6 @@ const CoursePage = () => {
           </div>
         </div>
       </div>
-
-      {/* <div className="flex flex-col items-start shadow-xl border-2 border-black w-full lg:w-1/2 h-full">
-        {courses ? (
-          <>
-            <div className="flex bg-cerulean w-full p-2 ">
-              <div className="flex flex-row space-x-3">
-                <label className="input input-bordered flex items-center gap-2 rounded-none">
-                  <input
-                    type="text"
-                    className="grow"
-                    placeholder="Search Course"
-                  />
-                  <FaSearch />
-                </label>
-                <button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                  className="btn rounded-none bg-white text-cerulean"
-                >
-                  Add
-                </button>
-                <Modal
-                  open={openModal}
-                  onClose={() => {
-                    setOpenModal(false);
-                  }}
-                  center
-                >
-                  <AddCourseForm
-                    courseForm={courseForm}
-                    loading={loading}
-                    handleFormChange={handleFormChange}
-                    AddCourse={AddCourse}
-                  />
-                </Modal>
-              </div>
-            </div>
-            <div
-              className="flex flex-row w-full m-0 bg-cerulean max-h-full overflow-x-auto"
-              style={{
-                scrollbarColor: "#006992 #FFFFFF ",
-                scrollbarWidth: "thin",
-              }}
-            >
-              <table className="table">
-                <thead className="sticky top-0 bg-cerulean shadow-md">
-                  <tr className="text-white">
-                    <th className="font-bold text-lg">Course</th>
-                    <th className="font-bold text-lg">ID</th>
-                    <th className="font-bold text-lg">Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {courses &&
-                    courses.map((course, index) => (
-                      <tr
-                        onClick={() => {
-                          setProfile(course);
-                        }}
-                        className={`hover:bg-gray-500 cursor-pointer ${
-                          index % 2 === 0 ? "bg-white" : "bg-slate-300"
-                        } `}
-                        key={index}
-                      >
-                        <th>{index + 1}</th>
-                        <td className="font-bold">{course.courseID}</td>
-                        <td>{course.courseName}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        ) : (
-          <div className="grid place-items-center h-full w-full">
-            <span className="loading loading-spinner loading-lg"></span>
-          </div>
-        )}
-      </div> */}
-      {/* <div className="flex h-auto w-full lg:w-1/2 bg-white border-2 border-slate-400 shadow-md p-3">
-        {profile ? (
-          <div className="flex flex-col w-full h-full ">
-            <div className="flex flex-col h-full w-full bg-slate-200 p-2 space-y-2">
-              <div className="h-full">
-                <div className="flex flex-row justify-between items-center pr-2">
-                  <h1 className="text-3xl h-1/6 text-black">
-                    Course Information
-                  </h1>
-                  <button
-                    onClick={() => {
-                      setProfile(null);
-                    }}
-                    className=" text-cerulean text-2xl"
-                  >
-                    <IoCloseOutline />
-                  </button>
-                </div>
-                <div className="h-3/6 w-full border-4 border-cerulean">
-                  <img
-                    src={pic}
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-
-                <div className="flex flex-col p-2 h-2/6 justify-start space-y-2">
-                  <div className="flex flex-row w-full justify-between">
-                    <h2 className="flex flex-col font-bold text-xl w-1/2">
-                      {"Course ID: "}
-                      <span className="font-normal text-lg">
-                        {profile.courseID}
-                      </span>
-                    </h2>
-                    <h2 className="flex flex-col font-bold text-xl w-1/2">
-                      {"Course Name: "}
-                      <span className="font-normal text-lg">
-                        {profile.courseName}
-                      </span>
-                    </h2>
-                  </div>
-                  <div className="flex flex-row w-full justify-between">
-                    <h2 className="flex flex-col font-bold text-xl w-1/2">
-                      {"Published by: "}
-                      <span className="font-normal text-lg">
-                        {profile.publisher}
-                      </span>
-                    </h2>
-                    <h2 className="flex flex-col font-bold text-xl w-1/2">
-                      {"Date published: "}
-                      <span className="font-normal text-lg">
-                        {profile.createdAt
-                          ? new Date(profile.createdAt).toLocaleString()
-                          : "Unknown"}
-                      </span>
-                    </h2>
-                  </div>
-                  <div className="flex flex-row w-full justify-between">
-                    <h2 className="flex flex-col font-bold text-xl w-1/2">
-                      {"Modules: "}
-                      <span className="font-normal text-lg">
-                        {profile.modules?.length}
-                      </span>
-                    </h2>
-                    <h2 className="flex flex-col font-bold text-xl w-1/2">
-                      {"Students Enrolled: "}
-                      <span className="font-normal text-lg">
-                        {profile.students?.length}
-                      </span>
-                    </h2>
-                  </div>
-                  <div className="flex flex-row items-end">
-                    <div className="w-1/2">
-                      <button className="btn w-20 rounded-none bg-cerulean text-white">
-                        Edit
-                      </button>
-                    </div>
-                    <div className="w-1/2">
-                      {" "}
-                      <button
-                        onClick={() => {
-                          DeleteCourse(String(profile._id));
-                        }}
-                        className="btn w-20 rounded-none bg-cerulean text-white"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="grid place-items-center h-full w-full bg-slate-400">
-            <p className="text-black font-bold text-xl">No selected course</p>
-          </div>
-        )}
-      </div> */}
     </div>
   );
 };
