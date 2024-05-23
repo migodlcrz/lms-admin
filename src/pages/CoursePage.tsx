@@ -12,14 +12,20 @@ import { IoClose, IoCloseOutline } from "react-icons/io5";
 import Calendar from "../components/Calendar";
 import CustomCalendar from "../components/Calendar";
 import CourseCard from "../components/CourseCard";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { LuPencilLine } from "react-icons/lu";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { IoMdSave } from "react-icons/io";
 import ProfileActions from "../components/ProfileActions";
 import ProfileEditActions from "../components/ProfileEditActions";
 
-const CoursePage = () => {
+interface EditCourseForm {
+  courseName: string | null;
+  courseID: string | null;
+  description: string | null;
+}
+
+const CoursePage = (props: React.PropsWithChildren) => {
   const { user } = useAuthContext();
   const port = process.env.REACT_APP_URL;
   const [courses, setCourses] = useState<Course[] | null>(null);
@@ -35,6 +41,12 @@ const CoursePage = () => {
     publisher: user.user_.email || user.name_,
     tier: "",
     description: "",
+  });
+
+  const [editCourseForm, setEditCourseForm] = useState<EditCourseForm>({
+    courseName: null,
+    courseID: null,
+    description: null,
   });
 
   //fetches the courses when page is rendered
@@ -65,6 +77,10 @@ const CoursePage = () => {
     }));
   };
 
+  const handleEditForm = (field: string, value: string) => {
+    setEditCourseForm({ ...editCourseForm, [field]: value });
+  };
+
   //handles adding of course
   const AddCourse = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -73,9 +89,7 @@ const CoursePage = () => {
     console.log(courseForm);
     const response = await fetch(`${port}/api/course/create`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(courseForm),
     });
 
@@ -94,13 +108,29 @@ const CoursePage = () => {
     }
   };
 
+  const EditCourse = async (_id: string) => {
+    const response = await fetch(`${port}/api/course/edit/${_id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editCourseForm),
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      return toast.error(json.error);
+    }
+
+    toast.success(json.message);
+    fetchCourse();
+    setEditMode(false);
+  };
+
   //handle delete course
   const DeleteCourse = async (_id: string) => {
     const response = await fetch(`${port}/api/course/delete/${_id}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
 
     const json = await response.json();
@@ -127,7 +157,7 @@ const CoursePage = () => {
 
   useEffect(() => {
     fetchCourse();
-  }, []);
+  }, [props]);
 
   return (
     <div className="flex flex-row w-full h-screen space-y-0 space-x-4 p-6 bg-poly-bg bg-cover bg-center">
@@ -178,28 +208,31 @@ const CoursePage = () => {
         <div className="flex flex-col items-center justify-center w-full h-3/4 bg-poly-bg-fuchsia p-3 space-y-3 rounded-xl">
           {profile ? (
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              key={profile.courseName}
+              initial={{ opacity: 0, y: -30 }}
               animate={{
                 opacity: 1,
-                x: 0,
+                y: 0,
                 transition: {
                   type: "spring",
                   duration: 1,
-
                   bounce: 0.4,
                 },
               }}
+              // exit={{ opacity: 0 }}
               className="flex flex-col h-full w-full bg-slate-50 rounded-xl p-3"
             >
               <div className="flex flex-row justify-between h-16 w-full">
                 <h2 className="flex flex-row items-center text-black font-bold">
-                  <p>Course Information</p>
+                  <p className=" truncate">Course Information</p>
                 </h2>
                 {editMode ? (
                   <ProfileEditActions
                     profile={profile}
+                    editCourseForm={editCourseForm}
                     setEditMode={setEditMode}
                     setProfile={setProfile}
+                    EditCourse={EditCourse}
                     DeleteCourse={DeleteCourse}
                   />
                 ) : (
@@ -230,6 +263,11 @@ const CoursePage = () => {
                           Course Name:
                         </label>
                         <input
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            handleEditForm("courseName", e.target.value);
+                          }}
                           type="text"
                           className="input border-fuchsia border-2 w-1/2"
                           placeholder={profile.courseName}
@@ -240,6 +278,11 @@ const CoursePage = () => {
                           Course ID:
                         </label>
                         <input
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            handleEditForm("courseID", e.target.value);
+                          }}
                           type="text"
                           className="input border-fuchsia border-2 w-1/2"
                           placeholder={profile.courseID}
@@ -252,11 +295,29 @@ const CoursePage = () => {
                         <textarea
                           className="textarea textarea-bordered border-2 resize-none border-fuchsia w-1/2"
                           placeholder={profile.description}
+                          onChange={(
+                            e: React.ChangeEvent<HTMLTextAreaElement>
+                          ) => {
+                            handleEditForm("description", e.target.value);
+                          }}
                         />
                       </div>
                     </div>
                   ) : (
-                    <div className="flex flex-col w-1/2 h-full">
+                    <motion.div
+                      initial={{ opacity: 0, y: -30 }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                          type: "spring",
+                          duration: 1,
+                          delay: 0.1,
+                          bounce: 0.4,
+                        },
+                      }}
+                      className="flex flex-col w-1/2 h-full"
+                    >
                       <h2 className="flex w-full justify-center font-bold text-fuchsia-700">
                         {profile.courseName}
                       </h2>
@@ -265,8 +326,10 @@ const CoursePage = () => {
                         <span className="text-black">{profile.courseID}</span>
                       </h3>
                       <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
-                        Publisher:{" "}
-                        <span className="text-black">{profile.publisher}</span>
+                        Created by:{" "}
+                        <span className="text-black truncate">
+                          {profile.publisher}
+                        </span>
                       </h3>
                       <h3 className="flex w-full justify-between text-fuchsia font-semibold text-xl">
                         Modules:{" "}
@@ -288,14 +351,14 @@ const CoursePage = () => {
                           {profile.description}
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
                 </div>
                 <div className="flex flex-roww-full h-1/2 space-x-3">
-                  <div className="flex flex-col w-1/2 h-full bg-green-400 ">
+                  <div className="flex flex-col w-1/2 h-full bg-fuchsia rounded-xl">
                     lagay mo module list
                   </div>
-                  <div className="flex flex-col w-1/2 h-full bg-red-400 ">
+                  <div className="flex flex-col w-1/2 h-full bg-fuchsia rounded-xl">
                     lagay mo student list
                   </div>
                 </div>
@@ -303,7 +366,20 @@ const CoursePage = () => {
             </motion.div>
           ) : (
             <>
-              <div className="flex flex-row w-full">
+              <motion.div
+                initial={{ opacity: 0, y: -30 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    type: "spring",
+                    duration: 1,
+                    delay: 0.1,
+                    bounce: 0.4,
+                  },
+                }}
+                className="flex flex-row w-full"
+              >
                 <div className="flex flex-row space-x-2 w-1/2">
                   <div className="relative">
                     <input
@@ -330,8 +406,19 @@ const CoursePage = () => {
                     <option>Maggie</option>
                   </select>
                 </div>
-              </div>
-              <div
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: -30 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    type: "spring",
+                    duration: 1,
+                    delay: 0.1,
+                    bounce: 0.4,
+                  },
+                }}
                 className="flex flex-wrap items-center justify-center w-full  h-full overflow-y-scroll bg-white border-4 border-fuchsia-800 rounded-xl"
                 style={{ scrollbarColor: "", scrollbarWidth: "thin" }}
               >
@@ -352,7 +439,7 @@ const CoursePage = () => {
                       />
                     </tr>
                   ))}
-              </div>
+              </motion.div>
             </>
           )}
         </div>
@@ -371,7 +458,8 @@ const CoursePage = () => {
               </div>
               <div className="flex flex-col w-3/4">
                 <h3 className="font-semibold text-lg text-black">
-                  {user.user_.firstName} {user.user_.lastName}
+                  {user.user_.firstName ||
+                    user.user_.lastName | user.name_ | user.email}
                 </h3>
                 <h3 className="text-fuchsia-700 font-semibold">Novice</h3>
                 <h3 className="text-black font-semibold mt-2">

@@ -7,12 +7,14 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import logo from "../images/learnify-white.png";
+import { useLogout } from "../hooks/useLogout";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true); // Track whether sidebar is open or closed
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
+  const { logout } = useLogout();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -113,6 +115,14 @@ const Sidebar = () => {
               {isOpen && (
                 <p className="font-bold text-sm w-full">My Students</p>
               )}
+            </button>
+            <button
+              onClick={() => {
+                logout();
+              }}
+              className="btn"
+            >
+              Logout
             </button>
           </ul>
         </div>

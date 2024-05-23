@@ -64,8 +64,7 @@ const DashboardPage = () => {
           {/* Good day */}
           <div className="flex flex-col w-full h-[10%]">
             <h1 className="text-white text-4xl">
-              Good Day,{" "}
-              <span className="text-fuchsia-600">{user.user_.firstName}</span>
+              Good Day, <span className="text-fuchsia-600">{user.name_}</span>
             </h1>
             <h3 className="text-white font-semibold text-sm">
               Here is your profile overview

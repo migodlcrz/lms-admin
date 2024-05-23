@@ -7,32 +7,52 @@ import "react-responsive-modal/styles.css";
 import { Course } from "../interfaces/CourseInterface";
 import { FaSave } from "react-icons/fa";
 
+interface EditCourseForm {
+  courseName: string | null;
+  courseID: string | null;
+  description: string | null;
+}
+
 interface ProfileEditActionsProps {
   profile: Course;
+  editCourseForm: EditCourseForm;
   setEditMode: (editMode: boolean) => void;
   setProfile: (profile: Course | null) => void;
+  EditCourse: (id: string) => void;
   DeleteCourse: (id: string) => void;
 }
 
 const ProfileEditActions: React.FC<ProfileEditActionsProps> = ({
   profile,
+  editCourseForm,
   setEditMode,
   setProfile,
+  EditCourse,
   DeleteCourse,
 }) => {
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-
   return (
     <div className="flex flex-row py-2 space-x-2">
       <button
-        onClick={() => setOpenDeleteModal(true)}
-        className="flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-green-600 rounded-full p-2"
+        onClick={() => {
+          console.log(editCourseForm);
+          EditCourse(String(profile._id));
+          setProfile(null);
+        }}
+        disabled={
+          (editCourseForm.courseName === null ||
+            editCourseForm.courseName === "") &&
+          (editCourseForm.courseID === null ||
+            editCourseForm.courseID === "") &&
+          (editCourseForm.description === null ||
+            editCourseForm.description === "")
+        }
+        className="flex justify-end w-full disabled:bg-gray-500 first-letter:font-bold text-3xl text-white disabled:text-gray-200 hover:text-black transition-colors bg-green-600 rounded-full p-2 shadow-lg"
       >
         <FaSave />
       </button>
       <button
         onClick={() => setEditMode(false)}
-        className="flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-yellow-400 rounded-full p-2"
+        className="flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-yellow-400 rounded-full p-2 shadow-lg"
       >
         <IoClose />
       </button>
