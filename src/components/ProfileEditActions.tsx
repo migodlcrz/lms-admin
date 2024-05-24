@@ -8,9 +8,11 @@ import { Course } from "../interfaces/CourseInterface";
 import { FaSave } from "react-icons/fa";
 
 interface EditCourseForm {
-  courseName: string | null;
-  courseID: string | null;
-  description: string | null;
+  courseName?: string | null;
+  courseID?: string | null;
+  description?: string | null;
+  tier?: string | null;
+  isPublished?: boolean | null;
 }
 
 interface ProfileEditActionsProps {
@@ -41,6 +43,8 @@ const ProfileEditActions: React.FC<ProfileEditActionsProps> = ({
             courseName: null,
             courseID: null,
             description: null,
+            tier: null,
+            isPublished: null,
           });
           EditCourse(String(profile._id));
         }}

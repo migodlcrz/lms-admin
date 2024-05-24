@@ -20,9 +20,11 @@ import ProfileActions from "../components/ProfileActions";
 import ProfileEditActions from "../components/ProfileEditActions";
 
 interface EditCourseForm {
-  courseName: string | null;
-  courseID: string | null;
-  description: string | null;
+  courseName?: string | null;
+  courseID?: string | null;
+  description?: string | null;
+  tier?: string | null;
+  isPublished?: boolean | null;
 }
 
 const CoursePage = (props: React.PropsWithChildren) => {
@@ -113,6 +115,27 @@ const CoursePage = (props: React.PropsWithChildren) => {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editCourseForm),
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      return toast.error(json.error);
+    }
+
+    toast.success(json.message);
+    fetchCourse();
+    setEditMode(false);
+    setProfile(null);
+  };
+
+  const updatePublishStatus = async (_id: string, status: boolean) => {
+    console.log("PUMASOK SA UPDATE");
+    console.log(JSON.stringify({ isPublished: String(status) }));
+    const response = await fetch(`${port}/api/course/edit/${_id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isPublished: String(status) }),
     });
 
     const json = await response.json();
@@ -240,8 +263,11 @@ const CoursePage = (props: React.PropsWithChildren) => {
                 ) : (
                   <ProfileActions
                     profile={profile}
+                    editCourseForm={editCourseForm}
+                    setEditCourseForm={setEditCourseForm}
                     setEditMode={setEditMode}
                     setProfile={setProfile}
+                    updatePublishStatus={updatePublishStatus}
                     DeleteCourse={DeleteCourse}
                   />
                 )}
@@ -438,6 +464,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
                         description={course.description}
                         tier={course.tier}
                         publisher={course.publisher!}
+                        isPublished={course.isPublished!}
                       />
                     </tr>
                   ))}

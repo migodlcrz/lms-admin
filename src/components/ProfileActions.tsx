@@ -6,17 +6,31 @@ import Modal from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import { Course } from "../interfaces/CourseInterface";
 
+interface EditCourseForm {
+  courseName?: string | null;
+  courseID?: string | null;
+  description?: string | null;
+  tier?: string | null;
+  isPublished?: boolean | null;
+}
+
 interface ProfileActionsProps {
   profile: Course;
+  editCourseForm: EditCourseForm;
+  setEditCourseForm: (editCourseForm: EditCourseForm) => void;
   setEditMode: (editMode: boolean) => void;
   setProfile: (profile: Course | null) => void;
+  updatePublishStatus: (id: string, status: boolean) => void;
   DeleteCourse: (id: string) => void;
 }
 
 const ProfileActions: React.FC<ProfileActionsProps> = ({
   profile,
+  editCourseForm,
+  setEditCourseForm,
   setEditMode,
   setProfile,
+  updatePublishStatus,
   DeleteCourse,
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
@@ -24,20 +38,38 @@ const ProfileActions: React.FC<ProfileActionsProps> = ({
   return (
     <div className="flex flex-row py-2 space-x-2">
       <button
+        onClick={() => {
+          updatePublishStatus(String(profile._id), !profile.isPublished);
+        }}
+        className={`tooltip flex justify-end w-full first-letter:font-bold text-3xl hover:text-black transition-colors rounded-full p-2 shadow-lg px-4 ${
+          profile.isPublished
+            ? "bg-gray-400 text-black"
+            : "bg-green-600 text-white"
+        }`}
+        data-tip="Publish Course"
+      >
+        <p className="text-xl font-semibold">
+          {profile.isPublished ? "Unpublish" : "Publish"}
+        </p>
+      </button>
+      <button
         onClick={() => setOpenDeleteModal(true)}
-        className="flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-red-600 rounded-full p-2 shadow-lg"
+        className="tooltip flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-red-600 rounded-full p-2 shadow-lg"
+        data-tip="Delete"
       >
         <FaRegTrashCan />
       </button>
       <button
         onClick={() => setEditMode(true)}
-        className="flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-yellow-400 rounded-full p-2 shadow-lg"
+        className="tooltip flex justify-end w-full first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-yellow-400 rounded-full p-2 shadow-lg"
+        data-tip="Edit"
       >
         <LuPencilLine />
       </button>
       <button
         onClick={() => setProfile(null)}
-        className="flex justify-end w-full first-letter:font-bold text-3xl bg-fuchsia text-white hover:text-black transition-colors rounded-full p-2 shadow-lg"
+        className="tooltip flex justify-end w-full first-letter:font-bold text-3xl bg-fuchsia text-white hover:text-black transition-colors rounded-full p-2 shadow-lg"
+        data-tip="Close"
       >
         <IoClose />
       </button>

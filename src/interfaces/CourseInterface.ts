@@ -22,7 +22,16 @@ interface Course {
   publisher?: string;
   tier: string;
   description: string;
+  isPublished?: boolean;
   createdAt?: string;
   modules?: Module[];
   students?: { id: string }[];
+}
+
+export interface EditCourseForm {
+  courseName?: string | null;
+  courseID?: string | null;
+  description?: string | null;
+  tier?: string | null;
+  isPublished?: boolean | null;
 }
