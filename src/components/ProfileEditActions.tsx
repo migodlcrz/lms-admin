@@ -16,6 +16,7 @@ interface EditCourseForm {
 interface ProfileEditActionsProps {
   profile: Course;
   editCourseForm: EditCourseForm;
+  setEditCourseForm: (editCourseForm: EditCourseForm) => void;
   setEditMode: (editMode: boolean) => void;
   setProfile: (profile: Course | null) => void;
   EditCourse: (id: string) => void;
@@ -25,6 +26,7 @@ interface ProfileEditActionsProps {
 const ProfileEditActions: React.FC<ProfileEditActionsProps> = ({
   profile,
   editCourseForm,
+  setEditCourseForm,
   setEditMode,
   setProfile,
   EditCourse,
@@ -35,8 +37,12 @@ const ProfileEditActions: React.FC<ProfileEditActionsProps> = ({
       <button
         onClick={() => {
           console.log(editCourseForm);
+          setEditCourseForm({
+            courseName: null,
+            courseID: null,
+            description: null,
+          });
           EditCourse(String(profile._id));
-          setProfile(null);
         }}
         disabled={
           (editCourseForm.courseName === null ||

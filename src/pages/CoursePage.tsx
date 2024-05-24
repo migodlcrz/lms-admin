@@ -124,6 +124,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
     toast.success(json.message);
     fetchCourse();
     setEditMode(false);
+    setProfile(null);
   };
 
   //handle delete course
@@ -230,6 +231,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
                   <ProfileEditActions
                     profile={profile}
                     editCourseForm={editCourseForm}
+                    setEditCourseForm={setEditCourseForm}
                     setEditMode={setEditMode}
                     setProfile={setProfile}
                     EditCourse={EditCourse}
