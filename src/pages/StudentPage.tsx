@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import AdminHeader from "../components/AdminHeader";
+import { APP_URL } from "../Url";
 
 interface User {
   _id: string;
@@ -11,7 +12,7 @@ interface User {
 }
 
 const StudentPage = () => {
-  const port = process.env.REACT_APP_URL;
+  const port = APP_URL;
   const [users, setUsers] = useState<User[] | null>(null);
   const [profile, setProfile] = useState<User | null>(null);
 

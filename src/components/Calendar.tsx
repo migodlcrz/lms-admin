@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { MdDeleteOutline } from "react-icons/md";
+import { APP_URL } from "../Url";
 
 // Utility function to get the number of days in a month
 const getDaysInMonth = (year: number, month: number): number => {
@@ -20,7 +21,7 @@ interface TodoItem {
 
 const CustomCalendar: React.FC = () => {
   const { user } = useAuthContext();
-  const port = process.env.REACT_APP_URL;
+  const port = APP_URL;
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth();

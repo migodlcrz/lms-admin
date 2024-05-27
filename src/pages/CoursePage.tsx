@@ -18,6 +18,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { IoMdSave } from "react-icons/io";
 import ProfileActions from "../components/ProfileActions";
 import ProfileEditActions from "../components/ProfileEditActions";
+import { APP_URL } from "../Url";
 
 interface EditCourseForm {
   courseName?: string | null;
@@ -29,7 +30,7 @@ interface EditCourseForm {
 
 const CoursePage = (props: React.PropsWithChildren) => {
   const { user } = useAuthContext();
-  const port = process.env.REACT_APP_URL;
+  const port = APP_URL;
   const [courses, setCourses] = useState<Course[] | null>(null);
   const [profile, setProfile] = useState<Course | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);

@@ -1,10 +1,11 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import LoginForm from "../components/LoginForm";
 import { motion } from "framer-motion";
-import heroimage from "../images/hero-image.jpg";
+import { APP_URL } from "../Url";
+// import heroimage from "/hero-image.jpg";
 
 const LandingPage = () => {
-  const port = process.env.REACT_APP_URL;
+  const port = APP_URL;
   console.log("PORT: ", port);
   return (
     <>
