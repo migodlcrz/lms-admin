@@ -298,7 +298,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
                             handleEditForm("courseName", e.target.value);
                           }}
                           type="text"
-                          className="input border-fuchsia border-2 w-1/2"
+                          className="input border-fuchsia border-2 w-1/2 bg-white"
                           placeholder={profile.courseName}
                         />
                       </div>
@@ -313,7 +313,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
                             handleEditForm("courseID", e.target.value);
                           }}
                           type="text"
-                          className="input border-fuchsia border-2 w-1/2"
+                          className="input border-fuchsia border-2 w-1/2 bg-white"
                           placeholder={profile.courseID}
                         />
                       </div>
@@ -322,7 +322,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
                           Description:
                         </label>
                         <textarea
-                          className="textarea textarea-bordered border-2 resize-none border-fuchsia w-1/2"
+                          className="textarea textarea-bordered border-2 resize-none border-fuchsia w-1/2 bg-white"
                           placeholder={profile.description}
                           onChange={(
                             e: React.ChangeEvent<HTMLTextAreaElement>
@@ -413,7 +413,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
                   <div className="relative">
                     <input
                       type="text"
-                      className="input rounded-xl pl-10 pr-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="input rounded-xl pl-10 pr-4 py-2 bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Search..."
                     />
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -424,7 +424,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
 
                 <div className="flex flex-row items-center justify-end space-x-3 w-1/2">
                   <h2 className="font-bold text-white text-2xl">Sort:</h2>
-                  <select className="select w-full max-w-xs">
+                  <select className="select w-full max-w-xs bg-white">
                     <option disabled selected>
                       Pick your favorite Simpson
                     </option>
@@ -448,7 +448,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
                     bounce: 0.4,
                   },
                 }}
-                className="flex flex-wrap items-center justify-center w-full  h-full overflow-y-scroll bg-white border-4 border-fuchsia-800 rounded-xl"
+                className="flex flex-wrap items-center justify-center w-full h-full overflow-y-scroll bg-white border-4 border-fuchsia-800 rounded-xl"
                 style={{ scrollbarColor: "", scrollbarWidth: "thin" }}
               >
                 {courses &&

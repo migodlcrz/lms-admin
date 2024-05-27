@@ -83,7 +83,7 @@ const LoginForm = () => {
         <input
           type="text"
           placeholder="Email"
-          className="input-md w-full border-fuchsia border-2 rounded-xl shadow-xl"
+          className="input-md w-full border-fuchsia border-2 rounded-xl shadow-xl bg-white"
           data-testid=""
           value={loginForm.email}
           onChange={(e) => {
@@ -93,7 +93,7 @@ const LoginForm = () => {
         <input
           type={seePassword ? "text" : "password"}
           placeholder="Password"
-          className="input-md w-full border-fuchsia border-2 rounded-xl shadow-xl"
+          className="input-md w-full border-fuchsia border-2 rounded-xl shadow-xl bg-white"
           data-testid=""
           value={loginForm.password}
           onChange={(e) => {

@@ -67,7 +67,7 @@ const RegisterForm = () => {
             <input
               type="text"
               placeholder="Full Name"
-              className="input-md"
+              className="input-md bg-white"
               data-testid=""
               value={regForm.name}
               onChange={(e) => {
@@ -77,7 +77,7 @@ const RegisterForm = () => {
             <input
               type="text"
               placeholder="Email"
-              className="input-md"
+              className="input-md bg-white"
               data-testid=""
               value={regForm.email}
               onChange={(e) => {
@@ -87,7 +87,7 @@ const RegisterForm = () => {
             <input
               type={seePassword ? "text" : "password"}
               placeholder="Password"
-              className="input-md"
+              className="input-md bg-white"
               data-testid=""
               value={regForm.password}
               onChange={(e) => {

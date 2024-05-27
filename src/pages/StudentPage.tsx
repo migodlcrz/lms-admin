@@ -63,7 +63,7 @@ const StudentPage = () => {
             <div className="flex bg-cerulean w-full p-2">
               <div className="flex flex-row space-x-3">
                 <input
-                  className="input rounded-none border-slate-200 border-2"
+                  className="input rounded-none border-slate-200 border-2 bg-white"
                   placeholder="Search a user"
                   type="text"
                   name=""

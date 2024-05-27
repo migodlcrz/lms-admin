@@ -23,12 +23,12 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
   };
 
   return (
-    <div className="flex flex-col mt-10 space-y-2 w-[48rem]">
+    <div className="flex flex-col mt-10 space-y-2 w-[40rem]">
       <form className="flex flex-col form space-y-2" onSubmit={AddCourse}>
         <p className="text-black font-bold">Course ID:</p>
         <input
           onChange={handleFormChange}
-          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia"
+          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia bg-white"
           type="text"
           name="courseID"
           value={courseForm.courseID}
@@ -37,7 +37,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
         <p className="text-black font-bold">Course Name:</p>
         <input
           onChange={handleFormChange}
-          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia"
+          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia bg-white"
           type="text"
           name="courseName"
           value={courseForm.courseName}
@@ -84,7 +84,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
         <p className="text-black font-bold">Description:</p>
         <input
           onChange={handleFormChange}
-          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia"
+          className="input input-bordered input-primary rounded-xl border-2 border-fuchsia bg-white"
           type="text"
           name="description"
           value={courseForm.description}

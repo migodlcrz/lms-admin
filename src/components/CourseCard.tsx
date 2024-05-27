@@ -31,7 +31,7 @@ const CourseCard: React.FC<CourseProps> = ({
         onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
       >
         <div
-          className={`card w-80 bg-base-100 shadow-xl h-96 ${
+          className={`card w-80 shadow-xl h-96  bg-white ${
             isPublished ? "border-4 border-fuchsia-700" : ""
           }`}
         >
@@ -69,11 +69,13 @@ const CourseCard: React.FC<CourseProps> = ({
               </div>
               <div
                 className={`badge ${
-                  isPublished ? "bg-fuchsia-700 shadow-lg" : "border-gray-400"
+                  isPublished
+                    ? "bg-fuchsia-700 shadow-lg"
+                    : "bg-white border-gray-500"
                 }`}
               >
                 <p
-                  className={`${isPublished ? "text-white" : "text-gray-400"}`}
+                  className={`${isPublished ? "text-white" : "text-gray-500"}`}
                 >
                   {isPublished ? "Published" : "Not Published"}
                 </p>
