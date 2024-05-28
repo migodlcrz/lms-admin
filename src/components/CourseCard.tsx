@@ -53,15 +53,15 @@ const CourseCard: React.FC<CourseProps> = ({
             <p className="text-black">{description}</p>
             <div className="card-actions justify-end">
               <div
-                className={`badge 
-                ${tier === "Free" && "bg-black text-white font-semibold"} 
+                className={`badge font-semibold
+                ${tier === "Free" && "bg-black text-white"} 
                 ${
                   tier === "Basic" &&
-                  "bg-gradient-to-r from-harvest_gold-400 via-harvest_gold-600 to-harvest_gold-800 text-black font-semibold"
+                  "bg-gradient-to-r from-harvest_gold-400 via-harvest_gold-600 to-harvest_gold-800 text-black"
                 }
                 ${
                   tier === "Premium" &&
-                  "bg-gradient-to-r from-cyan-600 via-cyan-500 to-cyan-400 shadow-lgtext-black font-semibold"
+                  "bg-gradient-to-r from-cyan-600 via-cyan-500 to-cyan-400 shadow-lg text-black"
                 }
                 `}
               >
