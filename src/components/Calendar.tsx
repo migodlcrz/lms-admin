@@ -45,23 +45,23 @@ const CustomCalendar: React.FC = () => {
 
   // Function to fetch and set the to-do list for the selected date
   const fetchTodoList = async (date: Date) => {
-    console.log(user._id);
-    try {
-      const response = await fetch(`${port}/api/user/todo/${user.user_._id}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch to-do list");
-      }
-      const data = await response.json();
-      // Convert dates to Date objects
-      const todosWithDates = data.todos.map((todo: any) => ({
-        ...todo,
-        date: new Date(todo.date),
-      }));
-      setTodoList(todosWithDates);
-    } catch (error) {
-      console.error("Error fetching to-do list:", error);
-      setTodoList([]);
-    }
+    // console.log(user._id);
+    // try {
+    //   const response = await fetch(`${port}/api/user/todo/${user.user_._id}`);
+    //   if (!response.ok) {
+    //     throw new Error("Failed to fetch to-do list");
+    //   }
+    //   const data = await response.json();
+    //   // Convert dates to Date objects
+    //   const todosWithDates = data.todos.map((todo: any) => ({
+    //     ...todo,
+    //     date: new Date(todo.date),
+    //   }));
+    //   setTodoList(todosWithDates);
+    // } catch (error) {
+    //   console.error("Error fetching to-do list:", error);
+    //   setTodoList([]);
+    // }
   };
 
   const addToDo = async (e: React.FormEvent) => {

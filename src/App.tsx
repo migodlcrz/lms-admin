@@ -18,6 +18,7 @@ import CoursePage from "./pages/CoursePage";
 import SettingsPage from "./pages/SettingsPage";
 import "react-responsive-modal/styles.css";
 import { ToastContainer } from "react-toastify";
+import StudentDetail from "./components/StudentDetail";
 
 function App() {
   return (
@@ -88,6 +89,19 @@ function AppContent() {
               <div className="flex flex-row">
                 <Sidebar />
                 <StudentPage />
+              </div>
+            ) : (
+              <Navigate to="/no-access" />
+            )
+          }
+        />
+        <Route
+          path={"/students/:studentId"}
+          element={
+            user ? (
+              <div className="flex flex-row">
+                <Sidebar />
+                <StudentDetail />
               </div>
             ) : (
               <Navigate to="/no-access" />
