@@ -137,20 +137,34 @@ const StudentDetail = () => {
         </div>
         <div className="flex flex-col space-y-1 w-full h-full p-2 rounded-xl">
           {userCourses?.length !== 0 ? (
-            userCourses.map((course, index) => {
-              return (
-                <div
-                  onClick={() => {
-                    unenrollUser(course._id);
-                  }}
-                  className="w-full bg-poly-bg-fuchsia p-2 rounded-2xl"
-                >
-                  <div className="flex w-full bg-white rounded-xl p-2">
-                    {course.courseName}
-                  </div>
-                </div>
-              );
-            })
+            <table className="table">
+              <thead className="sticky top-0 bg-fuchsia shadow-md">
+                <tr className="text-black">
+                  <th className="font-bold text-lg">User</th>
+                  <th className="font-bold text-lg">Name</th>
+                  <th className="font-bold text-lg">Modules</th>
+                </tr>
+              </thead>
+              <tbody className="">
+                {userCourses.map((course, index) => {
+                  return (
+                    <tr
+                      onClick={() => {
+                        unenrollUser(course._id);
+                      }}
+                      key={index}
+                      className={`group hover:bg-gray-300 ${
+                        index % 2 === 0 ? "bg-white" : "bg-fuchsia-300"
+                      }`}
+                    >
+                      <th>{index + 1}</th>
+                      <td className="font-bold">{course.courseName}</td>
+                      <td>{course.modules?.length}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           ) : (
             <div className="flex items-center justify-center w-full h-full">
               <h2 className="text-black font-bold text-2xl">

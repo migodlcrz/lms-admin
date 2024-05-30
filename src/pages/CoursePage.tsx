@@ -19,6 +19,7 @@ import { IoMdSave } from "react-icons/io";
 import ProfileActions from "../components/ProfileActions";
 import ProfileEditActions from "../components/ProfileEditActions";
 import { APP_URL } from "../Url";
+import { useNavigate } from "react-router-dom";
 
 interface EditCourseForm {
   courseName?: string | null;
@@ -31,6 +32,8 @@ interface EditCourseForm {
 const CoursePage = (props: React.PropsWithChildren) => {
   const { user } = useAuthContext();
   const port = APP_URL;
+  const navigate = useNavigate();
+
   const [courses, setCourses] = useState<Course[] | null>(null);
   const [profile, setProfile] = useState<Course | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -455,7 +458,8 @@ const CoursePage = (props: React.PropsWithChildren) => {
                   courses.map((course, index) => (
                     <tr
                       onClick={() => {
-                        setProfile(course);
+                        // setProfile(course);
+                        navigate(`/courses/${course._id}`);
                       }}
                       key={index}
                     >

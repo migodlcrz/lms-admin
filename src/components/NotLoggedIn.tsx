@@ -19,9 +19,9 @@ const NotLoggedIn = () => {
           onClick={() => {
             navigate("/");
           }}
-          className="btn p-2 rounded-none bg-cerulean text-white shadow-lg mt-4"
+          className="btn bg-fuchsia text-white shadow-lg mt-4 shadow-xl"
         >
-          Back to home
+          <h2 className="text-black font-bold text-xl">Back to home</h2>
         </button>
       </div>
     </div>

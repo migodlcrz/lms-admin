@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import React from "react";
+import Guy from "../images/guy.png";
 
 interface CourseProps {
   courseID: string;
@@ -31,54 +32,56 @@ const CourseCard: React.FC<CourseProps> = ({
         onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
       >
         <div
-          className={`card w-80 shadow-xl h-96  bg-white ${
-            isPublished ? "border-4 border-fuchsia-700" : ""
+          className={`w-80 h-80 shadow-xl rounded-3xl p-2 ${
+            isPublished ? "bg-fuchsia-700" : "bg-white"
           }`}
         >
-          <figure>
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-              alt="Shoes"
-            />
-          </figure>
-          <div className="card-body p-3">
-            <h2 className="card-title flex flex-row justify-center items-center">
-              <p
-                className="text-black w-full truncate tooltip"
-                data-tip={courseName}
-              >
-                {courseName}
-              </p>
-            </h2>
-            <p className="text-black">{description}</p>
-            <div className="card-actions justify-end">
-              <div
-                className={`badge font-semibold
-                ${tier === "Free" && "bg-black text-white"} 
-                ${
-                  tier === "Basic" &&
-                  "bg-gradient-to-r from-harvest_gold-400 via-harvest_gold-600 to-harvest_gold-800 text-black"
-                }
-                ${
-                  tier === "Premium" &&
-                  "bg-gradient-to-r from-cyan-600 via-cyan-500 to-cyan-400 shadow-lg text-black"
-                }
-                `}
-              >
-                <p>{tier}</p>
-              </div>
-              <div
-                className={`badge ${
-                  isPublished
-                    ? "bg-fuchsia-700 shadow-lg"
-                    : "bg-white border-gray-500"
-                }`}
-              >
+          <div
+            className="w-full h-full rounded-2xl bg-cover bg-center"
+            style={{
+              backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 20%, transparent 50%), url(${Guy})`,
+            }}
+          >
+            <div className="flex flex-col p-3 h-full w-full justify-between">
+              <h2 className="flex flex-row justify-center items-center">
                 <p
-                  className={`${isPublished ? "text-white" : "text-gray-500"}`}
+                  className="text-white font-bold w-full truncate tooltip text-start"
+                  data-tip={courseName}
                 >
-                  {isPublished ? "Published" : "Not Published"}
+                  {courseName}
                 </p>
+              </h2>
+              <div className="card-actions justify-end">
+                <div
+                  className={`badge font-semibold
+              ${tier === "Free" && "bg-black text-white"} 
+              ${
+                tier === "Basic" &&
+                "bg-gradient-to-r from-harvest_gold-400 via-harvest_gold-600 to-harvest_gold-800 text-black"
+              }
+              ${
+                tier === "Premium" &&
+                "bg-gradient-to-r from-cyan-600 via-cyan-500 to-cyan-400 shadow-lg text-black"
+              }
+              `}
+                >
+                  <p>{tier}</p>
+                </div>
+                <div
+                  className={`badge ${
+                    isPublished
+                      ? "bg-fuchsia-700 shadow-lg"
+                      : "bg-white border-gray-500"
+                  }`}
+                >
+                  <p
+                    className={`${
+                      isPublished ? "text-white" : "text-gray-500"
+                    }`}
+                  >
+                    {isPublished ? "Published" : "Not Published"}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
