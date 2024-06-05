@@ -55,7 +55,10 @@ const StudentPage = () => {
     fetchUser();
   }, []);
   return (
-    <div className="flex flex-row w-full h-screen space-y-0 space-x-4 p-6 bg-poly-bg bg-cover bg-center">
+    <div
+      className="flex flex-row w-full h-screen space-y-0 space-x-4 p-6 bg-poly-bg bg-cover bg-center"
+      data-testid="students-page"
+    >
       <div className="flex flex-col items-start shadow-xl space-y-3 border-2 bg-slate-50 rounded-xl w-3/4 h-full p-3">
         <div className="w-full h-1/3 bg-red-400"></div>
         <div className="flex flex-row w-full h-2/3 space-x-3">
@@ -114,6 +117,7 @@ const StudentPage = () => {
                                   navigate(`/students/${user._id}`);
                                 }}
                                 className="flex justify-center group relative text-2xl transition-color duration-300 rounded-xl p-2 w-full"
+                                data-testid="select-student-{id}"
                               >
                                 <span className="absolute inset-0 flex text-lg font-bold items-center justify-center w-full h-full bg-yellow-400 text-white rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                   Details
@@ -129,6 +133,7 @@ const StudentPage = () => {
                                   handleDelete(user._id);
                                 }}
                                 className="flex justify-center group relative text-2xl transition-color duration-300 rounded-xl p-2 w-full"
+                                data-testid="select-student-{id}"
                               >
                                 <span className="absolute inset-0 flex text-lg font-bold items-center justify-center w-full h-full bg-red-600 text-white rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                   Delete

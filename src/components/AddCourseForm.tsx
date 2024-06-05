@@ -23,7 +23,10 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
   };
 
   return (
-    <div className="flex flex-col mt-10 space-y-2 w-[40rem]">
+    <div
+      className="flex flex-col mt-10 space-y-2 w-[40rem]"
+      data-testid="add-course"
+    >
       <form className="flex flex-col form space-y-2" onSubmit={AddCourse}>
         <p className="text-black font-bold">Course ID:</p>
         <input
@@ -33,6 +36,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           name="courseID"
           value={courseForm.courseID}
           disabled={loading}
+          data-testid="course-code"
         />
         <p className="text-black font-bold">Course Name:</p>
         <input
@@ -42,10 +46,14 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           name="courseName"
           value={courseForm.courseName}
           disabled={loading}
+          data-testid="course-title"
         />
         <p className="text-black font-bold">Tier:</p>
         <div className="flex flex-col">
-          <div className="w-full flex flex-row justify-around">
+          <div
+            className="w-full flex flex-row justify-around"
+            data-testid="course-tier"
+          >
             <div className="flex flex-row items-center space-x-3">
               <input
                 type="radio"
@@ -54,6 +62,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                 checked={selectedOption === "Free"}
                 onChange={handleOptionChange}
                 className="radio checked:bg-fuchsia"
+                data-testid="free-tier"
               />
               <label className="text-black">Free</label>
             </div>
@@ -65,6 +74,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                 checked={selectedOption === "Basic"}
                 onChange={handleOptionChange}
                 className="radio checked:bg-fuchsia"
+                data-testid="basic-tier"
               />
               <label>Basic</label>
             </div>
@@ -76,6 +86,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                 checked={selectedOption === "Premium"}
                 onChange={handleOptionChange}
                 className="radio checked:bg-fuchsia-"
+                data-testid="premium-tier"
               />
               <label>Premium</label>
             </div>
@@ -89,11 +100,13 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
           name="description"
           value={courseForm.description}
           disabled={loading}
+          data-testid="course-details"
         />
         <button
           className="btn bg-fuchsia text-white rounded-xl"
           type="submit"
           disabled={loading}
+          data-testid="create-course"
         >
           {loading ? (
             <div className="grid place-items-center h-full w-full">

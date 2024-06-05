@@ -68,9 +68,10 @@ const LoginForm = () => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full p-24 bg-slate-50">
-      {/* <div className="grid place-items-center h-screen bg-fuchsia-50"> */}
-      {/* <div className="bg-white shadow-xl p-5 min-w-[60%] border-t-4 border-fuchsia"> */}
+    <div
+      className="flex flex-col items-center justify-center h-full w-full p-24 bg-slate-50"
+      data-testid="login-page"
+    >
       <div className="flex flex-row ">
         <h1 className="text-xl font-bold my-4 text-center text-black">
           Administrator Login
@@ -84,21 +85,21 @@ const LoginForm = () => {
           type="text"
           placeholder="Email"
           className="input-md w-full border-fuchsia border-2 rounded-xl shadow-xl bg-white"
-          data-testid=""
           value={loginForm.email}
           onChange={(e) => {
             changeHandler("email", e.target.value);
           }}
+          data-testid="email-login-field"
         />
         <input
           type={seePassword ? "text" : "password"}
           placeholder="Password"
           className="input-md w-full border-fuchsia border-2 rounded-xl shadow-xl bg-white"
-          data-testid=""
           value={loginForm.password}
           onChange={(e) => {
             changeHandler("password", e.target.value);
           }}
+          data-testid="password-login-field"
         />
         <div className="text-sm">
           <input
@@ -120,7 +121,7 @@ const LoginForm = () => {
               setLoading(true);
             }}
             className="btn bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 rounded-xl text-white font-bold cursor-pointer py-2 hover:bg-fuchsia-300 hover:text-slate-200 w-full shadow-md"
-            data-testid=""
+            data-testid="login-button"
           >
             {loading ? (
               <span className="loading loading-spinner loading-sm" />
@@ -144,6 +145,7 @@ const LoginForm = () => {
           <button
             onClick={() => handleGoogleLogin()}
             className="flex flex-row items-center justify-center space-x-4 border-[0.5px] border-black w-full p-2 hover:bg-gray-500 transition duration-300 rounded-xl"
+            data-testid="google-login-button"
           >
             <FcGoogle className="text-4xl" />
             <span className="font-bold text-black">Sign in with Google</span>

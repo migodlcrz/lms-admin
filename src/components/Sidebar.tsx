@@ -21,7 +21,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sticky flex top-0 h-screen z-50">
+    <div className="sticky flex top-0 h-screen z-50" data-testid="sidebar-page">
       <div
         onClick={() => !isOpen && toggleSidebar()}
         className={`flex items-start transition-all duration-300 bg-oslo_gray-950 z-50 ${
@@ -86,6 +86,7 @@ const Sidebar = () => {
                   : isOpen &&
                     "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-100 hover:via-fuchsia-300 hover:to-fuchsia-500"
               }`}
+              data-testid="courses-page"
             >
               <li className="grid place-items-center py-2 h-12 text-4xl relative">
                 <MdOutlineLibraryBooks />
@@ -108,6 +109,7 @@ const Sidebar = () => {
                   : isOpen &&
                     "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-100 hover:via-fuchsia-300 hover:to-fuchsia-500"
               }`}
+              data-testid="students-page"
             >
               <li className="grid place-items-center py-2 h-12 text-4xl relative">
                 <CgProfile />
@@ -121,6 +123,7 @@ const Sidebar = () => {
                 logout();
               }}
               className="btn"
+              data-testid="logout-button"
             >
               Logout
             </button>

@@ -237,6 +237,7 @@ const CourseDetails = () => {
                     id=""
                     className="input input-bordered border-fuchsia w-full h-10 py-1"
                     placeholder={courseDetail?.courseName}
+                    data-testid="course-name"
                   />
                   <h2 className="text-xl text-black font-bold">Course Id</h2>
                   <input
@@ -248,6 +249,7 @@ const CourseDetails = () => {
                     id=""
                     className="input input-bordered border-fuchsia w-full h-10 py-1"
                     placeholder={courseDetail?.courseID}
+                    data-testid="course-code"
                   />
                   <h2 className="text-xl text-black font-bold">
                     Course Description
@@ -258,6 +260,7 @@ const CourseDetails = () => {
                     }}
                     className="textarea textarea-bordered border-fuchsia h-full py-1"
                     placeholder={courseDetail?.description}
+                    data-testid="course-details"
                   ></textarea>
                 </motion.div>
               ) : (
@@ -308,6 +311,7 @@ const CourseDetails = () => {
                         editCourseForm.description === "")
                     }
                     className="flex justify-end disabled:bg-gray-500 first-letter:font-bold text-3xl text-white disabled:text-gray-200 hover:text-black transition-colors bg-green-600 rounded-full p-2 shadow-lg"
+                    data-testid="edit-course"
                   >
                     <FaSave />
                   </motion.button>
@@ -324,7 +328,7 @@ const CourseDetails = () => {
                     }}
                     onClick={() => setEditMode(false)}
                     className="tooltip flex justify-end first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-yellow-400 rounded-full p-2 shadow-lg"
-                    data-tip="Delete"
+                    data-tip="Back"
                   >
                     <IoArrowBackOutline />
                   </motion.button>
@@ -343,7 +347,7 @@ const CourseDetails = () => {
                         ? "bg-gray-400 text-black"
                         : "bg-green-600 text-white"
                     }`}
-                    data-tip="Publish Course"
+                    data-testid="publish-unpublish-course"
                   >
                     <p className="text-xl font-bold">
                       {courseDetail?.isPublished ? "Unpublish" : "Publish"}
@@ -353,6 +357,7 @@ const CourseDetails = () => {
                     onClick={() => setEditMode(true)}
                     className="tooltip flex justify-end first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-yellow-400 rounded-full p-2 shadow-lg"
                     data-tip="Edit"
+                    data-testid="edit-course"
                   >
                     <LuPencilLine />
                   </button>
@@ -360,6 +365,7 @@ const CourseDetails = () => {
                     onClick={() => setOpenDeleteModal(true)}
                     className="tooltip flex justify-end first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-red-600 rounded-full p-2 shadow-lg"
                     data-tip="Delete"
+                    data-testid="delete-course"
                   >
                     <FaRegTrashCan />
                   </button>
@@ -441,6 +447,7 @@ const CourseDetails = () => {
             <button
               onClick={() => setOpenDeleteModal(false)}
               className="btn text-black text-2xl font-semibold "
+              data-testid="cancel"
             >
               Cancel
             </button>
@@ -450,6 +457,7 @@ const CourseDetails = () => {
                 DeleteCourse(String(courseDetail?._id));
               }}
               className="btn text-white text-2xl font-semibold bg-fuchsia border-fuchsia hover:bg-red-600 hover:border-red-600 shadow-md"
+              data-testid="proceed"
             >
               Delete
             </button>
