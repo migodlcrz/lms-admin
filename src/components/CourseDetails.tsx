@@ -271,6 +271,10 @@ const CourseDetails = () => {
                     <span className="text-lg font-semibold">
                       {courseDetail?.description}
                     </span>
+                    Publisher:{" "}
+                    <span className="text-lg font-semibold">
+                      {courseDetail?.publisher}
+                    </span>
                   </h3>
                 </>
               )}
