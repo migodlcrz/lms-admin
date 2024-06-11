@@ -29,6 +29,9 @@ const CourseDetails = () => {
     courseID: null,
     description: null,
   });
+  const [page, setPage] = useState("Modules");
+  const [studentDeleteModal, setStudentDeleteModal] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
 
   const fetchCourse = async () => {
     const response = await fetch(`${port}/api/course/${courseId}`, {
@@ -393,49 +396,77 @@ const CourseDetails = () => {
               bounce: 0.4,
             },
           }}
-          className="flex flex-col w-full h-full bg-slate-50 rounded-xl p-3"
+          className="flex flex-col w-full h-full bg-slate-50 rounded-xl p-3 space-y-3"
         >
-          <div className="w-full">
-            <h2 className="text-2xl font-bold text-black">Users</h2>
+          <div className="flex flex-row w-full rounded-lg bg-slate-200 p-1">
+            <button
+              onClick={() => {
+                setPage("Modules");
+              }}
+              className={`w-1/2 rounded-md p-1 items-center justify-center text-center transition-colors duration-200 ${
+                page === "Modules" && " bg-fuchsia"
+              }`}
+            >
+              <h3 className="text-black font-semibold">Modules</h3>
+            </button>
+
+            <button
+              onClick={() => {
+                setPage("Enrollees");
+              }}
+              className={`w-1/2 rounded-md p-1 items-center justify-center text-center transition-colors duration-200 ${
+                page === "Enrollees" && " bg-fuchsia"
+              }`}
+            >
+              <h3 className="text-black font-semibold">Enrollees</h3>
+            </button>
           </div>
-          <div className="flex flex-col space-y-1 w-full h-full p-2 rounded-xl">
-            {courseUsers?.length !== 0 ? (
-              <table className="table">
-                <thead className="sticky top-0 bg-fuchsia shadow-md">
-                  <tr className="text-black">
-                    <th className="font-bold text-lg">User</th>
-                    <th className="font-bold text-lg">Name</th>
-                    <th className="font-bold text-lg">Email</th>
-                  </tr>
-                </thead>
-                <tbody className="">
-                  {courseUsers?.map((user, index) => (
-                    <tr
-                      onClick={() => {
-                        unenrollUser(user._id);
-                      }}
-                      key={index}
-                      className={`group hover:bg-gray-300 ${
-                        index % 2 === 0 ? "bg-white" : "bg-fuchsia-300"
-                      }`}
-                    >
-                      <th>{index + 1}</th>
-                      <td className="font-bold">
-                        {user.firstName} {user.lastName}
-                      </td>
-                      <td>{user.email}</td>
+          {page === "Modules" && (
+            <div className="w-full h-full p-1">
+              Module 1, Module 2, Module 3
+            </div>
+          )}
+          {page === "Enrollees" && (
+            <div className="flex flex-col space-y-1 w-full h-full rounded-xl p-1">
+              {courseUsers?.length !== 0 ? (
+                <table className="table">
+                  <thead className="sticky top-0 bg-fuchsia shadow-md">
+                    <tr className="text-black">
+                      <th className="font-bold text-lg">User</th>
+                      <th className="font-bold text-lg">Name</th>
+                      <th className="font-bold text-lg">Email</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <div className="flex items-center justify-center w-full h-full">
-                <h2 className="text-black font-bold text-2xl">
-                  There are no users enrolled in this course
-                </h2>
-              </div>
-            )}
-          </div>
+                  </thead>
+                  <tbody className="">
+                    {courseUsers?.map((user, index) => (
+                      <tr
+                        onClick={() => {
+                          setStudentDeleteModal(true);
+                          setDeleteId(user._id);
+                        }}
+                        key={index}
+                        className={`group hover:bg-gray-300 ${
+                          index % 2 === 0 ? "bg-white" : "bg-fuchsia-300"
+                        }`}
+                      >
+                        <th>{index + 1}</th>
+                        <td className="font-bold">
+                          {user.firstName} {user.lastName}
+                        </td>
+                        <td>{user.email}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <div className="flex items-center justify-center w-full h-full">
+                  <h2 className="text-black font-bold text-2xl">
+                    There are no users enrolled in this course
+                  </h2>
+                </div>
+              )}
+            </div>
+          )}
         </motion.div>
       </div>
       <Modal
@@ -463,6 +494,41 @@ const CourseDetails = () => {
               onClick={() => {
                 setOpenDeleteModal(false);
                 DeleteCourse(String(courseDetail?._id));
+              }}
+              className="btn text-white text-2xl font-semibold bg-fuchsia border-fuchsia hover:bg-red-600 hover:border-red-600 shadow-md"
+              data-testid="proceed"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        open={studentDeleteModal}
+        onClose={() => setStudentDeleteModal(false)}
+        center
+        closeOnEsc
+        classNames={{
+          modal: "customModalClass",
+        }}
+      >
+        <div className="flex flex-col mt-10 space-y-2 w-[48rem] items-center justify-center">
+          <h2 className="text-black text-3xl font-bold w-full text-center">
+            Are you sure you want to delete this user?
+          </h2>
+          <div className="flex flex-row justify-evenly w-full">
+            <button
+              onClick={() => setStudentDeleteModal(false)}
+              className="btn text-black text-2xl font-semibold "
+              data-testid="cancel"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                setStudentDeleteModal(false);
+                unenrollUser(deleteId);
+                setDeleteId("");
               }}
               className="btn text-white text-2xl font-semibold bg-fuchsia border-fuchsia hover:bg-red-600 hover:border-red-600 shadow-md"
               data-testid="proceed"
