@@ -199,17 +199,17 @@ const CoursePage = (props: React.PropsWithChildren) => {
               </div>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, y: -30 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                transition: {
-                  type: "spring",
-                  duration: 1,
-                  delay: 0.1,
-                  bounce: 0.4,
-                },
-              }}
+              // initial={{ opacity: 0, y: -30 }}
+              // animate={{
+              //   opacity: 1,
+              //   y: 0,
+              //   transition: {
+              //     type: "spring",
+              //     duration: 1,
+              //     delay: 0.1,
+              //     bounce: 0.4,
+              //   },
+              // }}
               className="flex flex-wrap items-center justify-center w-full h-full overflow-y-scroll bg-white border-4 border-fuchsia-800 rounded-xl"
               style={{ scrollbarColor: "", scrollbarWidth: "thin" }}
             >

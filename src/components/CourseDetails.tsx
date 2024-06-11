@@ -338,42 +338,46 @@ const CourseDetails = () => {
                   </motion.button>
                 </>
               ) : (
-                <>
-                  <button
-                    onClick={() => {
-                      updatePublishStatus(
-                        String(courseDetail?._id),
+                <div className="flex flex-row w-full justify-between">
+                  <div className="flex flex-row">
+                    <button
+                      onClick={() => {
+                        updatePublishStatus(
+                          String(courseDetail?._id),
+                          courseDetail?.isPublished
+                        );
+                      }}
+                      className={`tooltip flex justify-end first-letter:font-bold text-3xl hover:text-black transition-colors rounded-full p-2 shadow-lg px-4 ${
                         courseDetail?.isPublished
-                      );
-                    }}
-                    className={`tooltip flex justify-end first-letter:font-bold text-3xl hover:text-black transition-colors rounded-full p-2 shadow-lg px-4 ${
-                      courseDetail?.isPublished
-                        ? "bg-gray-400 text-black"
-                        : "bg-green-600 text-white"
-                    }`}
-                    data-testid="publish-unpublish-course"
-                  >
-                    <p className="text-xl font-bold">
-                      {courseDetail?.isPublished ? "Unpublish" : "Publish"}
-                    </p>
-                  </button>
-                  <button
-                    onClick={() => setEditMode(true)}
-                    className="tooltip flex justify-end first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-yellow-400 rounded-full p-2 shadow-lg"
-                    data-tip="Edit"
-                    data-testid="edit-course"
-                  >
-                    <LuPencilLine />
-                  </button>
-                  <button
-                    onClick={() => setOpenDeleteModal(true)}
-                    className="tooltip flex justify-end first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-red-600 rounded-full p-2 shadow-lg"
-                    data-tip="Delete"
-                    data-testid="delete-course"
-                  >
-                    <FaRegTrashCan />
-                  </button>
-                </>
+                          ? "bg-gray-400 text-black"
+                          : "bg-green-600 text-white"
+                      }`}
+                      data-testid="publish-unpublish-course"
+                    >
+                      <p className="text-xl font-bold">
+                        {courseDetail?.isPublished ? "Unpublish" : "Publish"}
+                      </p>
+                    </button>
+                  </div>
+                  <div className="flex flex-row space-x-2">
+                    <button
+                      onClick={() => setEditMode(true)}
+                      className="tooltip flex justify-end first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-yellow-400 rounded-full p-2 shadow-lg"
+                      data-tip="Edit"
+                      data-testid="edit-course"
+                    >
+                      <LuPencilLine />
+                    </button>
+                    <button
+                      onClick={() => setOpenDeleteModal(true)}
+                      className="tooltip flex justify-end first-letter:font-bold text-3xl text-white hover:text-black transition-colors bg-red-600 rounded-full p-2 shadow-lg"
+                      data-tip="Delete"
+                      data-testid="delete-course"
+                    >
+                      <FaRegTrashCan />
+                    </button>
+                  </div>
+                </div>
               )}
             </div>
           )}
