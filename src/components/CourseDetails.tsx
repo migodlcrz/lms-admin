@@ -300,24 +300,43 @@ const CourseDetails = () => {
                       },
                     }}
                     onClick={() => {
-                      setEditCourseForm({
-                        courseName: null,
-                        courseID: null,
-                        description: null,
-                        tier: null,
-                        isPublished: null,
-                      });
-                      EditCourse(String(courseDetail?._id));
+                      if (
+                        (editCourseForm.courseName === null ||
+                          editCourseForm.courseName === "") &&
+                        (editCourseForm.courseID === null ||
+                          editCourseForm.courseID === "") &&
+                        (editCourseForm.description === null ||
+                          editCourseForm.description === "")
+                      ) {
+                        toast.error("No changed field");
+                      } else {
+                        setEditCourseForm({
+                          courseName: null,
+                          courseID: null,
+                          description: null,
+                          tier: null,
+                          isPublished: null,
+                        });
+                        EditCourse(String(courseDetail?._id));
+                      }
                     }}
-                    disabled={
+                    // disabled={
+                    //   (editCourseForm.courseName === null ||
+                    //     editCourseForm.courseName === "") &&
+                    //   (editCourseForm.courseID === null ||
+                    //     editCourseForm.courseID === "") &&
+                    //   (editCourseForm.description === null ||
+                    //     editCourseForm.description === "")
+                    // }
+                    className={`flex justify-end first-letter:font-bold text-3xl text-white disabled:text-gray-200 hover:text-black transition-colors bg-green-600 rounded-full p-2 shadow-lg ${
                       (editCourseForm.courseName === null ||
                         editCourseForm.courseName === "") &&
                       (editCourseForm.courseID === null ||
                         editCourseForm.courseID === "") &&
                       (editCourseForm.description === null ||
-                        editCourseForm.description === "")
-                    }
-                    className="flex justify-end disabled:bg-gray-500 first-letter:font-bold text-3xl text-white disabled:text-gray-200 hover:text-black transition-colors bg-green-600 rounded-full p-2 shadow-lg"
+                        editCourseForm.description === "") &&
+                      "bg-gray-500"
+                    }`}
                     data-testid="edit-course"
                   >
                     <FaSave />
