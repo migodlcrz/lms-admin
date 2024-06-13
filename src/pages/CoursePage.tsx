@@ -110,7 +110,20 @@ const CoursePage = (props: React.PropsWithChildren) => {
       className="flex flex-row w-full h-screen space-y-0 space-x-4 p-6 bg-poly-bg bg-cover bg-center"
       data-testid="courses-page"
     >
-      <div className="flex flex-col items-start shadow-xl space-y-3 border-2 bg-slate-50 rounded-xl w-3/4 h-full p-3">
+      <motion.div
+        initial={{ opacity: 0, x: -30 }}
+        animate={{
+          opacity: 1,
+          x: 0,
+          transition: {
+            type: "spring",
+            duration: 1,
+            delay: 0.2,
+            bounce: 0.4,
+          },
+        }}
+        className="flex flex-col items-start shadow-xl space-y-3 border-2 bg-slate-50 rounded-xl w-3/4 h-full p-3"
+      >
         <div className="flex flex-row w-full h-1/4">
           <div className="flex flex-row w-full space-x-3">
             <div className="flex flex-col items-start justify-start w-1/3 h-full shadow-md bg-poly-bg-fuchsia rounded-xl p-3">
@@ -157,20 +170,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
         </div>
         <div className="flex flex-col items-center justify-center w-full h-3/4 bg-poly-bg-fuchsia p-3 space-y-3 rounded-xl">
           <>
-            <motion.div
-              initial={{ opacity: 0, y: -30 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                transition: {
-                  type: "spring",
-                  duration: 1,
-                  delay: 0.1,
-                  bounce: 0.4,
-                },
-              }}
-              className="flex flex-row w-full"
-            >
+            <div className="flex flex-row w-full">
               <div className="flex flex-row space-x-2 w-1/2">
                 <div className="relative">
                   <input
@@ -197,19 +197,8 @@ const CoursePage = (props: React.PropsWithChildren) => {
                   <option>Maggie</option>
                 </select>
               </div>
-            </motion.div>
-            <motion.div
-              // initial={{ opacity: 0, y: -30 }}
-              // animate={{
-              //   opacity: 1,
-              //   y: 0,
-              //   transition: {
-              //     type: "spring",
-              //     duration: 1,
-              //     delay: 0.1,
-              //     bounce: 0.4,
-              //   },
-              // }}
+            </div>
+            <div
               className="flex flex-wrap items-center justify-center w-full h-full overflow-y-scroll bg-white border-4 border-fuchsia-800 rounded-xl"
               style={{ scrollbarColor: "", scrollbarWidth: "thin" }}
             >
@@ -232,11 +221,24 @@ const CoursePage = (props: React.PropsWithChildren) => {
                     />
                   </tr>
                 ))}
-            </motion.div>
+            </div>
           </>
         </div>
-      </div>
-      <div className="flex flex-row h-full w-1/4">
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, x: -30 }}
+        animate={{
+          opacity: 1,
+          x: 0,
+          transition: {
+            type: "spring",
+            duration: 1,
+            delay: 0.3,
+            bounce: 0.4,
+          },
+        }}
+        className="flex flex-row h-full w-1/4"
+      >
         <div className="h-full w-full">
           <div className="flex flex-col space-y-3 bg-oslo_gray-50 shadow-md h-full w-full rounded-xl p-6 items-center">
             <div className="flex flex-row space-x-3 w-full border-b-[1px] rounded-sm border-gray-300 pb-4 h-1/6">
@@ -266,7 +268,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

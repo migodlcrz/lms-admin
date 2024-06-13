@@ -19,6 +19,7 @@ import {
 import CustomCalendar from "../components/Calendar";
 import { useAuthContext } from "../hooks/useAuthContext";
 import animation from "../images/online.json";
+import { motion } from "framer-motion";
 // import "rsuite/dist/rsuite.min.css";
 
 const data = [
@@ -58,10 +59,21 @@ const DashboardPage = () => {
   const { user } = useAuthContext();
   return (
     <div className="flex flex-col space-y-2 lg:space-y-0 h-screen w-full">
-      {/* <div className="h-14 shadow-lg z-10">hello</div> */}
       <div className="flex flex-row h-full bg-poly-bg z-0 p-6">
-        <div className="w-3/4">
-          {/* Good day */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{
+            opacity: 1,
+            x: 0,
+            transition: {
+              type: "spring",
+              duration: 1,
+              delay: 0.2,
+              bounce: 0.4,
+            },
+          }}
+          className="w-3/4"
+        >
           <div className="flex flex-col w-full h-[10%]">
             <h1 className="text-white text-4xl">
               Good Day, <span className="text-fuchsia-600">{user.name_}</span>
@@ -70,8 +82,6 @@ const DashboardPage = () => {
               Here is your profile overview
             </h3>
           </div>
-          {/* <div className="flex-grow bg-yellow-400 h-[90%]">hello</div> */}
-          {/* Course progress */}
           <div className="flex flex-col h-[90%] w-full pr-6 space-y-6">
             <div className="flex flex-row h-28 bg-gradient-to-l items-center shadow-md from-fuchsia-400 via-fuchsia-500 to-fuchsia-600 rounded-xl py-3 px-7">
               <p className="text-fuchsia-50 font-bold w-4/5 text-xs md:text-xl">
@@ -139,9 +149,22 @@ const DashboardPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-row h-full w-1/4">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{
+            opacity: 1,
+            x: 0,
+            transition: {
+              type: "spring",
+              duration: 1,
+              delay: 0.3,
+              bounce: 0.4,
+            },
+          }}
+          className="flex flex-row h-full w-1/4"
+        >
           <div className="h-full w-full">
             {/* Profile */}
             <div className="flex flex-col space-y-3 bg-oslo_gray-50 shadow-md h-full w-full rounded-xl p-6 items-center">
@@ -172,7 +195,7 @@ const DashboardPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
