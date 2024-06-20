@@ -20,8 +20,9 @@ import CustomCalendar from "../components/Calendar";
 import { useAuthContext } from "../hooks/useAuthContext";
 import animation from "../images/online.json";
 import { motion } from "framer-motion";
-// import "rsuite/dist/rsuite.min.css";
-
+import { FaPerson } from "react-icons/fa6";
+import { FaBookOpen } from "react-icons/fa6";
+import { IoIosStats } from "react-icons/io";
 const data = [
   {
     subject: "Math",
@@ -55,11 +56,39 @@ const data = [
   },
 ];
 
+const barData = [
+  {
+    name: "Page A",
+    uv: 100,
+    pv: 72,
+  },
+  {
+    name: "Page B",
+    uv: 100,
+    pv: 23,
+  },
+  {
+    name: "Page C",
+    uv: 100,
+    pv: 90,
+  },
+  {
+    name: "Page D",
+    uv: 100,
+    pv: 45,
+  },
+  {
+    name: "Page E",
+    uv: 100,
+    pv: 80,
+  },
+];
+
 const DashboardPage = () => {
   const { user } = useAuthContext();
   return (
     <div className="flex flex-col space-y-2 lg:space-y-0 h-screen w-full">
-      <div className="flex flex-row h-full bg-poly-bg z-0 p-6">
+      <div className="flex flex-row h-full bg-raisin_black-300 z-0 p-6">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{
@@ -72,58 +101,98 @@ const DashboardPage = () => {
               bounce: 0.4,
             },
           }}
-          className="w-3/4"
+          className="flex flex-col w-3/4 space-y-1"
         >
-          <div className="flex flex-col w-full h-[10%]">
-            <h1 className="text-white text-4xl">
-              Good Day, <span className="text-fuchsia-600">{user.name_}</span>
-            </h1>
-            <h3 className="text-white font-semibold text-sm">
-              Here is your profile overview
-            </h3>
+          <div className="flex flex-col w-full">
+            <h1 className="text-white text-4xl font-semibold">Dashboard</h1>
           </div>
-          <div className="flex flex-col h-[90%] w-full pr-6 space-y-6">
-            <div className="flex flex-row h-28 bg-gradient-to-l items-center shadow-md from-fuchsia-400 via-fuchsia-500 to-fuchsia-600 rounded-xl py-3 px-7">
-              <p className="text-fuchsia-50 font-bold w-4/5 text-xs md:text-xl">
-                You are doing great! So far you have completed 60% of your
-                courses. Keep up the good job!
+          <div className="flex flex-col h-[100%] w-full pr-2 space-y-2">
+            <div className="flex flex-row h-28 bg-gradient-to-r items-center shadow-md from-raisin_black-500 to-raisin_black-400 rounded-md py-3 px-7">
+              <p className="text-fuchsia-50 font-semibold w-4/5 text-xs md:text-xl">
+                You are doing great! You have published{" "}
+                <span className="font-bold text-fuchsia">10</span> students
+                enrolled in your courses and published{" "}
+                <span className="font-bold text-fuchsia">3</span> of them!
               </p>
               <div className="w-1/5">
                 <Lottie animationData={animation} className="mb-20" />
               </div>
             </div>
-            <div className="flex flex-col h-full bg-oslo_gray-50 rounded-xl shadow-md p-5 space-y-2">
-              <div className="flex flex-row items-center w-full border-b-2 border-oslo_gray-300 py-2">
-                <h2 className="font-bold text-fuchsia-500 text-3xl  pr-3 mr-3">
-                  Course Progress
-                </h2>
-              </div>
-              <div className="flex flex-col w-full h-full">
-                <div className="flex flex-col w-full h-1/3 pb-3">
-                  <div className="w-full h-1/6 font-bold text-black">
-                    Courses Status
+            <div className="flex flex-col h-full shadow-md space-y-2">
+              <div className="flex flex-row h-1/3 w-full space-x-2">
+                <div className="flex flex-row items-start justify-start w-3/5 h-full shadow-md rounded-md">
+                  <div className=" h-full w-1/3 bg-poly-bg-fuchsia bg-center rounded-l-md">
+                    <p className="flex items-center justify-center w-full h-full text-white font-bold text-xl text-center">
+                      Here are the top 5 performers!
+                    </p>
                   </div>
-                  <div className="flex flex-row w-full h-5/6 space-x-3">
-                    <div className="flex flex-col items-start justify-start w-1/3 h-full shadow-md bg-poly-bg-fuchsia rounded-xl p-3">
-                      <p className="font-semibold text-white">Total Courses</p>
-                      <h3 className="text-white font-bold text-5xl">10</h3>
-                    </div>
-                    <div className="flex flex-col items-start justify-start w-1/3 h-full shadow-md border-2 border-dashed border-fuchsia-700 bg-fuchsia-400 rounded-xl p-3">
-                      <p className="font-semibold text-black">Not Started</p>
-                      <h3 className="text-black font-bold text-5xl">10</h3>
-                    </div>
-                    <div className="flex flex-col items-start justify-start w-1/3 h-full shadow-md border-2 border-dashed border-fuchsia-700 bg-fuchsia-400 rounded-xl p-3">
-                      <p className="font-semibold text-black">In Progress</p>{" "}
-                      <h3 className="text-black font-bold text-5xl">12</h3>
-                    </div>
-                    <div className="flex flex-col items-start justify-start w-1/3 h-full shadow-md border-2 border-dashed border-fuchsia-700 bg-fuchsia-400 rounded-xl p-3">
-                      <p className="font-semibold text-black">Finished</p>{" "}
-                      <h3 className="text-black font-bold text-5xl">15</h3>
-                    </div>
+                  <div className="h-full w-2/3 p-2 bg-gradient-to-r from-raisin_black-500 to-raisin_black-400 rounded-r-md">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart
+                        width={500}
+                        height={300}
+                        data={barData}
+                        margin={{
+                          top: 5,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                        barSize={20}
+                      >
+                        <XAxis
+                          dataKey="name"
+                          scale="point"
+                          padding={{ left: 10, right: 10 }}
+                        />
+                        <YAxis />
+                        <Tooltip />
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <Bar
+                          dataKey="pv"
+                          fill="#be6ab7"
+                          background={{ fill: "#eee" }}
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
-                <div className="flex w-full h-2/3">
-                  <div className=" h-full w-1/2">
+                <div className="flex flex-col items-start justify-between w-1/5 h-full shadow-md rounded-md p-6 bg-gradient-to-tl from-[#201c2100] to-raisin_black-500">
+                  <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                    <div className="flex items-center justify-center text-fuchsia-400 text-2xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                      <FaPerson />
+                    </div>
+                    <span>Students</span>
+                  </p>
+                  <h3 className="text-white font-bold text-5xl">10</h3>
+                  <button className="text-fuchsia font-semibold">
+                    Add Course
+                  </button>
+                </div>
+                <div className="flex flex-col items-start justify-between w-1/5 h-full shadow-md rounded-md p-6 bg-gradient-to-tl from-[#201c2100] to-raisin_black-500">
+                  <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                    <div className="flex items-center justify-center text-fuchsia-400 text-2xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                      <FaBookOpen />
+                    </div>
+                    <span>Courses</span>
+                  </p>
+                  <h3 className="text-white font-bold text-5xl">3</h3>
+                  <button className="text-fuchsia font-semibold">
+                    Add Course
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-row h-2/3 w-full space-x-2">
+                <div className="w-1/2 h-full bg-gradient-to-tl from-[#201c2100] to-raisin_black-500 rounded-md p-6">
+                  <div className="flex flex-row items-center space-x-2 h-[10%]">
+                    <div className="flex items-center justify-center text-fuchsia-400 text-2xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                      <IoIosStats />
+                    </div>
+                    <span className="text-white font-semibold text-xl">
+                      Statistics
+                    </span>
+                  </div>
+                  <div className="h-[90%]">
                     <ResponsiveContainer width="100%" height="100%">
                       <RadarChart
                         cx="50%"
@@ -144,8 +213,8 @@ const DashboardPage = () => {
                       </RadarChart>
                     </ResponsiveContainer>
                   </div>
-                  <div className="h-full w-1/2 py-2"></div>
                 </div>
+                <div className="w-1/2 h-full bg-gradient-to-tl from-[#201c2100] to-raisin_black-500 rounded-md"></div>
               </div>
             </div>
           </div>
@@ -167,7 +236,7 @@ const DashboardPage = () => {
         >
           <div className="h-full w-full">
             {/* Profile */}
-            <div className="flex flex-col space-y-3 bg-oslo_gray-50 shadow-md h-full w-full rounded-xl p-6 items-center">
+            <div className="flex flex-col space-y-3 bg-gradient-to-tl from-[#201c2100] to-raisin_black-500 rounded-md shadow-md h-full w-full p-6 items-center">
               <div className="flex flex-row space-x-3 w-full border-b-[1px] rounded-sm border-gray-300 pb-4 h-1/6">
                 <div className="avatar online w-1/4">
                   <div className="w-24 h-24 rounded-full">

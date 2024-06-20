@@ -11,6 +11,9 @@ import CourseCard from "../components/CourseCard";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Course } from "../interfaces/CourseInterface";
 import { APP_URL } from "../Url";
+import { FaCheck, FaLock, FaPenNib, FaPerson } from "react-icons/fa6";
+import { FaBookOpen } from "react-icons/fa6";
+import { ImCross } from "react-icons/im";
 
 interface EditCourseForm {
   courseName?: string | null;
@@ -107,7 +110,7 @@ const CoursePage = (props: React.PropsWithChildren) => {
 
   return (
     <div
-      className="flex flex-row w-full h-screen space-y-0 space-x-4 p-6 bg-poly-bg bg-cover bg-center"
+      className="flex flex-row w-full h-screen space-y-0 space-x-2 p-6 bg-raisin_black-300 bg-cover bg-center"
       data-testid="courses-page"
     >
       <motion.div
@@ -122,27 +125,51 @@ const CoursePage = (props: React.PropsWithChildren) => {
             bounce: 0.4,
           },
         }}
-        className="flex flex-col items-start shadow-xl space-y-3 border-2 bg-slate-50 rounded-xl w-3/4 h-full p-3"
+        className="flex flex-row items-start rounded-xl w-3/4 h-full space-x-2"
       >
-        <div className="flex flex-row w-full h-1/4">
-          <div className="flex flex-row w-full space-x-3">
-            <div className="flex flex-col items-start justify-start w-1/3 h-full shadow-md bg-poly-bg-fuchsia rounded-xl p-3">
-              <p className="font-semibold text-white">Total Courses</p>
+        <div className="flex flex-col w-1/4 h-full">
+          <div className="flex flex-col w-full h-full space-y-2">
+            <div className="flex flex-col items-start justify-between w-full h-1/4 shadow-md rounded-md p-6 bg-gradient-to-tl from-[#201c2100] to-raisin_black-500">
+              <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                <div className="flex items-center justify-center text-fuchsia-400 text-2xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                  <FaBookOpen />
+                </div>
+                <span>Courses</span>
+              </p>
               <h3 className="text-white font-bold text-5xl">10</h3>
+              <button className="text-fuchsia font-semibold text-start">
+                Total published and unpublished courses.
+              </button>
             </div>
-            <div className="flex flex-col items-start justify-start w-1/3 h-full shadow-md border-2 border-dashed border-fuchsia-700 bg-fuchsia-400 rounded-xl p-3">
-              <p className="font-semibold text-black">Published</p>
-              <h3 className="text-black font-bold text-5xl">10</h3>
+            <div className="flex flex-col items-start justify-between w-full h-1/4 shadow-md rounded-md p-6 bg-gradient-to-tl from-[#201c2100] to-raisin_black-500">
+              <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                <div className="flex items-center justify-center text-fuchsia-400 text-xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                  <FaPenNib />
+                </div>
+                <span>Published</span>
+              </p>
+              <h3 className="text-white font-bold text-5xl">10</h3>
+              <button className="text-fuchsia font-semibold text-start">
+                Total published courses.
+              </button>
             </div>
-            <div className="flex flex-col items-start justify-start w-1/3 h-full shadow-md border-2 border-dashed border-fuchsia-700 bg-fuchsia-400 rounded-xl p-3">
-              <p className="font-semibold text-black">Unpublished</p>{" "}
-              <h3 className="text-black font-bold text-5xl">12</h3>
+            <div className="flex flex-col items-start justify-between w-full h-1/4 shadow-md rounded-md p-6 bg-gradient-to-tl from-[#201c2100] to-raisin_black-500">
+              <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                <div className="flex items-center justify-center text-fuchsia-400 text-xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                  <FaLock />
+                </div>
+                <span>Unpublished</span>
+              </p>
+              <h3 className="text-white font-bold text-5xl">10</h3>
+              <button className="text-fuchsia font-semibold text-start">
+                Total unpublished courses.
+              </button>
             </div>
             <div
               onClick={() => {
                 setOpenModal(true);
               }}
-              className="flex flex-col cursor-pointer items-start justify-start w-1/3 h-full shadow-md border-2 border-dashed border-oslo_gray-700 bg-oslo_gray-400 hover:bg-oslo_gray-300 text-black hover:text-white transition-colors duration-300 rounded-xl p-3"
+              className="flex flex-col cursor-pointer items-start justify-start w-full h-1/4 shadow-md border-2 border-dashed border-fuchsia-700 bg-fuchsia-400 hover:bg-fuchsia-800 text-black hover:text-white transition-colors duration-300 rounded-md p-3"
               data-testid="add-course"
             >
               <h3 className="flex flex-col items-center justify-center font-bold text-5xl w-full h-full">
@@ -168,10 +195,11 @@ const CoursePage = (props: React.PropsWithChildren) => {
             </Modal>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center w-full h-3/4 bg-poly-bg-fuchsia p-3 space-y-3 rounded-xl">
+        <div className="flex flex-col items-center justify-center w-3/4 h-full bg-gradient-to-tl from-[#201c2100] to-raisin_black-500 p-5 space-y-3 rounded-md">
           <>
             <div className="flex flex-row w-full">
-              <div className="flex flex-row space-x-2 w-1/2">
+              <h3 className="text-3xl font-semibold text-white">Course List</h3>
+              {/* <div className="flex flex-row space-x-2 w-1/2">
                 <div className="relative">
                   <input
                     type="text"
@@ -182,24 +210,10 @@ const CoursePage = (props: React.PropsWithChildren) => {
                     <FaSearch />
                   </div>
                 </div>
-              </div>
-
-              <div className="flex flex-row items-center justify-end space-x-3 w-1/2">
-                <h2 className="font-bold text-white text-2xl">Sort:</h2>
-                <select className="select w-full max-w-xs bg-white">
-                  <option disabled selected>
-                    Pick your favorite Simpson
-                  </option>
-                  <option>Homer</option>
-                  <option>Marge</option>
-                  <option>Bart</option>
-                  <option>Lisa</option>
-                  <option>Maggie</option>
-                </select>
-              </div>
+              </div> */}
             </div>
             <div
-              className="flex flex-wrap items-center justify-center w-full h-full overflow-y-scroll bg-white border-4 border-fuchsia-800 rounded-xl"
+              className="flex flex-col items-center justify-center w-full h-full overflow-y-scroll"
               style={{ scrollbarColor: "", scrollbarWidth: "thin" }}
             >
               {courses &&
@@ -240,7 +254,8 @@ const CoursePage = (props: React.PropsWithChildren) => {
         className="flex flex-row h-full w-1/4"
       >
         <div className="h-full w-full">
-          <div className="flex flex-col space-y-3 bg-oslo_gray-50 shadow-md h-full w-full rounded-xl p-6 items-center">
+          {/* Profile */}
+          <div className="flex flex-col space-y-3 bg-gradient-to-tl from-[#201c2100] to-raisin_black-500 rounded-md shadow-md h-full w-full p-6 items-center">
             <div className="flex flex-row space-x-3 w-full border-b-[1px] rounded-sm border-gray-300 pb-4 h-1/6">
               <div className="avatar online w-1/4">
                 <div className="w-24 h-24 rounded-full">
@@ -252,10 +267,10 @@ const CoursePage = (props: React.PropsWithChildren) => {
               </div>
               <div className="flex flex-col w-3/4">
                 <h3 className="font-semibold text-lg text-black">
-                  {user.user_.firstName ||
-                    user.user_.lastName | user.name_ | user.email}
+                  {user.user_.firstName} {user.user_.lastName}
                 </h3>
                 <h3 className="text-fuchsia-700 font-semibold">Novice</h3>
+
                 <h3 className="text-black font-semibold mt-2">
                   <span className="bg-gray-400 p-1 px-2 rounded-xl text-white shadow-md">
                     Total Points: 200

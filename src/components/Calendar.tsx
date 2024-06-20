@@ -141,13 +141,13 @@ const CustomCalendar: React.FC = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="flex justify-center h-1/2">
-        <div className="bg-white rounded-xl p-4 shadow-md w-full">
+        <div className="w-full">
           <div className="flex justify-between mb-2">
             <h2 className="text-lg font-bold text-fuchsia-600">
               {today.toLocaleString("default", { month: "long" })} {currentYear}
             </h2>
           </div>
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-7 gap-2 text-white">
             {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
               <div key={day} className="text-center font-bold">
                 {day}
@@ -169,7 +169,7 @@ const CustomCalendar: React.FC = () => {
               return (
                 <div
                   key={day}
-                  className={`flex justify-center text-center p-2 rounded-xl text-black font-semibold cursor-pointer transition ${
+                  className={`flex justify-center text-center p-2 rounded-xl text-white font-semibold cursor-pointer transition ${
                     day === currentDate
                       ? "shadow-lg bg-gradient-to-r from-fuchsia-500 to-fuchsia-600 font-bold"
                       : ""
@@ -196,71 +196,11 @@ const CustomCalendar: React.FC = () => {
         </div>
       </div>
       <div className="h-1/2 w-full py-2">
-        <div className="flex flex-col bg-poly-bg-fuchsia w-full h-full rounded-2xl shadow-md p-4">
-          <div className="flex flex-col bg-slate-50 w-full h-full rounded-xl shadow-xl p-4">
-            <h3 className="flex flex-row justify-between text-lg font-bold mb-2 text-fuchsia-500">
+        <div className="flex flex-col bg-poly-bg-fuchsia w-full h-full rounded-md shadow-md p-4">
+          <div className="flex flex-col w-full h-full rounded-xl shadow-xl p-4">
+            <h3 className="flex flex-row justify-between text-lg font-bold mb-2 text-white">
               <p>{selectedDate.toDateString()}</p>
-              <button
-                onClick={() => {
-                  setFormOpen(!formOpen);
-                }}
-              >
-                + Add to do
-              </button>
             </h3>
-            <div className="h-full w-full overflow-y-scroll">
-              <ul>
-                {todoList.filter(
-                  (todo) =>
-                    todo.date.toDateString() === selectedDate.toDateString()
-                ).length > 0 ? (
-                  todoList
-                    .filter(
-                      (todo) =>
-                        todo.date.toDateString() === selectedDate.toDateString()
-                    )
-                    .map((todo, index) => (
-                      <li
-                        key={index}
-                        className="flex flex-row w-full justify-between hover:bg-gray-200 transition p-1"
-                        onMouseEnter={() => setHoveredIndex(index)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                      >
-                        {todo.title}
-                        {hoveredIndex === index && (
-                          <button
-                            onClick={() => {
-                              deleteToDo(todo._id);
-                            }}
-                            className="bg-gradient-to-b from-red-500 to-red-700 p-1 rounded-xl"
-                          >
-                            <span className="text-white font-semibold">
-                              <MdDeleteOutline />
-                            </span>
-                          </button>
-                        )}
-                      </li>
-                    ))
-                ) : (
-                  <p className="text-black font-normal mb-1">
-                    No to-dos for this date.
-                  </p>
-                )}
-              </ul>
-            </div>
-            {formOpen && (
-              <form onSubmit={addToDo} className="flex flex-row w-full">
-                <input
-                  type="text"
-                  placeholder="Input task"
-                  onChange={(e) => {
-                    setAddlist(e.target.value);
-                  }}
-                  value={addList}
-                  className="input border-[0.5px] border-fuchsia h-6 px-2 w-full mt-2 bg-white"
-                />
-              </form>
-            )}
           </div>
         </div>
       </div>
