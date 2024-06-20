@@ -57,7 +57,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             <div className="flex flex-row items-center space-x-3">
               <input
                 type="radio"
-                name="tier" // Add the name attribute
+                name="tier"
                 value="Free"
                 checked={selectedOption === "Free"}
                 onChange={handleOptionChange}
@@ -69,7 +69,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
             <div className="flex flex-row items-center space-x-3">
               <input
                 type="radio"
-                name="tier" // Add the name attribute
+                name="tier"
                 value="Basic"
                 checked={selectedOption === "Basic"}
                 onChange={handleOptionChange}
@@ -85,7 +85,7 @@ const AddCourseForm: React.FC<AddCourseFormProps> = ({
                 value="Premium"
                 checked={selectedOption === "Premium"}
                 onChange={handleOptionChange}
-                className="radio checked:bg-fuchsia-"
+                className="radio checked:bg-fuchsia"
                 data-testid="premium-tier"
               />
               <label>Premium</label>

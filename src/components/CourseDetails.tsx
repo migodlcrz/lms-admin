@@ -28,10 +28,12 @@ const CourseDetails = () => {
     courseName: null,
     courseID: null,
     description: null,
+    tier: null,
   });
   const [page, setPage] = useState("Modules");
   const [studentDeleteModal, setStudentDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState("");
+  const [selectedOption, setSelectedOption] = useState(courseDetail?.tier);
 
   const fetchCourse = async () => {
     const response = await fetch(`${port}/api/course/${courseId}`, {
@@ -103,6 +105,12 @@ const CourseDetails = () => {
     }
   };
 
+  const handleOptionChange = (event: {
+    target: { value: React.SetStateAction<string | undefined> };
+  }) => {
+    setSelectedOption(event.target.value);
+  };
+
   const handleEditForm = (field: string, value: string) => {
     setEditCourseForm({ ...editCourseForm, [field]: value });
   };
@@ -158,8 +166,11 @@ const CourseDetails = () => {
     }
   }, [courseDetail]);
 
-  // console.log(courseDetail?.publisher);
-  // console.log(user.user_.email || user.name_);
+  useEffect(() => {
+    if (courseDetail?.tier) {
+      setSelectedOption(courseDetail.tier);
+    }
+  }, [courseDetail]);
 
   return (
     <>
@@ -265,11 +276,63 @@ const CourseDetails = () => {
                     placeholder={courseDetail?.description}
                     data-testid="course-details"
                   ></textarea>
+                  <h2 className="text-xl text-black font-bold">Tier</h2>
+                  <div className="flex flex-col">
+                    <div
+                      className="w-full flex flex-row justify-around"
+                      data-testid="course-tier"
+                    >
+                      <div className="flex flex-row items-center space-x-3">
+                        <input
+                          type="radio"
+                          name="tier"
+                          value="Free"
+                          checked={selectedOption === "Free"}
+                          onChange={(e) => {
+                            handleOptionChange(e);
+                            handleEditForm("tier", e.target.value);
+                          }}
+                          className="radio checked:bg-fuchsia"
+                          data-testid="free-tier"
+                        />
+                        <label className="text-black">Free</label>
+                      </div>
+                      <div className="flex flex-row items-center space-x-3">
+                        <input
+                          type="radio"
+                          name="tier"
+                          value="Basic"
+                          checked={selectedOption === "Basic"}
+                          onChange={(e) => {
+                            handleOptionChange(e);
+                            handleEditForm("tier", e.target.value);
+                          }}
+                          className="radio checked:bg-fuchsia"
+                          data-testid="basic-tier"
+                        />
+                        <label>Basic</label>
+                      </div>
+                      <div className="flex flex-row items-center space-x-3">
+                        <input
+                          type="radio"
+                          name="tier" // Add the name attribute
+                          value="Premium"
+                          checked={selectedOption === "Premium"}
+                          onChange={(e) => {
+                            handleOptionChange(e);
+                            handleEditForm("tier", e.target.value);
+                          }}
+                          className="radio checked:bg-fuchsia"
+                          data-testid="premium-tier"
+                        />
+                        <label>Premium</label>
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               ) : (
                 <>
                   <h3 className="flex flex-col text-black text-xl font-bold">
-                    {/* Email: <span className="font-semibold">{userInfo.email}</span> */}{" "}
                     Course Description:{" "}
                     <span className="text-lg font-semibold">
                       {courseDetail?.description}
@@ -277,6 +340,10 @@ const CourseDetails = () => {
                     Publisher:{" "}
                     <span className="text-lg font-semibold">
                       {courseDetail?.publisher}
+                    </span>
+                    Tier:{" "}
+                    <span className="text-lg font-semibold">
+                      {courseDetail?.tier}
                     </span>
                   </h3>
                 </>
@@ -306,7 +373,9 @@ const CourseDetails = () => {
                         (editCourseForm.courseID === null ||
                           editCourseForm.courseID === "") &&
                         (editCourseForm.description === null ||
-                          editCourseForm.description === "")
+                          editCourseForm.description === "") &&
+                        (editCourseForm.tier === null ||
+                          editCourseForm.tier === "")
                       ) {
                         toast.error("No changed field");
                       } else {
