@@ -10,6 +10,8 @@ import logo from "../images/learnify-white.png";
 import { IoCartOutline } from "react-icons/io5";
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { motion } from "framer-motion";
+import { FaBookmark, FaHome } from "react-icons/fa";
+import { FaDollarSign, FaPerson } from "react-icons/fa6";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false); // Track whether sidebar is open or closed
@@ -68,8 +70,12 @@ const Sidebar = () => {
                       "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-300 hover:to-fuchsia-500"
                 }`}
               >
-                <li className="grid place-items-center py-2 h-12 text-4xl relative">
-                  {!isOpen && <MdOutlineSpaceDashboard />}
+                <li
+                  className={`grid place-items-center py-2 h-12 text-2xl relative ${
+                    currentPath === "/dashboard" && "text-[#be6ab7]"
+                  }`}
+                >
+                  {!isOpen && <FaHome />}
                 </li>
                 {isOpen && (
                   <motion.p
@@ -99,8 +105,12 @@ const Sidebar = () => {
                 }`}
                 data-testid="on-going-courses"
               >
-                <li className="grid place-items-center py-2 h-12 text-4xl relative">
-                  {!isOpen && <MdOutlineLibraryBooks />}
+                <li
+                  className={`grid place-items-center py-2 h-12 text-xl relative ${
+                    currentPath === "/courses" && "text-[#be6ab7]"
+                  }`}
+                >
+                  {!isOpen && <FaBookmark />}
                 </li>
                 {isOpen && (
                   <motion.p
@@ -129,8 +139,12 @@ const Sidebar = () => {
                 }`}
                 data-testid="subscription-plan"
               >
-                <li className="grid place-items-center py-2 h-12 text-4xl relative">
-                  {!isOpen && <PiStudentBold />}
+                <li
+                  className={`grid place-items-center py-2 h-12 text-2xl relative ${
+                    currentPath === "/students" && "text-[#be6ab7]"
+                  }`}
+                >
+                  {!isOpen && <FaPerson />}
                 </li>
                 {isOpen && (
                   <motion.p
@@ -159,8 +173,12 @@ const Sidebar = () => {
                 }`}
                 data-testid="subscription-plan"
               >
-                <li className="grid place-items-center py-2 h-12 text-4xl relative">
-                  {!isOpen && <AiOutlineDollarCircle />}
+                <li
+                  className={`grid place-items-center py-2 h-12 text-2xl relative ${
+                    currentPath === "/pricing" && "text-[#be6ab7]"
+                  }`}
+                >
+                  {!isOpen && <FaDollarSign />}
                 </li>
                 {isOpen && (
                   <motion.p
@@ -184,15 +202,18 @@ const Sidebar = () => {
                     setIsOpen(true);
                   }
                 }}
-                className={`flex flex-row items-center justify-center space-x-4 px-2 w-full text-white transition-colors duration-300 ${
+                className={`flex flex-row items-center justify-center space-x-4 w-full text-white transition-colors duration-300 ${
                   currentPath === "/settings"
-                    ? "text-white bg-gradient-to-r from-gray-300 to-gray-700 shadow-xl"
+                    ? "text-[#be6ab7] border-r-2 border-[#be6ab7]"
                     : isOpen &&
-                      "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-100 hover:via-fuchsia-300 hover:to-fuchsia-500"
+                      "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-300 hover:to-fuchsia-500"
                 }`}
-                data-testid="student-profile"
               >
-                <li className="grid place-items-center py-2 h-12 text-4xl relative">
+                <li
+                  className={`grid place-items-center py-2 h-12 text-2xl relative ${
+                    currentPath === "/settings" && "text-[#be6ab7]"
+                  }`}
+                >
                   {!isOpen && <CgProfile />}
                 </li>
                 {isOpen && <p className="font-bold text-sm w-full">Profile</p>}

@@ -137,8 +137,17 @@ function AppContent() {
           }
         />
         <Route
-          path="/settings"
-          element={user ? <SettingsPage /> : <Navigate to="/no-access" />}
+          path={"/settings"}
+          element={
+            user ? (
+              <div className="flex flex-row">
+                <Sidebar />
+                <SettingsPage />
+              </div>
+            ) : (
+              <Navigate to="/no-access" />
+            )
+          }
         />
         <Route path="/no-access" element={<NotLoggedIn />} />
       </Routes>
