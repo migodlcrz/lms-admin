@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import React from "react";
 import Guy from "../images/guy.png";
+import { useNavigate } from "react-router-dom";
+import { FaBookOpen } from "react-icons/fa6";
 
 interface CourseProps {
   courseID: string;
@@ -19,75 +21,97 @@ const CourseCard: React.FC<CourseProps> = ({
   description,
   isPublished,
 }) => {
+  const navigate = useNavigate();
   return (
-    <motion.div
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.8 }}
-      className="w-full"
+    <motion.tr
+      // whileHover={{ scale: 1.05 }}
+      // whileTap={{ scale: 0.95 }}
+      className="cursor-pointer"
+      onClick={() => {
+        navigate(`/courses/${courseID}`);
+      }}
     >
-      <div
-        className="p-3"
-        style={{ transition: "opacity 0.3s" }}
-        onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.5")}
-        onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-      >
+      <td className="">
         <div
-          className={`w-80 h-80 shadow-xl rounded-3xl p-2 ${
-            isPublished ? "bg-fuchsia-700" : "bg-white"
-          }`}
+          className="w-full p-2 border-b-[0.5px] border-gray-700"
+          style={{ transition: "opacity 0.3s" }}
+          onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.5")}
+          onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
         >
-          <div
-            className="w-full h-full rounded-2xl bg-cover bg-center"
-            style={{
-              backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 20%, transparent 50%), url(${Guy})`,
-            }}
-          >
-            <div className="flex flex-col p-3 h-full w-full justify-between">
+          <div className="w-full h-10 rounded-2xl bg-cover bg-center ">
+            <div className="flex flex-row p-3 h-full w-full justify-between">
               <h2 className="flex flex-row justify-center items-center">
                 <p
-                  className="text-white font-bold w-full truncate tooltip text-start"
+                  className="text-white font-bold w-full truncate tooltip text-start text-lg"
                   data-tip={courseName}
                 >
                   {courseName}
                 </p>
               </h2>
-              <div className="card-actions justify-end">
-                <div
-                  className={`badge font-semibold
-              ${tier === "Free" && "bg-black text-white"} 
-              ${
-                tier === "Basic" &&
-                "bg-gradient-to-r from-harvest_gold-400 via-harvest_gold-600 to-harvest_gold-800 text-black"
-              }
-              ${
-                tier === "Premium" &&
-                "bg-gradient-to-r from-cyan-600 via-cyan-500 to-cyan-400 shadow-lg text-black"
-              }
-              `}
-                >
-                  <p>{tier}</p>
+              <div className="flex flex-row space-x-14 px-3">
+                <div className="flex items-center justify-center">
+                  <p>
+                    {tier === "Free" && (
+                      <>
+                        <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                          <div className="flex items-center justify-center text-fuchsia-400 text-xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                            F
+                          </div>
+                        </p>
+                      </>
+                    )}
+                    {tier === "Basic" && (
+                      <>
+                        <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                          <div className="flex items-center justify-center text-fuchsia-400 text-xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                            B
+                          </div>
+                        </p>
+                      </>
+                    )}
+                    {tier === "Premium" && (
+                      <>
+                        <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                          <div className="flex items-center justify-center text-fuchsia-400 text-xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                            P
+                          </div>
+                        </p>
+                      </>
+                    )}
+                  </p>
                 </div>
-                <div
-                  className={`badge ${
-                    isPublished
-                      ? "bg-fuchsia-700 shadow-lg"
-                      : "bg-white border-gray-500"
-                  }`}
-                >
+                <div className="flex items-center justify-center">
                   <p
                     className={`${
                       isPublished ? "text-white" : "text-gray-500"
                     }`}
                   >
-                    {isPublished ? "Published" : "Not Published"}
+                    {isPublished ? (
+                      <>
+                        {" "}
+                        <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                          <div className="flex items-center justify-center text-fuchsia-400 text-xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                            P
+                          </div>
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="flex flex-row items-center text-lg font-semibold text-white space-x-2">
+                          <div className="flex items-center justify-center text-fuchsia-400 text-xl w-10 h-10 bg-fuchsia-800 rounded-full">
+                            NP
+                          </div>
+                        </p>
+                      </>
+                    )}
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </td>
+    </motion.tr>
   );
 };
 

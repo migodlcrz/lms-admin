@@ -17,6 +17,8 @@ const Sidebar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
+  console.log("PATH: ", currentPath);
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -25,12 +27,12 @@ const Sidebar = () => {
     <div className="sticky flex top-0 h-screen z-50">
       <div
         onClick={() => toggleSidebar()}
-        className={`flex items-start transition-all h-full duration-300 bg-oslo_gray-950 z-50 cursor-pointer ${
+        className={`flex items-start transition-all h-full duration-300 bg-raisin_black-300 border-r-[0.1px] border-raisin_black-600 z-50 cursor-pointer ${
           isOpen ? "w-80" : "w-20"
         }`}
       >
         <div className="w-full h-full">
-          <div className="flex flex-row items-center space-x-4 p-4 w-full shadow-md bg-poly-bg-fuchsia h-[10%]">
+          <div className="flex flex-row items-center space-x-4 p-4 w-fullh-[8%]">
             <button
               className="text-white hover:text-black text-2xl z-50 mx-3 transition-colors duration-300"
               onClick={toggleSidebar}
@@ -47,8 +49,8 @@ const Sidebar = () => {
               </p>
             </div>
           </div>
-          <div className="flex flex-col justify-between h-[90%]">
-            <ul className="flex flex-col p-3 space-y-6">
+          <div className="flex flex-col justify-between h-[92%]">
+            <ul className="flex flex-col space-y-6">
               <button
                 // disabled={!isOpen}
                 onClick={() => {
@@ -59,15 +61,15 @@ const Sidebar = () => {
                     setIsOpen(true);
                   }
                 }}
-                className={`flex flex-row items-center space-x-4 px-2 w-full rounded-xl text-white transition-colors duration-300 ${
+                className={`flex flex-row items-center justify-center space-x-4 w-full text-white transition-colors duration-300 ${
                   currentPath === "/dashboard"
-                    ? "text-fuchsia-400"
+                    ? "text-[#be6ab7] border-r-2 border-[#be6ab7]"
                     : isOpen &&
                       "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-300 hover:to-fuchsia-500"
                 }`}
               >
                 <li className="grid place-items-center py-2 h-12 text-4xl relative">
-                  <MdOutlineSpaceDashboard />
+                  {!isOpen && <MdOutlineSpaceDashboard />}
                 </li>
                 {isOpen && (
                   <motion.p
@@ -89,16 +91,16 @@ const Sidebar = () => {
                     setIsOpen(true);
                   }
                 }}
-                className={`flex flex-row items-center space-x-4 px-2 w-full rounded-xl text-white transition-colors duration-300 ${
+                className={`flex flex-row items-center justify-center space-x-4 w-full text-white transition-colors duration-300 ${
                   currentPath === "/courses"
-                    ? "text-fuchsia-400"
+                    ? "text-[#be6ab7] border-r-2 border-[#be6ab7]"
                     : isOpen &&
                       "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-100 hover:via-fuchsia-300 hover:to-fuchsia-500"
                 }`}
                 data-testid="on-going-courses"
               >
                 <li className="grid place-items-center py-2 h-12 text-4xl relative">
-                  <MdOutlineLibraryBooks />
+                  {!isOpen && <MdOutlineLibraryBooks />}
                 </li>
                 {isOpen && (
                   <motion.p
@@ -113,22 +115,52 @@ const Sidebar = () => {
               <button
                 onClick={() => {
                   if (isOpen) {
-                    navigate("/pricing");
+                    navigate("/students");
                     setIsOpen(false);
                   } else {
                     setIsOpen(true);
                   }
                 }}
-                className={`flex flex-row items-center space-x-4 px-2 w-full text-white rounded-xl transition-colors duration-300 ${
-                  currentPath === "/pricing"
-                    ? "text-fuchsia-400"
+                className={`flex flex-row items-center justify-center space-x-4 w-full text-white transition-colors duration-300 ${
+                  currentPath === "/students"
+                    ? "text-[#be6ab7] border-r-2 border-[#be6ab7]"
                     : isOpen &&
                       "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-100 hover:via-fuchsia-300 hover:to-fuchsia-500"
                 }`}
                 data-testid="subscription-plan"
               >
                 <li className="grid place-items-center py-2 h-12 text-4xl relative">
-                  <AiOutlineDollarCircle />
+                  {!isOpen && <PiStudentBold />}
+                </li>
+                {isOpen && (
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="font-bold text-sm w-full"
+                  >
+                    Students
+                  </motion.p>
+                )}
+              </button>
+              <button
+                onClick={() => {
+                  if (isOpen) {
+                    navigate("/pricing");
+                    setIsOpen(false);
+                  } else {
+                    setIsOpen(true);
+                  }
+                }}
+                className={`flex flex-row items-center justify-center space-x-4 w-full text-white transition-colors duration-300 ${
+                  currentPath === "/pricing"
+                    ? "text-[#be6ab7] border-r-2 border-[#be6ab7]"
+                    : isOpen &&
+                      "hover:text-white hover:bg-gradient-to-r hover:from-fuchsia-100 hover:via-fuchsia-300 hover:to-fuchsia-500"
+                }`}
+                data-testid="subscription-plan"
+              >
+                <li className="grid place-items-center py-2 h-12 text-4xl relative">
+                  {!isOpen && <AiOutlineDollarCircle />}
                 </li>
                 {isOpen && (
                   <motion.p
@@ -141,7 +173,7 @@ const Sidebar = () => {
                 )}
               </button>
             </ul>
-            <ul className="flex flex-col p-3 space-y-6 bg-fuchsia">
+            <ul className="flex flex-col space-y-6">
               <button
                 // disabled={!isOpen}
                 onClick={() => {
@@ -152,7 +184,7 @@ const Sidebar = () => {
                     setIsOpen(true);
                   }
                 }}
-                className={`flex flex-row items-center space-x-4 px-2 w-full rounded-xl text-white transition-colors duration-300 ${
+                className={`flex flex-row items-center justify-center space-x-4 px-2 w-full text-white transition-colors duration-300 ${
                   currentPath === "/settings"
                     ? "text-white bg-gradient-to-r from-gray-300 to-gray-700 shadow-xl"
                     : isOpen &&
@@ -161,7 +193,7 @@ const Sidebar = () => {
                 data-testid="student-profile"
               >
                 <li className="grid place-items-center py-2 h-12 text-4xl relative">
-                  <CgProfile />
+                  {!isOpen && <CgProfile />}
                 </li>
                 {isOpen && <p className="font-bold text-sm w-full">Profile</p>}
               </button>
