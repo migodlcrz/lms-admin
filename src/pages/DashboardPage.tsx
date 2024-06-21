@@ -108,7 +108,7 @@ const DashboardPage = () => {
             <h1 className="text-white text-4xl font-semibold">Dashboard</h1>
           </div>
           <div className="flex flex-col h-[100%] w-full pr-2 space-y-2">
-            <div className="flex flex-row h-28 bg-gradient-to-r items-center shadow-md from-raisin_black-500 to-raisin_black-400 rounded-md py-3 px-7">
+            <div className="flex flex-row h-28 items-center shadow-md bg-gradient-to-r from-raisin_black-500 to-raisin_black-400 rounded-md py-3 px-7">
               <p className="text-fuchsia-50 font-semibold w-4/5 text-xs md:text-xl">
                 You are doing great! You have published{" "}
                 <span className="font-bold text-fuchsia">10</span> students
