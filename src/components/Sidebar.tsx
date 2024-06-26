@@ -19,8 +19,6 @@ const Sidebar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  console.log("PATH: ", currentPath);
-
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
