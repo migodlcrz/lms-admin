@@ -20,6 +20,32 @@ const CourseDetails = () => {
   const port = APP_URL;
   const navigate = useNavigate();
 
+  const modules = [
+    "Module 1: Introduction to Programming",
+    "Module 2: Basics of HTML",
+    "Module 3: CSS Fundamentals",
+    "Module 4: JavaScript Basics",
+    "Module 5: Advanced JavaScript",
+    "Module 6: React Introduction",
+    "Module 7: React Hooks",
+    "Module 8: State Management",
+    "Module 9: Building Applications",
+    "Module 10: Deployment",
+  ];
+
+  const quizzes = [
+    "Quiz 1: Introduction to Programming",
+    "Quiz 2: Basics of HTML",
+    "Quiz 3: CSS Fundamentals",
+    "Quiz 4: JavaScript Basics",
+    "Quiz 5: Advanced JavaScript",
+    "Quiz 6: React Introduction",
+    "Quiz 7: React Hooks",
+    "Quiz 8: State Management",
+    "Quiz 9: Building Applications",
+    "Quiz 10: Deployment",
+  ];
+
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [courseDetail, setCourseDetail] = useState<Course | null>(null);
@@ -497,7 +523,16 @@ const CourseDetails = () => {
             >
               <h3 className="text-black font-semibold">Modules</h3>
             </button>
-
+            <button
+              onClick={() => {
+                setPage("Quizzes");
+              }}
+              className={`w-1/2 rounded-md p-1 items-center justify-center text-center transition-colors duration-200 ${
+                page === "Quizzes" && " bg-fuchsia"
+              }`}
+            >
+              <h3 className="text-black font-semibold">Quizzes</h3>
+            </button>{" "}
             <button
               onClick={() => {
                 setPage("Enrollees");
@@ -511,7 +546,30 @@ const CourseDetails = () => {
           </div>
           {page === "Modules" && (
             <div className="w-full h-full p-1">
-              Module 1, Module 2, Module 3
+              {modules.map((module, index) => (
+                <div className="flex flex-row w-full p-2 space-x-2 items-center border-b-[0.5px] border-raisin_black-600">
+                  <p className="flex flex-row items-center text-sm font-semibold text-black space-x-2">
+                    <div className="flex items-center justify-center text-harvest_gold-800 text-sm w-7 h-7 bg-harvest_gold-400 rounded-full">
+                      {index + 1}
+                    </div>
+                  </p>
+                  <h3 className="text-black font-bold py-3">{module}</h3>
+                </div>
+              ))}
+            </div>
+          )}
+          {page === "Quizzes" && (
+            <div className="w-full h-full p-1">
+              {quizzes.map((module, index) => (
+                <div className="flex flex-row w-full p-2 space-x-2 items-center border-b-[0.5px] border-raisin_black-600">
+                  <p className="flex flex-row items-center text-sm font-semibold text-black space-x-2">
+                    <div className="flex items-center justify-center text-harvest_gold-800 text-sm w-7 h-7 bg-harvest_gold-400 rounded-full">
+                      {index + 1}
+                    </div>
+                  </p>
+                  <h3 className="text-black font-bold py-3">{module}</h3>
+                </div>
+              ))}
             </div>
           )}
           {page === "Enrollees" && (
