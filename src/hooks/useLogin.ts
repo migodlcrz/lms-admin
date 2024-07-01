@@ -24,6 +24,7 @@ export const useLogin = () => {
     const json = await response.json();
 
     if (response.ok) {
+      localStorage.setItem("test", "Migo Dela Cruz");
       localStorage.setItem("admin", JSON.stringify(json));
       localStorage.setItem("admin-token", JSON.stringify(json.token));
 

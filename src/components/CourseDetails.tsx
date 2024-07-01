@@ -6,6 +6,7 @@ import Guy from "../images/guy.png";
 import { APP_URL } from "../Url";
 import { toast } from "react-toastify";
 import { Course, EditCourseForm } from "../interfaces/CourseInterface";
+import { Module } from "../interfaces/ModuleInterface";
 import { User } from "../interfaces/UserInterface";
 import { FaRegTrashCan } from "react-icons/fa6";
 import Modal from "react-responsive-modal";
@@ -19,19 +20,6 @@ const CourseDetails = () => {
   const { courseId } = useParams<{ courseId: string }>();
   const port = APP_URL;
   const navigate = useNavigate();
-
-  const modules = [
-    "Module 1: Introduction to Programming",
-    "Module 2: Basics of HTML",
-    "Module 3: CSS Fundamentals",
-    "Module 4: JavaScript Basics",
-    "Module 5: Advanced JavaScript",
-    "Module 6: React Introduction",
-    "Module 7: React Hooks",
-    "Module 8: State Management",
-    "Module 9: Building Applications",
-    "Module 10: Deployment",
-  ];
 
   const quizzes = [
     "Quiz 1: Introduction to Programming",
@@ -48,8 +36,10 @@ const CourseDetails = () => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
+  const [addModule, setAddModule] = useState<boolean>(false);
   const [courseDetail, setCourseDetail] = useState<Course | null>(null);
   const [courseUsers, setCourseUsers] = useState<User[]>([]);
+  const [courseModules, setCourseModules] = useState<Module[]>([]);
   const [editCourseForm, setEditCourseForm] = useState<EditCourseForm>({
     courseName: null,
     courseID: null,
@@ -60,6 +50,11 @@ const CourseDetails = () => {
   const [studentDeleteModal, setStudentDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [selectedOption, setSelectedOption] = useState(courseDetail?.tier);
+
+  const [moduleName, setModuleName] = useState<String | null>(null);
+  const [moduleDescription, setModuleDescription] = useState<String | null>(
+    null
+  );
 
   const fetchCourse = async () => {
     const response = await fetch(`${port}/api/course/${courseId}`, {
@@ -78,6 +73,26 @@ const CourseDetails = () => {
     setCourseDetail(json);
   };
 
+  const fetchCourseModules = async (moduleIds: any[]) => {
+    try {
+      const modules = [];
+      for (const moduleId of moduleIds) {
+        const response = await fetch(`${port}/api/module/${moduleId}`);
+
+        if (!response.ok) {
+          return toast.error(`Failed to fetch user ${moduleId}`);
+        }
+
+        const json = await response.json();
+        modules.push(json);
+      }
+
+      setCourseModules(modules);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchCourseUsers = async (studentIds: any[]) => {
     try {
       const users = [];
@@ -85,7 +100,7 @@ const CourseDetails = () => {
         const response = await fetch(`${port}/api/user/${studentId}`);
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch user ${studentId}`);
+          toast.error(`Failed to fetch user ${studentId}`);
         }
 
         const json = await response.json();
@@ -129,6 +144,32 @@ const CourseDetails = () => {
     } else {
       toast.error(json.error);
     }
+  };
+
+  const CreateModule = async () => {
+    const response = await fetch(
+      `${port}/api/module/create/${courseDetail?._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          moduleName: moduleName,
+          moduleDescription: moduleDescription,
+        }),
+      }
+    );
+
+    const json = await response.json();
+
+    if (response.ok) {
+      toast.success(json.message);
+    } else {
+      toast.error(json.error);
+    }
+
+    fetchCourse();
   };
 
   const handleOptionChange = (event: {
@@ -193,6 +234,12 @@ const CourseDetails = () => {
   }, [courseDetail]);
 
   useEffect(() => {
+    if (courseDetail && courseDetail.students) {
+      fetchCourseModules(courseDetail.modules!);
+    }
+  }, [courseDetail]);
+
+  useEffect(() => {
     if (courseDetail?.tier) {
       setSelectedOption(courseDetail.tier);
     }
@@ -200,7 +247,7 @@ const CourseDetails = () => {
 
   return (
     <>
-      <div className="flex flex-row w-screen h-screen space-x-6 bg-poly-bg p-6">
+      <div className="flex flex-row w-screen h-screen space-x-2 bg-raisin_black-300 p-6">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{
@@ -212,23 +259,23 @@ const CourseDetails = () => {
               bounce: 0.4,
             },
           }}
-          className="flex flex-col w-1/3 h-full bg-slate-50 rounded-xl p-3 space-y-2"
+          className="flex flex-col w-1/3 h-full bg-gradient-to-tl from-[#201c2100] to-raisin_black-500 rounded-md p-3 space-y-2"
         >
           <div
             onClick={() => {
               navigate("/courses");
             }}
-            className="w-full text-black text-3xl hover:text-fuchsia transition-color duration-300 cursor-pointer"
+            className="w-full text-white text-3xl hover:text-fuchsia transition-color duration-300 cursor-pointer"
           >
             <IoMdArrowRoundBack />
           </div>
           <img
             src={Guy}
             alt="profile"
-            className="w-full h-full rounded-xl shadow-lg object-cover object-center"
+            className="w-full h-full rounded-md object-cover object-center"
           />
           <div className="flex flex-col space-y-2 w-full h-full">
-            <h2 className="text-black text-3xl font-bold text-center">
+            <h2 className="text-white text-3xl font-bold text-center">
               {editMode ? (
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -252,7 +299,7 @@ const CourseDetails = () => {
                 </div>
               )}
             </h2>
-            <div className="flex flex-col w-full h-full bg-slate-100 rounded-xl shadow-lg p-3">
+            <div className="flex flex-col w-full h-full bg-transparent rounded-xl shadow-lg p-3">
               {editMode ? (
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -291,7 +338,7 @@ const CourseDetails = () => {
                     placeholder={courseDetail?.courseID}
                     data-testid="course-code"
                   />
-                  <h2 className="text-xl text-black font-bold">
+                  <h2 className="text-xl text-white font-bold">
                     Course Description
                   </h2>
                   <textarea
@@ -358,7 +405,7 @@ const CourseDetails = () => {
                 </motion.div>
               ) : (
                 <>
-                  <h3 className="flex flex-col text-black text-xl font-bold">
+                  <h3 className="flex flex-col text-white text-xl font-bold">
                     Course Description:{" "}
                     <span className="text-lg font-semibold">
                       {courseDetail?.description}
@@ -510,9 +557,9 @@ const CourseDetails = () => {
               bounce: 0.4,
             },
           }}
-          className="flex flex-col w-full h-full bg-slate-50 rounded-xl p-3 space-y-3"
+          className="flex flex-col w-full h-full bg-gradient-to-tl from-[#201c2100] to-raisin_black-500 rounded-md p-3 space-y-3"
         >
-          <div className="flex flex-row w-full rounded-lg bg-slate-200 p-1">
+          <div className="flex flex-row w-full rounded-lg bg-raisin_black p-1">
             <button
               onClick={() => {
                 setPage("Modules");
@@ -521,7 +568,7 @@ const CourseDetails = () => {
                 page === "Modules" && " bg-fuchsia"
               }`}
             >
-              <h3 className="text-black font-semibold">Modules</h3>
+              <h3 className="text-white font-semibold">Modules</h3>
             </button>
             <button
               onClick={() => {
@@ -531,7 +578,7 @@ const CourseDetails = () => {
                 page === "Quizzes" && " bg-fuchsia"
               }`}
             >
-              <h3 className="text-black font-semibold">Quizzes</h3>
+              <h3 className="text-white font-semibold">Quizzes</h3>
             </button>{" "}
             <button
               onClick={() => {
@@ -541,19 +588,32 @@ const CourseDetails = () => {
                 page === "Enrollees" && " bg-fuchsia"
               }`}
             >
-              <h3 className="text-black font-semibold">Enrollees</h3>
+              <h3 className="text-white font-semibold">Enrollees</h3>
             </button>
           </div>
           {page === "Modules" && (
-            <div className="w-full h-full p-1">
-              {modules.map((module, index) => (
-                <div className="flex flex-row w-full p-2 space-x-2 items-center border-b-[0.5px] border-raisin_black-600">
+            <div className="w-full h-full p-1 overflow-y-auto">
+              <div
+                onClick={() => {
+                  setAddModule(true);
+                }}
+                className="flex flex-row w-full p-3 space-x-2 items-center border-b-[0.5px] cursor-pointer border-raisin_black-600 hover:bg-raisin_black-300 transition-colors"
+              >
+                <h3 className="flex items-center justify-center text-white font-bold w-full">
+                  Add Module
+                </h3>
+              </div>
+              {courseModules.map((module, index) => (
+                <div
+                  key={index}
+                  className="flex flex-row w-full p-2 space-x-2 items-center border-b-[0.5px] border-raisin_black-600 cursor-pointer border-raisin_black-600 hover:bg-raisin_black-300 transition-colors"
+                >
                   <p className="flex flex-row items-center text-sm font-semibold text-black space-x-2">
-                    <div className="flex items-center justify-center text-harvest_gold-800 text-sm w-7 h-7 bg-harvest_gold-400 rounded-full">
+                    <div className="flex items-center justify-center text-fuchsia-400 text-sm w-7 h-7 bg-fuchsia-800 rounded-full">
                       {index + 1}
                     </div>
                   </p>
-                  <h3 className="text-black font-bold py-3">{module}</h3>
+                  <h3 className="text-white font-bold py-3">{module.name}</h3>
                 </div>
               ))}
             </div>
@@ -563,7 +623,7 @@ const CourseDetails = () => {
               {quizzes.map((module, index) => (
                 <div className="flex flex-row w-full p-2 space-x-2 items-center border-b-[0.5px] border-raisin_black-600">
                   <p className="flex flex-row items-center text-sm font-semibold text-black space-x-2">
-                    <div className="flex items-center justify-center text-harvest_gold-800 text-sm w-7 h-7 bg-harvest_gold-400 rounded-full">
+                    <div className="flex items-center justify-center text-fuchsia-400 text-sm w-7 h-7 bg-fuchsia-800 rounded-full">
                       {index + 1}
                     </div>
                   </p>
@@ -606,7 +666,7 @@ const CourseDetails = () => {
                 </table>
               ) : (
                 <div className="flex items-center justify-center w-full h-full">
-                  <h2 className="text-black font-bold text-2xl">
+                  <h2 className="text-white font-bold text-2xl">
                     There are no users enrolled in this course
                   </h2>
                 </div>
@@ -682,6 +742,86 @@ const CourseDetails = () => {
               Delete
             </button>
           </div>
+        </div>
+      </Modal>
+      <Modal
+        open={studentDeleteModal}
+        onClose={() => setStudentDeleteModal(false)}
+        center
+        closeOnEsc
+        classNames={{
+          modal: "customModalClass",
+        }}
+      >
+        <div className="flex flex-col mt-10 space-y-2 w-[48rem] items-center justify-center">
+          <h2 className="text-black text-3xl font-bold w-full text-center">
+            Are you sure you want to delete this user?
+          </h2>
+          <div className="flex flex-row justify-evenly w-full">
+            <button
+              onClick={() => setStudentDeleteModal(false)}
+              className="btn text-black text-2xl font-semibold "
+              data-testid="cancel"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => {
+                setStudentDeleteModal(false);
+                unenrollUser(deleteId);
+                setDeleteId("");
+              }}
+              className="btn text-white text-2xl font-semibold bg-fuchsia border-fuchsia hover:bg-red-600 hover:border-red-600 shadow-md"
+              data-testid="proceed"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        open={addModule}
+        onClose={() => setAddModule(false)}
+        center
+        closeOnEsc
+        classNames={{
+          modal: "customModalClass",
+        }}
+      >
+        <div className="flex flex-col mt-10 space-y-3 w-[47rem] items-center justify-center">
+          <div className="w-full text-center">
+            <h2 className="text-white font-bold">Add Module</h2>
+          </div>
+          <div className="flex flex-col w-full space-y-2">
+            <h3 className="text-white font-semibold">Module Name</h3>
+            <input
+              onChange={(e) => {
+                setModuleName(e.target.value);
+              }}
+              type="text"
+              className="rounded-md h-10 px-2"
+            />
+          </div>
+          <div className="flex flex-col w-full space-y-2">
+            <h3 className="text-white font-semibold">Description</h3>
+            <textarea
+              onChange={(e) => {
+                setModuleDescription(e.target.value);
+              }}
+              className="h-40 rounded md p-2"
+            />
+          </div>
+          <button
+            onClick={() => {
+              CreateModule();
+              setModuleName(null);
+              setModuleDescription(null);
+              setAddModule(false);
+            }}
+            className="bg-fuchsia py-2 px-4 rounded-md font-semibold text-white hover:bg-fuchsia-700 transition-colors"
+          >
+            Create
+          </button>
         </div>
       </Modal>
     </>
