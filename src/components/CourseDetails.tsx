@@ -56,6 +56,9 @@ const CourseDetails = () => {
     null
   );
 
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+
   const fetchCourse = async () => {
     const response = await fetch(`${port}/api/course/${courseId}`, {
       method: "GET",
@@ -182,6 +185,10 @@ const CourseDetails = () => {
     setEditCourseForm({ ...editCourseForm, [field]: value });
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(event.target.files ? event.target.files[0] : null);
+  };
+
   const unenrollUser = async (studentId: string | undefined) => {
     const response = await fetch(
       `${port}/api/user/unenroll/${studentId}/${courseId}`,
@@ -221,6 +228,36 @@ const CourseDetails = () => {
     toast.success(json.message);
     fetchCourse();
     setEditMode(false);
+  };
+
+  const handleUpload = async () => {
+    if (!file) {
+      return toast.error("Please select a file first.");
+    }
+
+    const formData = new FormData();
+    formData.append("picture", file);
+
+    setUploading(true);
+
+    try {
+      const response = await fetch(
+        "http://localhost:4000/api/module/uploadFile",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to upload file.");
+      }
+
+      const data = await response.json();
+    } catch (err) {
+    } finally {
+      setUploading(false);
+    }
   };
 
   useEffect(() => {
@@ -462,14 +499,6 @@ const CourseDetails = () => {
                         EditCourse(String(courseDetail?._id));
                       }
                     }}
-                    // disabled={
-                    //   (editCourseForm.courseName === null ||
-                    //     editCourseForm.courseName === "") &&
-                    //   (editCourseForm.courseID === null ||
-                    //     editCourseForm.courseID === "") &&
-                    //   (editCourseForm.description === null ||
-                    //     editCourseForm.description === "")
-                    // }
                     className={`flex justify-end first-letter:font-bold text-3xl text-white disabled:text-gray-200 hover:text-black transition-colors bg-green-600 rounded-full p-2 shadow-lg ${
                       (editCourseForm.courseName === null ||
                         editCourseForm.courseName === "") &&
@@ -821,6 +850,17 @@ const CourseDetails = () => {
             className="bg-fuchsia py-2 px-4 rounded-md font-semibold text-white hover:bg-fuchsia-700 transition-colors"
           >
             Create
+          </button>
+        </div>
+        <div>
+          <h3 className="text-white font-bold">Upload Photo</h3>
+          <input type="file" onChange={handleFileChange} />
+          <button
+            className="text-white"
+            onClick={handleUpload}
+            disabled={uploading}
+          >
+            {uploading ? "Uploading..." : "Upload"}
           </button>
         </div>
       </Modal>
