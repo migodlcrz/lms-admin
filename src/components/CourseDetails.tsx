@@ -14,6 +14,7 @@ import { LuPencilLine } from "react-icons/lu";
 import { FaSave } from "react-icons/fa";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Carousel } from "react-responsive-carousel";
 
 const CourseDetails = () => {
   const { user } = useAuthContext();
@@ -35,8 +36,11 @@ const CourseDetails = () => {
   ];
 
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const [studentDeleteModal, setStudentDeleteModal] = useState(false);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [addModule, setAddModule] = useState<boolean>(false);
+  const [openModule, setOpenModule] = useState<boolean>(false);
+
   const [courseDetail, setCourseDetail] = useState<Course | null>(null);
   const [courseUsers, setCourseUsers] = useState<User[]>([]);
   const [courseModules, setCourseModules] = useState<Module[]>([]);
@@ -46,8 +50,8 @@ const CourseDetails = () => {
     description: null,
     tier: null,
   });
+
   const [page, setPage] = useState("Modules");
-  const [studentDeleteModal, setStudentDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const [selectedOption, setSelectedOption] = useState(courseDetail?.tier);
 
@@ -55,8 +59,10 @@ const CourseDetails = () => {
   const [moduleDescription, setModuleDescription] = useState<String | null>(
     null
   );
+  const [module, setModule] = useState<Module | null>(null);
 
   const [file, setFile] = useState<File | null>(null);
+  const [previewURL, setPreviewURL] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
 
   const fetchCourse = async () => {
@@ -186,7 +192,15 @@ const CourseDetails = () => {
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(event.target.files ? event.target.files[0] : null);
+    const selectedFile = event.target.files ? event.target.files[0] : null;
+    setFile(selectedFile);
+
+    if (selectedFile) {
+      const previewURL = URL.createObjectURL(selectedFile);
+      setPreviewURL(previewURL);
+    } else {
+      setPreviewURL(null);
+    }
   };
 
   const unenrollUser = async (studentId: string | undefined) => {
@@ -242,7 +256,7 @@ const CourseDetails = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:4000/api/module/uploadFile",
+        `${port}/api/module/uploadFile/${module?._id}`,
         {
           method: "POST",
           body: formData,
@@ -253,10 +267,51 @@ const CourseDetails = () => {
         throw new Error("Failed to upload file.");
       }
 
-      const data = await response.json();
+      const json = await response.json();
+
+      if (response.ok) {
+        toast.success(json.message);
+        fetchCourse();
+      } else {
+        toast.error(json.error);
+      }
     } catch (err) {
     } finally {
+      setOpenModule(false);
+      setPreviewURL(null);
       setUploading(false);
+    }
+  };
+
+  const handleDelete = async (moduleID: string, lesson: string) => {
+    try {
+      const response = await fetch(
+        `${port}/api/module/deleteFile/${moduleID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fileName: lesson,
+          }),
+        }
+      );
+
+      const json = await response.json();
+
+      if (response.ok) {
+        toast.success(json.message);
+        fetchCourse();
+        setOpenModule(false);
+        setPreviewURL(null);
+        setUploading(false);
+      } else {
+        toast.error(json.error);
+      }
+    } catch (error) {
+      console.error("Error deleting file:", error);
+      alert("An error occurred while deleting the file.");
     }
   };
 
@@ -351,7 +406,7 @@ const CourseDetails = () => {
                   }}
                   className="flex flex-col w-full h-full space-y-1"
                 >
-                  <h2 className="text-xl text-black font-bold">Course Name</h2>
+                  <h2 className="text-xl text-white font-bold">Course Name</h2>
                   <input
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       handleEditForm("courseName", e.target.value);
@@ -363,7 +418,7 @@ const CourseDetails = () => {
                     placeholder={courseDetail?.courseName}
                     data-testid="course-name"
                   />
-                  <h2 className="text-xl text-black font-bold">Course Id</h2>
+                  <h2 className="text-xl text-white font-bold">Course Id</h2>
                   <input
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       handleEditForm("courseID", e.target.value);
@@ -386,7 +441,7 @@ const CourseDetails = () => {
                     placeholder={courseDetail?.description}
                     data-testid="course-details"
                   ></textarea>
-                  <h2 className="text-xl text-black font-bold">Tier</h2>
+                  <h2 className="text-xl text-white font-bold">Tier</h2>
                   <div className="flex flex-col">
                     <div
                       className="w-full flex flex-row justify-around"
@@ -405,7 +460,7 @@ const CourseDetails = () => {
                           className="radio checked:bg-fuchsia"
                           data-testid="free-tier"
                         />
-                        <label className="text-black">Free</label>
+                        <label className="text-white">Free</label>
                       </div>
                       <div className="flex flex-row items-center space-x-3">
                         <input
@@ -420,7 +475,7 @@ const CourseDetails = () => {
                           className="radio checked:bg-fuchsia"
                           data-testid="basic-tier"
                         />
-                        <label>Basic</label>
+                        <label className="text-white">Basic</label>
                       </div>
                       <div className="flex flex-row items-center space-x-3">
                         <input
@@ -435,7 +490,7 @@ const CourseDetails = () => {
                           className="radio checked:bg-fuchsia"
                           data-testid="premium-tier"
                         />
-                        <label>Premium</label>
+                        <label className="text-white">Premium</label>
                       </div>
                     </div>
                   </div>
@@ -634,6 +689,10 @@ const CourseDetails = () => {
               </div>
               {courseModules.map((module, index) => (
                 <div
+                  onClick={() => {
+                    setOpenModule(true);
+                    setModule(module);
+                  }}
                   key={index}
                   className="flex flex-row w-full p-2 space-x-2 items-center border-b-[0.5px] border-raisin_black-600 cursor-pointer border-raisin_black-600 hover:bg-raisin_black-300 transition-colors"
                 >
@@ -852,16 +911,86 @@ const CourseDetails = () => {
             Create
           </button>
         </div>
-        <div>
-          <h3 className="text-white font-bold">Upload Photo</h3>
-          <input type="file" onChange={handleFileChange} />
-          <button
-            className="text-white"
-            onClick={handleUpload}
-            disabled={uploading}
-          >
-            {uploading ? "Uploading..." : "Upload"}
-          </button>
+      </Modal>
+      <Modal
+        open={openModule}
+        onClose={() => {
+          setOpenModule(false);
+          setPreviewURL(null);
+          setModule(null);
+        }}
+        center
+        closeOnEsc
+        classNames={{
+          modal: "customModalClass",
+        }}
+      >
+        <div className="flex flex-col mt-10 space-y-3 w-[47rem] items-center justify-center p-5">
+          <div className="flex flex-col w-full border-b-[0.5px] border-raisin_black-600 space-y-2 py-2">
+            <h2 className="text-white font-bold text-2xl">{module?.name}</h2>
+            <p className="text-white font-normal">{module?.description}</p>
+          </div>
+          <div className="flex flex-col w-full border-b-[0.5px] border-raisin_black-600 space-y-2 py-2">
+            <h2 className="text-white font-bold text-2xl">Lessons</h2>
+            <div className="text-white font-normal">
+              {module?.lessons.length === 0 ? (
+                <div className="h-96 w-full border-4 border-dashed border-slate-600 rounded-md flex items-center justify-center">
+                  No Modules yet.
+                </div>
+              ) : (
+                <Carousel>
+                  {module?.lessons.map((lesson, index) => (
+                    <div
+                      key={index}
+                      className="h-96 w-full rounded-md flex items-center justify-center relative"
+                    >
+                      <img
+                        src={lesson}
+                        alt={`Lesson ${index + 1}`}
+                        className="object-cover h-full w-full"
+                      />
+                      <button
+                        onClick={() => handleDelete(module._id, lesson)}
+                        className="absolute top-2 left-2 bg-red-600 text-white rounded-md p-2"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))}
+                </Carousel>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col w-full border-b-[0.5px] border-raisin_black-600 space-y-2 py-2">
+            <h2 className="text-white font-bold text-2xl">Add a lesson</h2>
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="text-white"
+            />
+            {previewURL ? (
+              <div className="h-96 w-full bg-white border-4 border-dashed border-slate-600 rounded-md flex items-center justify-center">
+                {file!.type.startsWith("image") ? (
+                  <img
+                    src={previewURL}
+                    alt="File preview"
+                    className="object-cover h-full w-full"
+                  />
+                ) : (
+                  <p>{file!.name}</p>
+                )}
+              </div>
+            ) : (
+              <div className="h-96 w-full bg-white border-4 border-dashed border-slate-600 rounded-md"></div>
+            )}
+            <button
+              className="text-white bg-fuchsia-500 w-full h-10 rounded-md"
+              onClick={handleUpload}
+              disabled={uploading || !file}
+            >
+              {uploading ? "Uploading..." : "Upload"}
+            </button>
+          </div>
         </div>
       </Modal>
     </>
