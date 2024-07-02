@@ -694,7 +694,7 @@ const CourseDetails = () => {
                     setModule(module);
                   }}
                   key={index}
-                  className="flex flex-row w-full p-2 space-x-2 items-center border-b-[0.5px] border-raisin_black-600 cursor-pointer border-raisin_black-600 hover:bg-raisin_black-300 transition-colors"
+                  className="flex flex-row w-full p-2 space-x-2 items-center border-b-[0.5px] cursor-pointer border-raisin_black-600 hover:bg-raisin_black-300 transition-colors"
                 >
                   <p className="flex flex-row items-center text-sm font-semibold text-black space-x-2">
                     <div className="flex items-center justify-center text-fuchsia-400 text-sm w-7 h-7 bg-fuchsia-800 rounded-full">
